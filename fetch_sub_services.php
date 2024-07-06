@@ -15,7 +15,7 @@ if (mysqli_num_rows($result) > 0) {
         $output .= "<button type='button' class='btn btn-primary btn-sm edit-sub-service' data-id='{$service['sub_id']}' data-subservice='{$service['sub_service']}' data-serviceid='{$service['s_id']}'>Edit</button>";
         $output .= "</td>";
         $output .= "<td>";
-        $output .= "<button type='button' class='btn btn-danger btn-sm delete-service' data-id='{$service['id']}'>Delete</button>";
+        $output .= "<button type='button' class='btn btn-danger btn-sm delete-sub-service' data-id='{$service['sub_id']}'>Delete</button>";
         $output .= "</td>";
         $output .= "</tr>";
     }

@@ -1232,11 +1232,13 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
-#passwords{
+.password-wrapper {
   position: relative;
 }
-.bi-eye-slash{
+.password-wrapper .bi {
   position: absolute;
-  right: 0;
-  top: 0;
+  top: 50%;
+  right: 20px;
+  /* transform: translateY(-50%); */
+  cursor: pointer;
 }
