@@ -9,14 +9,21 @@
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
-      </li><!-- End Dashboard Nav -->
+      </li>
     
       <li class="nav-item">
         <a class="nav-link <?php if($page=="services"){echo "active";} ?>" href="./services.php">
           <i class="ri-customer-service-line"></i>
           <span>Services</span>
         </a>
-      </li><!-- End Dashboard Nav -->
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link <?php if($page=="address"){echo "active";} ?>" href="./address_management.php">
+          <i class='bx bxs-buildings'></i>
+          <span>Addresses</span>
+        </a>
+      </li>
     
       <li class="nav-heading">Pages</li>
 

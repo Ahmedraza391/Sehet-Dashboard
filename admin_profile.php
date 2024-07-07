@@ -200,5 +200,5 @@ if (!isset($_SESSION['admin'])) {
         </div>
     </section>
 
-</main><!-- End #main -->
+</main>
 <?php include("./Components/bottom.php") ?>

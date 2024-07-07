@@ -1,2 +1,1 @@
-sir sy pouchna ha kai delete kai liya alert box kesy show karway
-aur cascade city aur service dropdown ka pouchna ha
+kal capital city aur area wala kam karna ha
