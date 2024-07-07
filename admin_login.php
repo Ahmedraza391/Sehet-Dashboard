@@ -84,6 +84,8 @@ $page = "login";
                                     setcookie('cook_password', "", time() - 3600, "/");
                                 }
                                 echo "<script>alert('Admin Login Successfully');window.location.href = 'index.php';</script>";
+                            }else{
+                                echo "<script>alert('Incorrect Username Or Password');window.location.href = 'index.php';</script>";
                             }
 
                         }

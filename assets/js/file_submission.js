@@ -375,6 +375,96 @@ $(document).ready(function () {
             }
         }
         city_function();
+
+        function city_capital(){
+            fetchcitycapital();
+            // For Insert / Add City Capital
+            $("#insert_city_capital_form").on("submit", function (e) {
+                e.preventDefault();
+                var formdata = $(this).serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "insert_city_capital.php",
+                    data: formdata,
+                    success: function (res) {
+                        $("#add_city_capital").modal("hide");
+                        $("#insert_city_capital_form").trigger("reset");
+                        alert_box("City-Capital Added Successfully", "Address Management");
+                        fetchcitycapital();
+                    }, error: function () {
+
+                    }
+                })
+            })
+            // For Edit city-capital
+            $(document).on('click', '.edit-city-capital', function () {
+                let cityCapital_Id = $(this).data("id");
+                let cityCapital_Name = $(this).data("capital");
+                let CityId = $(this).data("city");
+                alert(cityCapital_Name);
+                $('#city_capital_id').val(cityCapital_Id);
+                $('#city_capital').val(cityCapital_Name);
+                $.ajax({
+                    type: "POST",
+                    url: "cityCapital_option.php",
+                    data: { id: CityId },
+                    success: function (response) {
+                        $("#city_menu").html(response);
+                    }
+                })
+                $('#editCityCapitalModal').modal('show');
+            });
+            $('#editcityCapitalForm').on('submit', function (e) {
+                e.preventDefault();
+                let edit_form_data = $(this).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: 'update_city_capital.php',
+                    data: edit_form_data,
+                    success: function (response) {
+                        $('#editCityCapitalModal').modal('hide');
+                        alert_box("Service Updated Successfully", "Services");
+                        fetchSubServices();
+                    },
+                    error: function () {
+                        alert('Failed to update service');
+                    }
+                });
+            });
+            // For Delete Sub-Services
+            $(document).on('click', '.delete-city-capital', function () {
+                const capital_id = $(this).data('id');
+                const confirmation = confirm('Are you sure you want to delete this City-Capital?');
+                if (confirmation) {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'delete_city_capital.php',
+                        data: { id: capital_id },
+                        success: function (response) {
+                            fetchcitycapital();
+                            alert_box("City-Capital Deleted Successfully", "Services")
+                        },
+                        error: function () {
+                            alert('Failed to delete service');
+                        }
+                    });
+                }
+            });
+            // For Fetch City
+            function fetchcitycapital() {
+                $.ajax({
+                    type: 'GET',
+                    url: 'fetch_city_capital.php',
+                    success: function (response) {
+                        $('#cityCapitalTable').html(response);
+                    },
+                    error: function () {
+                        alert('Failed to fetch services');
+                    }
+                });
+            }
+        }
+        city_capital();
     }
     address_mangement();
 
