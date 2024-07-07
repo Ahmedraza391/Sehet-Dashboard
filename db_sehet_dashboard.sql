@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 06, 2024 at 05:43 PM
+-- Generation Time: Jul 07, 2024 at 02:46 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -51,8 +51,10 @@ CREATE TABLE `tbl_admin` (
 --
 
 INSERT INTO `tbl_admin` (`id`, `admin_name`, `admin_username`, `admin_password`, `admin_image`) VALUES
-(1, 'Ahmed Raza', 'ahmed_raza_391', '$2y$10$Y0lsFBNKrDkRxA1aqJUTaufXgjYRy9vzfakW0svtSr8RyC7FJtDfS', './assets/img/admin/product-2.jpg'),
-(2, 'Yousuf Khadiawala', 'yousuf_1122', '$2y$10$DJwyOOjOxzSOo9qCOeawr.OGkcWJSlGIy2ETVEfEf8QM.Wpn4XHXq', './assets/img/admin/Sehet.pk-Logo-00.50924e11ffd6fed66494.png');
+(1, '', '', '', './assets/img/admin/Sehet.pk-Logo-00.50924e11ffd6fed66494.png'),
+(2, 'Yousuf Khadiawala', 'sehet_admin', 'sehet123', './assets/img/admin/668a81f2b56219.64480461.png'),
+(3, '', '', '', '668a7aa40a0596.92403166.jpg'),
+(4, '', '', '', '668a7aab3d0a25.59160451.jpg');
 
 -- --------------------------------------------------------
 
@@ -209,7 +211,7 @@ ALTER TABLE `super_admin`
 -- AUTO_INCREMENT for table `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_area`
@@ -239,13 +241,13 @@ ALTER TABLE `tbl_extra_services`
 -- AUTO_INCREMENT for table `tbl_services`
 --
 ALTER TABLE `tbl_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `tbl_sub_services`
 --
 ALTER TABLE `tbl_sub_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
