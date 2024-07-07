@@ -317,16 +317,33 @@
   }
 
 })();
-document.getElementById('togglePassword').addEventListener('click', function() {
-  var passwordInput = document.getElementById('password');
-  var passwordIcon = this;
-  if (passwordInput.type === 'password') {
-    passwordInput.type = 'text';
-    passwordIcon.classList.remove('bi-eye-slash');
-    passwordIcon.classList.add('bi-eye');
-  } else {
-    passwordInput.type = 'password';
-    passwordIcon.classList.remove('bi-eye');
-    passwordIcon.classList.add('bi-eye-slash');
-  }
+// document.getElementById('togglePassword').addEventListener('click', function() {
+//   var passwordInput = document.getElementById('password');
+//   var passwordIcon = this;
+//   if (passwordInput.type === 'password') {
+//     passwordInput.type = 'text';
+//     passwordIcon.classList.remove('bi-eye-slash');
+//     passwordIcon.classList.add('bi-eye');
+//   } else {
+//     passwordInput.type = 'password';
+//     passwordIcon.classList.remove('bi-eye');
+//     passwordIcon.classList.add('bi-eye-slash');
+//   }
+// });
+document.querySelectorAll('.togglePassword').forEach(function(toggle) {
+  toggle.addEventListener('click', function() {
+    var passwordInput = this.previousElementSibling; // Get the previous sibling input element
+    var passwordIcon = this;
+
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      passwordIcon.classList.remove('bi-eye-slash');
+      passwordIcon.classList.add('bi-eye');
+    } else {
+      passwordInput.type = 'password';
+      passwordIcon.classList.remove('bi-eye');
+      passwordIcon.classList.add('bi-eye-slash');
+    }
+  });
 });
+

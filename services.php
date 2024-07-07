@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION['admin'])) {
+  echo "<script>window.location.href='admin_login.php'</script>";
+}
+?>
 <?php include("connection.php") ?>
 <?php include("./Components/top.php") ?>
 <?php 

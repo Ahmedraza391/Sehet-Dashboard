@@ -1,5 +1,6 @@
 <?php include("connection.php") ?>
 <?php include("./Components/top.php") ?>
+<title>Admin - Register</title>
 <?php
 $page = "register";
 ?>
