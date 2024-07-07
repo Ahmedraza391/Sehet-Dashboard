@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 07, 2024 at 02:46 PM
+-- Generation Time: Jul 07, 2024 at 11:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -52,7 +52,7 @@ CREATE TABLE `tbl_admin` (
 
 INSERT INTO `tbl_admin` (`id`, `admin_name`, `admin_username`, `admin_password`, `admin_image`) VALUES
 (1, '', '', '', './assets/img/admin/Sehet.pk-Logo-00.50924e11ffd6fed66494.png'),
-(2, 'Yousuf Khadiawala', 'sehet_admin', 'sehet123', './assets/img/admin/668a81f2b56219.64480461.png'),
+(2, 'Yousuf Khadiawala', 'sehet_admin', 'sehet1234', './assets/img/admin/668a81f2b56219.64480461.png'),
 (3, '', '', '', '668a7aa40a0596.92403166.jpg'),
 (4, '', '', '', '668a7aab3d0a25.59160451.jpg');
 
@@ -79,6 +79,15 @@ CREATE TABLE `tbl_city` (
   `city` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_city`
+--
+
+INSERT INTO `tbl_city` (`id`, `city`) VALUES
+(2, 'Karachi'),
+(3, 'Lahore'),
+(4, 'Islamabad');
+
 -- --------------------------------------------------------
 
 --
@@ -103,6 +112,14 @@ CREATE TABLE `tbl_extra_services` (
   `sub_services_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_extra_services`
+--
+
+INSERT INTO `tbl_extra_services` (`id`, `extra_service`, `sub_services_id`) VALUES
+(2, 'Legs Checkup', 3),
+(3, 'LLLS', 3);
+
 -- --------------------------------------------------------
 
 --
@@ -123,7 +140,8 @@ INSERT INTO `tbl_services` (`id`, `service`, `status`) VALUES
 (7, 'Medical', 'available'),
 (8, 'Delivery', 'available'),
 (13, 'P&D', 'available'),
-(15, 'Diagnostics', 'available');
+(15, 'Diagnostics', 'available'),
+(19, 'xYE', 'available');
 
 -- --------------------------------------------------------
 
@@ -142,8 +160,9 @@ CREATE TABLE `tbl_sub_services` (
 --
 
 INSERT INTO `tbl_sub_services` (`id`, `sub_service`, `services_id`) VALUES
-(3, 'Body Checkup', 7),
-(4, 'Chest Checkup', 8);
+(3, 'Lungs Checkup', 7),
+(4, 'Chest Checkup', 8),
+(7, 'LMO', 19);
 
 --
 -- Indexes for dumped tables
@@ -223,7 +242,7 @@ ALTER TABLE `tbl_area`
 -- AUTO_INCREMENT for table `tbl_city`
 --
 ALTER TABLE `tbl_city`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_city_capital`
@@ -235,19 +254,19 @@ ALTER TABLE `tbl_city_capital`
 -- AUTO_INCREMENT for table `tbl_extra_services`
 --
 ALTER TABLE `tbl_extra_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_services`
 --
 ALTER TABLE `tbl_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `tbl_sub_services`
 --
 ALTER TABLE `tbl_sub_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
