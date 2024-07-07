@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 07, 2024 at 11:12 PM
+-- Generation Time: Jul 08, 2024 at 01:49 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -99,6 +99,15 @@ CREATE TABLE `tbl_city_capital` (
   `city_capital` varchar(255) NOT NULL,
   `city_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_city_capital`
+--
+
+INSERT INTO `tbl_city_capital` (`id`, `city_capital`, `city_id`) VALUES
+(1, 'Model Town', 3),
+(2, 'North Nazimabad', 2),
+(3, 'Johar Town', 3);
 
 -- --------------------------------------------------------
 
@@ -248,7 +257,7 @@ ALTER TABLE `tbl_city`
 -- AUTO_INCREMENT for table `tbl_city_capital`
 --
 ALTER TABLE `tbl_city_capital`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_extra_services`
