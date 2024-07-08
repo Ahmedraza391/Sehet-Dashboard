@@ -1,7 +1,7 @@
 <?php
 include 'connection.php';
 
-$query = "SELECT * FROM tbl_city";
+$query = "SELECT * FROM tbl_city ORDER BY id";
 $result = mysqli_query($connection, $query);
 $output = '';
 

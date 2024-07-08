@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 08, 2024 at 01:49 AM
+-- Generation Time: Jul 08, 2024 at 11:10 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,8 +29,16 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `super_admin` (
   `id` int(11) NOT NULL,
-  `super_admin_name` varchar(200) NOT NULL
+  `super_admin_name` varchar(200) NOT NULL,
+  `admin_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `super_admin`
+--
+
+INSERT INTO `super_admin` (`id`, `super_admin_name`, `admin_id`) VALUES
+(1, 'Ahmed Raza', 2);
 
 -- --------------------------------------------------------
 
@@ -51,10 +59,7 @@ CREATE TABLE `tbl_admin` (
 --
 
 INSERT INTO `tbl_admin` (`id`, `admin_name`, `admin_username`, `admin_password`, `admin_image`) VALUES
-(1, '', '', '', './assets/img/admin/Sehet.pk-Logo-00.50924e11ffd6fed66494.png'),
-(2, 'Yousuf Khadiawala', 'sehet_admin', 'sehet1234', './assets/img/admin/668a81f2b56219.64480461.png'),
-(3, '', '', '', '668a7aa40a0596.92403166.jpg'),
-(4, '', '', '', '668a7aab3d0a25.59160451.jpg');
+(2, 'Yousuf Khadiawala', 'sehet_admin', 'sehet1234', './assets/img/admin/668a81f2b56219.64480461.png');
 
 -- --------------------------------------------------------
 
@@ -67,6 +72,14 @@ CREATE TABLE `tbl_area` (
   `area` varchar(255) NOT NULL,
   `city_capital_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_area`
+--
+
+INSERT INTO `tbl_area` (`id`, `area`, `city_capital_id`) VALUES
+(1, 'ABCDEF', 3),
+(3, 'Finance & Trade Center', 1);
 
 -- --------------------------------------------------------
 
@@ -173,6 +186,20 @@ INSERT INTO `tbl_sub_services` (`id`, `sub_service`, `services_id`) VALUES
 (4, 'Chest Checkup', 8),
 (7, 'LMO', 19);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_users`
+--
+
+CREATE TABLE `tbl_users` (
+  `user_d` int(11) NOT NULL,
+  `user_name` varchar(200) NOT NULL,
+  `user_username` varchar(100) NOT NULL,
+  `user_password` varchar(200) NOT NULL,
+  `user_status` varchar(50) NOT NULL DEFAULT 'activate'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -226,6 +253,12 @@ ALTER TABLE `tbl_sub_services`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_users`
+--
+ALTER TABLE `tbl_users`
+  ADD PRIMARY KEY (`user_d`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -233,7 +266,7 @@ ALTER TABLE `tbl_sub_services`
 -- AUTO_INCREMENT for table `super_admin`
 --
 ALTER TABLE `super_admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_admin`
@@ -245,7 +278,7 @@ ALTER TABLE `tbl_admin`
 -- AUTO_INCREMENT for table `tbl_area`
 --
 ALTER TABLE `tbl_area`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_city`
@@ -276,6 +309,12 @@ ALTER TABLE `tbl_services`
 --
 ALTER TABLE `tbl_sub_services`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `tbl_users`
+--
+ALTER TABLE `tbl_users`
+  MODIFY `user_d` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

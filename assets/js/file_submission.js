@@ -282,7 +282,7 @@ $(document).ready(function () {
 
     // For Address Management Page
     function address_mangement() {
-        // For Inserting / Updating / Deleting / Retrieving = Services 
+        // For Inserting / Updating / Deleting / Retrieving = City 
         function city_function() {
             fetchcity();
             // For Insert / Add City
@@ -375,8 +375,8 @@ $(document).ready(function () {
             }
         }
         city_function();
-
-        function city_capital(){
+        // For Inserting / Updating / Deleting / Retrieving = City-Capital 
+        function city_capital() {
             fetchcitycapital();
             // For Insert / Add City Capital
             $("#insert_city_capital_form").on("submit", function (e) {
@@ -401,7 +401,6 @@ $(document).ready(function () {
                 let cityCapital_Id = $(this).data("id");
                 let cityCapital_Name = $(this).data("capital");
                 let CityId = $(this).data("city");
-                alert(cityCapital_Name);
                 $('#city_capital_id').val(cityCapital_Id);
                 $('#city_capital').val(cityCapital_Name);
                 $.ajax({
@@ -465,6 +464,94 @@ $(document).ready(function () {
             }
         }
         city_capital();
+        // For Inserting / Updating / Deleting / Retrieving = Capital-Area 
+        function city_area(){
+            fetch_city_area();
+            // For Insert / Add Capital Area
+            $("#insert_capital_area_form").on("submit", function (e) {
+                e.preventDefault();
+                var formdata = $(this).serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "insert_city_area.php",
+                    data: formdata,
+                    success: function (res) {
+                        $("#add_city_area").modal("hide");
+                        $("#insert_capital_area_form").trigger("reset");
+                        alert_box("Capital-Area Added Successfully", "Address Management");
+                        fetch_city_area();
+                    }, error: function () {
+                        alert("heleoeeo")
+                    }   
+                })
+            })  
+             // For Edit Capital Area
+             $(document).on('click', '.edit-capital-area', function () {
+                let capitalAreaId = $(this).data("id");
+                let capitalAreaName = $(this).data("area");
+                let capitalId = $(this).data("city_capital");
+                $('#area_id').val(capitalAreaId);
+                $('#area_name').val(capitalAreaName);
+                $.ajax({
+                    type: "POST",
+                    url: "capital_area_option.php",
+                    data: { id: capitalId },
+                    success: function (response) {
+                        $("#city_captital_menu").html(response);
+                    }
+                })
+                $('#editCapitalAreaModal').modal('show');
+            });
+            $('#editcityareaForm').on('submit', function (e) {
+                e.preventDefault();
+                let edit_form_data = $(this).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: 'update_capital_area.php',
+                    data: edit_form_data,
+                    success: function (response) {
+                        $('#editCapitalAreaModal').modal('hide');
+                        alert_box("Area Updated Successfully", "Addresses Management");
+                        fetch_city_area();
+                    },
+                    error: function () {
+                        alert('Failed to Update Area');
+                    }
+                });
+            });
+            // For Delete Capital Area
+            $(document).on('click', '.delete-capital-area', function () {
+                const capital_area_id = $(this).data('id');
+                const confirmation = confirm('Are you sure you want to delete this Capital-Area?');
+                if (confirmation) {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'delete_capital_area.php',
+                        data: { id: capital_area_id },
+                        success: function (response) {
+                            fetch_city_area();
+                            alert_box("Capital-Area Deleted Successfully", "Addresses Management")
+                        },
+                        error: function () {
+                            alert('Failed to delete Capital-Area');
+                        }
+                    });
+                }
+            });
+            function fetch_city_area(){
+                $.ajax({
+                    type: 'GET',
+                    url: 'fetch_capital_area.php',
+                    success: function (response) {
+                        $('#cityareaTable').html(response);
+                    },
+                    error: function () {
+                        alert('Failed to fetch City Area');
+                    }
+                });
+            }
+        }
+        city_area();
     }
     address_mangement();
 

@@ -70,7 +70,7 @@ $page = "address";
                     <!-- Add City Modal -->
                     <div class="add_city_modal">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_city">
-                            Add City
+                            Add Cities
                         </button>
                         <div class="modal fade" id="add_city" tabindex="-1" data-bs-backdrop="static" aria-labelledby="add_cityLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
@@ -136,8 +136,11 @@ $page = "address";
                                 <div class="modal-body">
                                     <form id="editcityCapitalForm">
                                         <input type="hidden" name="city_capital_id" id="city_capital_id">
-                                        <select class="form-select" id="city_menu" name="city_id" aria-label="Floating label select example" required>
-                                        </select>
+                                        <div class="form-floating my-3">
+                                            <select class="form-select" id="city_menu" name="city_id" aria-label="Floating label select example" required>
+                                            </select>
+                                            <label for="city_menu">Cities</label>
+                                            </div>
                                         <div class="mb-3">
                                             <label for="city_capital" class="form-label">City-Capital</label>
                                             <input type="text" class="form-control" id="city_capital" name="city_capital" required>
@@ -155,7 +158,7 @@ $page = "address";
                     <!-- Add City Modal -->
                     <div class="add_city_modal">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_city_capital">
-                            Add City
+                            Add Capitals
                         </button>
                         <div class="modal fade" id="add_city_capital" tabindex="-1" data-bs-backdrop="static" aria-labelledby="add_city_capitalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
@@ -177,14 +180,113 @@ $page = "address";
                                                         }
                                                         ?>
                                                     </select>
-                                                    <label for="sub_services">Cities</label>
+                                                    <label for="city_id">Cities</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="city_capital" name="city_capitial" placeholder="" required>
-                                                    <label for="city">Enter City-Capital</label>
+                                                    <label for="city_capital">Enter City-Capital</label>
                                                 </div>
                                                 <div class="button">
-                                                    <button type="submit" name="btn_city" value="add_city" class="btn btn-primary">Add City</button>
+                                                    <button type="submit" name="btn_city" value="add_city" class="btn btn-primary">Add Capital</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card p-md-3">
+                    <div class="heading my-2 text-center">
+                        <h1 class="fs-3 fw-bold">City Areas</h1>
+                    </div>
+                    <div class="city_area_table">
+                        <table class="table rounded table-bordered">
+                            <thead>
+                                <th>Id</th>
+                                <th>City-Areas</th>
+                                <th>City-Captials</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </thead>
+                            <tbody id="cityareaTable">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Edit Modal -->
+                    <div class="modal fade" id="editCapitalAreaModal" tabindex="-1" aria-labelledby="editCapitalAreaModalLabel" aria-hidden="true" data-bs-backdrop="static">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editCapitalAreaModalLabel">Edit Capital-Area</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="editcityareaForm">
+                                        <input type="hidden" name="area_id" id="area_id">
+                                        <div class="form-floating my-3">
+                                            <select class="form-select" id="city_captital_menu" name="city_capital_id" aria-label="Floating label select example" required>
+                                            </select>
+                                            <label for="city_captital_menu">Capitals</label>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="area_name" class="form-label">Capital-Area</label>
+                                            <input type="text" class="form-control" id="area_name" name="area_name" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Add City Modal -->
+                    <div class="add_city_modal">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_city_area">
+                            Add Areas
+                        </button>
+                        <div class="modal fade" id="add_city_area" tabindex="-1" data-bs-backdrop="static" aria-labelledby="add_city_areaLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-4 fw-bold" id="add_city_areaLabel">Add City-Capital</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="city_form">
+                                            <form id="insert_capital_area_form">
+                                                <div class="form-floating my-3">
+                                                    <select class="form-select" id="city_captial_id" name="city_captial_id" aria-label="Floating label select example" required>
+                                                        <option value="" hidden>Select City-Capital</option>
+                                                        <?php
+                                                        $fetch_city = mysqli_query($connection, "SELECT * FROM tbl_city_capital");
+                                                        foreach ($fetch_city as $city) {
+                                                            echo "<option value='$city[id]'>$city[city_capital]</option>";
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                    <label for="city_captial_id">Capitals</label>
+                                                </div>
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" id="city_area" name="city_area" placeholder="" required>
+                                                    <label for="city_area">Enter City-Area</label>
+                                                </div>
+                                                <div class="button">
+                                                    <button type="submit" name="btn_area" value="btn_area" class="btn btn-primary">Add Area</button>
                                                 </div>
                                             </form>
                                         </div>
