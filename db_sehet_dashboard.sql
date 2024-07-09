@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 08, 2024 at 11:10 PM
+-- Generation Time: Jul 09, 2024 at 12:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -70,16 +70,17 @@ INSERT INTO `tbl_admin` (`id`, `admin_name`, `admin_username`, `admin_password`,
 CREATE TABLE `tbl_area` (
   `id` int(11) NOT NULL,
   `area` varchar(255) NOT NULL,
-  `city_capital_id` int(11) NOT NULL
+  `city_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_area`
 --
 
-INSERT INTO `tbl_area` (`id`, `area`, `city_capital_id`) VALUES
+INSERT INTO `tbl_area` (`id`, `area`, `city_id`) VALUES
 (1, 'ABCDEF', 3),
-(3, 'Finance & Trade Center', 1);
+(3, 'Finance & Trade Center', 1),
+(4, 'Model Town', 2);
 
 -- --------------------------------------------------------
 
@@ -89,38 +90,18 @@ INSERT INTO `tbl_area` (`id`, `area`, `city_capital_id`) VALUES
 
 CREATE TABLE `tbl_city` (
   `id` int(11) NOT NULL,
-  `city` varchar(100) NOT NULL
+  `city` varchar(255) NOT NULL,
+  `province_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_city`
 --
 
-INSERT INTO `tbl_city` (`id`, `city`) VALUES
-(2, 'Karachi'),
-(3, 'Lahore'),
-(4, 'Islamabad');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_city_capital`
---
-
-CREATE TABLE `tbl_city_capital` (
-  `id` int(11) NOT NULL,
-  `city_capital` varchar(255) NOT NULL,
-  `city_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_city_capital`
---
-
-INSERT INTO `tbl_city_capital` (`id`, `city_capital`, `city_id`) VALUES
-(1, 'Model Town', 3),
-(2, 'North Nazimabad', 2),
-(3, 'Johar Town', 3);
+INSERT INTO `tbl_city` (`id`, `city`, `province_id`) VALUES
+(1, 'Karachi', 3),
+(2, 'Lahore', 2),
+(3, 'Islamabad', 3);
 
 -- --------------------------------------------------------
 
@@ -141,6 +122,27 @@ CREATE TABLE `tbl_extra_services` (
 INSERT INTO `tbl_extra_services` (`id`, `extra_service`, `sub_services_id`) VALUES
 (2, 'Legs Checkup', 3),
 (3, 'LLLS', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_province`
+--
+
+CREATE TABLE `tbl_province` (
+  `id` int(11) NOT NULL,
+  `province` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_province`
+--
+
+INSERT INTO `tbl_province` (`id`, `province`) VALUES
+(2, 'Sindh'),
+(3, 'Punjab'),
+(5, 'Balochistan'),
+(6, 'KPK');
 
 -- --------------------------------------------------------
 
@@ -229,15 +231,15 @@ ALTER TABLE `tbl_city`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tbl_city_capital`
---
-ALTER TABLE `tbl_city_capital`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `tbl_extra_services`
 --
 ALTER TABLE `tbl_extra_services`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_province`
+--
+ALTER TABLE `tbl_province`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -278,25 +280,25 @@ ALTER TABLE `tbl_admin`
 -- AUTO_INCREMENT for table `tbl_area`
 --
 ALTER TABLE `tbl_area`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_city`
 --
 ALTER TABLE `tbl_city`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `tbl_city_capital`
---
-ALTER TABLE `tbl_city_capital`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_extra_services`
 --
 ALTER TABLE `tbl_extra_services`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tbl_province`
+--
+ALTER TABLE `tbl_province`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tbl_services`
