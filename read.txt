@@ -1,1 +1,2 @@
-sub edit city province area walay form ma form-floating lagani ha ku kai woh bora lag rah ah
+continue on adding employee full work insert update delete fetch
+and panel full work

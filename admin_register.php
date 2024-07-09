@@ -1,10 +1,12 @@
 <?php include("connection.php") ?>
 <?php include("./Components/top.php") ?>
+<?php include("./Components/top_files.php") ?>
 <title>Admin - Register</title>
 <?php
-$page = "register";
+$file = "admin_register";
 ?>
-<div class="container p-md-5">
+<?php include("./Components/login_navbar.php"); ?>
+<div class="container p-md-5 top_header_margin_div">
   <div class="register_content">
       <div class="row">
         <div class="col-md-2"></div>
@@ -34,7 +36,7 @@ $page = "register";
                 <div class="col-12 mb-3 password-wrapper">
                   <label for="password" class="form-label">Admin Password</label>
                   <input type="password" name="admin_password" class="form-control" id="password" required>
-                  <i class="bi bi-eye-slash" id="togglePassword"></i>
+                  <i class="bi bi-eye-slash" id="togglePassword" style="transform: translateY(0%);"></i>
                   <div class="invalid-feedback">Please your password!</div>
                   <div id="passwordFeedback"></div>
                 </div>

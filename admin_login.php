@@ -4,9 +4,10 @@ session_start(); ?>
 <?php include("./Components/top.php") ?>
 <title>Admin - Login</title>
 <?php
-$page = "login";
+$file = "admin_login";
 ?>
-<div class="container p-md-5">
+<?php include("./Components/login_navbar.php") ?>
+<div class="container p-md-5 top_header_margin_div">
     <div class="login_content">
         <div class="row">
             <div class="col-md-2"></div>

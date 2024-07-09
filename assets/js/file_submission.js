@@ -1,5 +1,15 @@
 $(document).ready(function () {
-
+    // function for_disabled_right_click(){
+    //     document.addEventListener('contextmenu', function(e) {
+    //         e.preventDefault();
+    //     });
+    //     document.addEventListener('keydown', function(e) {
+    //         if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.keyCode === 73))) {
+    //             e.preventDefault();
+    //         }
+    //     });
+    // }
+    // for_disabled_right_click();
     // For Services Page
     function Service_page_functions() {
         // For Inserting / Updating / Deleting / Retrieving = Services 
@@ -557,6 +567,129 @@ $(document).ready(function () {
     }
     address_mangement();
 
+    // For Reffrells Page
+    function reffrels_management(){
+        fetch_reffrals();
+        // For Validate Numeber Input 
+        $(".share").on("input", function() {
+            var shareValue = parseFloat($(this).val());
+            var errorElement = $(this).siblings(".error");
+
+            if (isNaN(shareValue) || shareValue < 0 || shareValue > 100) {
+                errorElement.text('Please enter a number between 0 and 100.');
+            } else {
+                errorElement.text('');
+            }
+        });
+        // For Insert Reffral
+        $("#reffral_form").on("submit", function(e) {
+            e.preventDefault();
+            var name = $("#ref_name").val();
+            var email = $("#ref_email").val();
+            var company = $("#ref_company").val();
+            var share = $("#ref_share").val();
+            $.ajax({
+                url: "add_reffrals.php",
+                type: "POST",
+                data: {
+                    ref_name : name,
+                    ref_email : email,
+                    ref_company : company,
+                    ref_share : share
+                },
+                success: function(res) {
+                    $("#reffral_modal").modal("hide");
+                    alert_box('Reffral Added Successfully','Reffral Management');
+                    $("#reffral_form")[0].reset(); 
+                    fetch_reffrals();
+                },
+                error: function(xhr, status, error) {
+                    alert('Error submitting form: ' + error);
+                }
+            });
+        });
+        // For Fetch Reffral Details in Modal
+        $(document).on("click",".edit-reffral",function(){
+            $("#editReffrals").modal("show");
+            var id = $(this).data("id");
+            var name = $(this).data("name");
+            var company = $(this).data("company");
+            var email = $(this).data("email");
+            var share = $(this).data("share");
+            var status = $(this).data("status");
+            $("#reffral_id").val(id);
+            $("#reffral_name").val(name);
+            $("#reffral_company").val(company);
+            $("#reffral_email").val(email);
+            $("#reffral_share").val(share);
+            $("#reffral_status").val(status);
+        })
+        // For Update / Edit Reffral
+        $("#edit_reffrals_form").on("submit",function(e){
+            e.preventDefault();
+            let formData = $(this).serialize();
+            $.ajax({
+                url : "update_reffral.php",
+                type : "POST",
+                data : formData,
+                success:function(res){
+                    $("#editReffrals").modal("hide");
+                    alert_box("Refferal Updated Successfully","Reffral Management");
+                    fetch_reffrals();
+                }
+            })
+        })
+        // For Delete Reffral
+        $(document).on('click', '.delete-reffral', function () {
+            const id = $(this).data('id');
+            const confirmation = confirm('Are you sure you want to delete this Reffral?');
+            if (confirmation) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'delete_reffral.php',
+                    data: { id: id },
+                    success: function (response) {
+                        fetch_reffrals();
+                        alert_box("Reffral Deleted Successfully", "Reffral Management")
+                    },
+                    error: function () {
+                        alert('Failed to Delete Reffral');
+                    }
+                });
+            }
+        });
+        // For View Reffral Details
+        $(document).on("click",".view-reffrel",function(){
+            $("#viewReffral").modal("show");
+            var id = $(this).data("id");
+            var name = $(this).data("name");
+            var company = $(this).data("company");
+            var email = $(this).data("email");
+            var share = $(this).data("share");
+            var status = $(this).data("status");
+            $("#ref_id").html(id);
+            $("#ref_name").html(name);
+            $("#ref_company").html(company);
+            $("#ref_email").html(email);
+            $("#ref_share").html(share);
+            $("#ref_status").html(status);
+        })
+        function fetch_reffrals(){
+            $.ajax({
+                url : "fetch_reffrals.php",
+                type : "POST",
+                success:function(res){
+                    $("#reffralTable").html(res)
+                }
+            })
+        }
+        fetch_reffrals();
+    }
+    reffrels_management(); 
+
+    // For
+
+    // For Admin 
     function admin_submission() {
         // For username 
         $(document).on("focusout", "#username", function () {

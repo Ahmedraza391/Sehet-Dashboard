@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2024 at 03:32 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Jul 10, 2024 at 12:17 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -105,6 +105,25 @@ INSERT INTO `tbl_city` (`id`, `city`, `province_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_employees`
+--
+
+CREATE TABLE `tbl_employees` (
+  `emp_id` int(11) NOT NULL,
+  `emp_name` varchar(200) NOT NULL,
+  `emp_father_name` varchar(100) NOT NULL,
+  `emp_email` varchar(100) NOT NULL,
+  `emp_password` varchar(200) NOT NULL,
+  `emp_contact` int(11) NOT NULL,
+  `emp_nic` bigint(20) NOT NULL,
+  `emp_dob` varchar(100) NOT NULL,
+  `emp_designation` varchar(200) NOT NULL,
+  `emp_status` varchar(50) NOT NULL DEFAULT 'activate'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_extra_services`
 --
 
@@ -121,6 +140,25 @@ CREATE TABLE `tbl_extra_services` (
 INSERT INTO `tbl_extra_services` (`id`, `extra_service`, `sub_services_id`) VALUES
 (2, 'Legs Checkup', 3),
 (3, 'LLLS', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_panel`
+--
+
+CREATE TABLE `tbl_panel` (
+  `id` int(11) NOT NULL,
+  `company` varchar(200) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `focal_person` varchar(200) NOT NULL,
+  `company_contact` int(11) NOT NULL,
+  `focal_person_contact` int(11) NOT NULL,
+  `province_id` int(11) NOT NULL,
+  `city_id` int(11) NOT NULL,
+  `area_id` int(11) NOT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'activate'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -146,17 +184,27 @@ INSERT INTO `tbl_province` (`id`, `province`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_refferels`
+-- Table structure for table `tbl_reffrals`
 --
 
-CREATE TABLE `tbl_refferels` (
+CREATE TABLE `tbl_reffrals` (
   `id` int(11) NOT NULL,
-  `name` int(11) NOT NULL,
-  `company` int(11) NOT NULL,
-  `email` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `company` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
   `financial_share` int(11) NOT NULL,
   `status` varchar(50) NOT NULL DEFAULT 'show'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_reffrals`
+--
+
+INSERT INTO `tbl_reffrals` (`id`, `name`, `company`, `email`, `financial_share`, `status`) VALUES
+(1, 'Ahmed Raza', 'Shan Food ', 'shanfood@gmail.com', 45, 'show'),
+(2, 'Farooq Khan Ustad', 'Getz Pharma', 'getz@gmail.com', 22, 'show'),
+(3, 'Adnan Khan', 'Sui Gas Pvt Ltd.', 'adnanKhan@gmail.com', 45, 'show'),
+(6, 'Muhammad Raza', 'PCB', 'raza@gmail.com', 23, 'show');
 
 -- --------------------------------------------------------
 
@@ -202,20 +250,6 @@ INSERT INTO `tbl_sub_services` (`id`, `sub_service`, `services_id`) VALUES
 (4, 'Chest Checkup', 8),
 (7, 'LMO', 19);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_users`
---
-
-CREATE TABLE `tbl_users` (
-  `user_d` int(11) NOT NULL,
-  `user_name` varchar(200) NOT NULL,
-  `user_username` varchar(100) NOT NULL,
-  `user_password` varchar(200) NOT NULL,
-  `user_status` varchar(50) NOT NULL DEFAULT 'activate'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 --
 -- Indexes for dumped tables
 --
@@ -245,15 +279,33 @@ ALTER TABLE `tbl_city`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_employees`
+--
+ALTER TABLE `tbl_employees`
+  ADD PRIMARY KEY (`emp_id`);
+
+--
 -- Indexes for table `tbl_extra_services`
 --
 ALTER TABLE `tbl_extra_services`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_panel`
+--
+ALTER TABLE `tbl_panel`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_province`
 --
 ALTER TABLE `tbl_province`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_reffrals`
+--
+ALTER TABLE `tbl_reffrals`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -267,12 +319,6 @@ ALTER TABLE `tbl_services`
 --
 ALTER TABLE `tbl_sub_services`
   ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `tbl_users`
---
-ALTER TABLE `tbl_users`
-  ADD PRIMARY KEY (`user_d`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -303,15 +349,33 @@ ALTER TABLE `tbl_city`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `tbl_employees`
+--
+ALTER TABLE `tbl_employees`
+  MODIFY `emp_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_extra_services`
 --
 ALTER TABLE `tbl_extra_services`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `tbl_panel`
+--
+ALTER TABLE `tbl_panel`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_province`
 --
 ALTER TABLE `tbl_province`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `tbl_reffrals`
+--
+ALTER TABLE `tbl_reffrals`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
@@ -325,12 +389,6 @@ ALTER TABLE `tbl_services`
 --
 ALTER TABLE `tbl_sub_services`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `tbl_users`
---
-ALTER TABLE `tbl_users`
-  MODIFY `user_d` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

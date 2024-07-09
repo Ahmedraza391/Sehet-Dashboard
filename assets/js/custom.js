@@ -15,3 +15,4 @@
 //     });
 // }
 // password_hide_unhide();
+// Disable right-click

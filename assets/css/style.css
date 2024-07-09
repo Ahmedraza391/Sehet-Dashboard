@@ -1242,3 +1242,44 @@ h6 {
   transform: translateY(-50%);
   cursor: pointer;
 }
+.bg-light-own{
+  background-color: #FFFFFF !important;
+}
+.top_header_margin_div{
+  margin-top: 70px;
+}
+.mini-nav {
+  position: relative;
+  color: inherit; /* Ensure the default color is inherited */
+  text-decoration: none; /* Remove the default underline */
+  transition: color 0.3s, text-decoration 0.3s; /* Smooth color change */
+}
+
+.mini-nav::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4154f1;
+  transition: width 0.3s; /* Smooth width change */
+}
+
+.mini-nav:hover {
+  color: #4154f1; /* Change text color on hover */
+}
+
+.mini-nav:hover::after {
+  width: 100%; /* Expand underline on hover */
+}
+
+.mini-nav.active {
+  color: #4154f1 !important;
+  font-weight: bold !important; /* Bold text for active links */
+}
+
+.mini-nav.active::after {
+  width: 100% !important; /* Show underline for active links */
+}
