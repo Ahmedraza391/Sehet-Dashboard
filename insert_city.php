@@ -1,26 +1,11 @@
 <?php
-include("connection.php");
-
-if (isset($_POST['cty'])) {
-    $city = $_POST['cty'];
-
-    if (!empty($city)) {
-        $stmt = $connection->prepare("INSERT INTO tbl_city (city) VALUES (?)");
-        $stmt->bind_param("s", $city);
-
-        if ($stmt->execute()) {
-            echo "City Inserted Successfully";
-        } else {
-            echo "Error in Insertation of City: " . $stmt->error;
-        }
-
-        $stmt->close();
-    } else {
-        echo "City name is empty";
+    include("connection.php");
+    $city = mysqli_real_escape_string($connection, $_POST['city']);
+    $p_id = mysqli_real_escape_string($connection, $_POST['province_id']);
+    $insert_query = mysqli_query($connection,"INSERT INTO tbl_city(city,province_id)VALUES('$city','$p_id')");
+    if($insert_query){
+        echo "City Inserted Successfully";
+    }else{
+        echo "Error in Insertation of City";
     }
-} else {
-    echo "City data not received";
-}
-
-$connection->close();
 ?>

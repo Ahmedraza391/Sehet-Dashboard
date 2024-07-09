@@ -2,16 +2,17 @@
 include 'connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $city_id = $_POST['id'];
-    $city_name = $_POST['city'];
+    $id = $_POST['city_id'];
+    $city = $_POST['city'];
+    $province = $_POST['province_id'];
 
-    $update_query = "UPDATE tbl_city SET city = '$city_name' WHERE id = $city_id";
+    $update_query = "UPDATE tbl_city SET city = '$city',province_id='$province' WHERE id = $id";
     $result = mysqli_query($connection, $update_query);
 
     if ($result) {
-        echo 'City Updated Successfully';
+        echo "City Successfully Updated";
     } else {
-        echo 'Failed to Update City';
+        echo 'Failed to Updates City';
     }
 } else {
     echo 'Invalid request';

@@ -282,27 +282,27 @@ $(document).ready(function () {
 
     // For Address Management Page
     function address_mangement() {
-        // For Inserting / Updating / Deleting / Retrieving = City 
-        function city_function() {
-            fetchcity();
-            // For Insert / Add City
-            $("#insert_city_form").on("submit", function (e) {
+        // For Inserting / Updating / Deleting / Retrieving = Province 
+        function province_func() {
+            fetch_province();
+            // For Insert / Add Province
+            $("#insert_province_form").on("submit", function (e) {
                 e.preventDefault();
-                let city = $("#city").val();
-                if (city === "") {
-                    alert("City name cannot be empty");
+                let Province = $("#province").val();
+                if (Province === "") {
+                    alert("Province name cannot be empty");
                     return;
                 }
 
                 $.ajax({
                     type: "POST",
-                    url: "insert_city.php",
-                    data: { cty: city },
+                    url: "insert_province.php",
+                    data: { province: Province },
                     success: function (res) {
-                        $('#add_city').modal('hide');
-                        $("#insert_city_form").trigger("reset");
-                        alert_box("City Added Successfully", "Address Management");
-                        fetchcity();
+                        $('#add_province').modal('hide');
+                        $("#insert_province_form").trigger("reset");
+                        alert_box("Province Added Successfully", "Address Management");
+                        fetch_province();
                     },
                     error: function (res) {
                         alert_box("Error in submission", "Error");
@@ -310,29 +310,120 @@ $(document).ready(function () {
                     }
                 });
             });
-            // For Edit City
-            $(document).on('click', '.edit-city', function () {
-                const cityid = $(this).data('id');
-                const cityName = $(this).data('city');
+            // For Edit Province
+            $(document).on('click', '.edit-province', function () {
+                const province_id = $(this).data('id');
+                const province = $(this).data('province');
 
-                $('#edit_city_Id').val(cityid);
-                $('#editCityName').val(cityName);
+                $('#edit_province_Id').val(province_id);
+                $('#edit_province').val(province);
 
-                $('#editCityModal').modal('show');
+                $('#edit_province_modal').modal('show');
             });
-            $('#editcityForm').on('submit', function (e) {
+            $('#editprovinceForm').on('submit', function (e) {
                 e.preventDefault();
 
-                const city_id = $('#edit_city_Id').val();
-                const city_name = $('#editCityName').val();
+                const province_id = $('#edit_province_Id').val();
+                const province_name = $('#edit_province').val();
 
                 $.ajax({
                     type: 'POST',
-                    url: 'update_city.php',
-                    data: { id: city_id, city: city_name },
+                    url: 'update_province.php',
+                    data: { id: province_id, province: province_name },
                     success: function (response) {
+                        alert_box("Province Updated Successfully", "Address Management");
+                        $('#edit_province_modal').modal('hide');
+                        fetch_province();
+                    },
+                    error: function () {
+                        alert('Failed to Update Province');
+                    }
+                });
+            });
+            // For Delete Province
+            $(document).on('click', '.delete-province', function () {
+                const province_id = $(this).data('id');
+                const confirmation = confirm('Are you sure you want to delete this Province?');
+
+                if (confirmation) {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'delete_province.php',
+                        data: { id: province_id },
+                        success: function (response) {
+                            alert_box("Province Deleted Successfully", "Address Management")
+                            fetch_province();
+                        },
+                        error: function () {
+                            alert('Failed to Delete Province');
+                        }
+                    });
+                }
+            });
+            // For Fetch Province
+            function fetch_province() {
+                $.ajax({
+                    type: 'GET',
+                    url: 'fetch_province.php',
+                    success: function (response) {
+                        $('#provinceTable').html(response);
+                    },
+                    error: function () {
+                        alert('Failed to fetch Province');
+                    }
+                });
+            }
+        }
+        province_func();
+        // For Inserting / Updating / Deleting / Retrieving = City
+        function city_func() {
+            fetchcity();
+            // For Insert / Add City
+            $("#insert_city_form").on("submit", function (e) {
+                e.preventDefault();
+                var formdata = $(this).serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "insert_city.php",
+                    data: formdata,
+                    success: function (res) {
+                        $("#add_city").modal("hide");
+                        $("#insert_city_form").trigger("reset");
+                        alert_box("City Added Successfully", "Address Management");
+                        fetchcity();
+                    }, error: function () {
+
+                    }
+                })
+            })
+            // For Edit city
+            $(document).on('click', '.edit-city', function () {
+                let cityId = $(this).data("id");
+                let cityName = $(this).data("city");
+                let province_id = $(this).data("province");
+                $('#city_id').val(cityId);
+                $('#city').val(cityName);
+                $.ajax({
+                    type: "POST",
+                    url: "province_option.php",
+                    data: { id: province_id },
+                    success: function (response) {
+                        $("#province_menu").html(response);
+                    }
+                })
+                $('#edit_city_modal').modal('show');
+            });
+            $('#editcityForm').on('submit', function (e) {
+                e.preventDefault();
+                let edit_form_data = $(this).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: 'update_city.php',
+                    data: edit_form_data,
+                    success: function (response) {
+                        $('#edit_city_modal').modal('hide');
+                        $("#editcityForm").trigger("reset");
                         alert_box("City Updated Successfully", "Address Management");
-                        $('#editCityModal').modal('hide');
                         fetchcity();
                     },
                     error: function () {
@@ -344,15 +435,14 @@ $(document).ready(function () {
             $(document).on('click', '.delete-city', function () {
                 const city_id = $(this).data('id');
                 const confirmation = confirm('Are you sure you want to delete this City?');
-
                 if (confirmation) {
                     $.ajax({
                         type: 'POST',
                         url: 'delete_city.php',
                         data: { id: city_id },
                         success: function (response) {
-                            alert_box("City Deleted Successfully", "Address Management")
                             fetchcity();
+                            alert_box("City Deleted Successfully", "Address Management")
                         },
                         error: function () {
                             alert('Failed to Delete City');
@@ -374,96 +464,7 @@ $(document).ready(function () {
                 });
             }
         }
-        city_function();
-        // For Inserting / Updating / Deleting / Retrieving = City-Capital 
-        function city_capital() {
-            fetchcitycapital();
-            // For Insert / Add City Capital
-            $("#insert_city_capital_form").on("submit", function (e) {
-                e.preventDefault();
-                var formdata = $(this).serialize();
-                $.ajax({
-                    type: "POST",
-                    url: "insert_city_capital.php",
-                    data: formdata,
-                    success: function (res) {
-                        $("#add_city_capital").modal("hide");
-                        $("#insert_city_capital_form").trigger("reset");
-                        alert_box("City-Capital Added Successfully", "Address Management");
-                        fetchcitycapital();
-                    }, error: function () {
-
-                    }
-                })
-            })
-            // For Edit city-capital
-            $(document).on('click', '.edit-city-capital', function () {
-                let cityCapital_Id = $(this).data("id");
-                let cityCapital_Name = $(this).data("capital");
-                let CityId = $(this).data("city");
-                $('#city_capital_id').val(cityCapital_Id);
-                $('#city_capital').val(cityCapital_Name);
-                $.ajax({
-                    type: "POST",
-                    url: "cityCapital_option.php",
-                    data: { id: CityId },
-                    success: function (response) {
-                        $("#city_menu").html(response);
-                    }
-                })
-                $('#editCityCapitalModal').modal('show');
-            });
-            $('#editcityCapitalForm').on('submit', function (e) {
-                e.preventDefault();
-                let edit_form_data = $(this).serialize();
-                $.ajax({
-                    type: 'POST',
-                    url: 'update_city_capital.php',
-                    data: edit_form_data,
-                    success: function (response) {
-                        $('#editCityCapitalModal').modal('hide');
-                        alert_box("Service Updated Successfully", "Services");
-                        fetchSubServices();
-                    },
-                    error: function () {
-                        alert('Failed to update service');
-                    }
-                });
-            });
-            // For Delete Sub-Services
-            $(document).on('click', '.delete-city-capital', function () {
-                const capital_id = $(this).data('id');
-                const confirmation = confirm('Are you sure you want to delete this City-Capital?');
-                if (confirmation) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'delete_city_capital.php',
-                        data: { id: capital_id },
-                        success: function (response) {
-                            fetchcitycapital();
-                            alert_box("City-Capital Deleted Successfully", "Services")
-                        },
-                        error: function () {
-                            alert('Failed to delete service');
-                        }
-                    });
-                }
-            });
-            // For Fetch City
-            function fetchcitycapital() {
-                $.ajax({
-                    type: 'GET',
-                    url: 'fetch_city_capital.php',
-                    success: function (response) {
-                        $('#cityCapitalTable').html(response);
-                    },
-                    error: function () {
-                        alert('Failed to fetch services');
-                    }
-                });
-            }
-        }
-        city_capital();
+        city_func();
         // For Inserting / Updating / Deleting / Retrieving = Capital-Area 
         function city_area(){
             fetch_city_area();
@@ -478,18 +479,20 @@ $(document).ready(function () {
                     success: function (res) {
                         $("#add_city_area").modal("hide");
                         $("#insert_capital_area_form").trigger("reset");
-                        alert_box("Capital-Area Added Successfully", "Address Management");
+                        alert_box("Area Added Successfully", "Address Management");
                         fetch_city_area();
                     }, error: function () {
-                        alert("heleoeeo")
+                        alert("Failed To Insert Area")
                     }   
                 })
             })  
+
+            // Continue on edit capital area
              // For Edit Capital Area
              $(document).on('click', '.edit-capital-area', function () {
                 let capitalAreaId = $(this).data("id");
                 let capitalAreaName = $(this).data("area");
-                let capitalId = $(this).data("city_capital");
+                let capitalId = $(this).data("city");
                 $('#area_id').val(capitalAreaId);
                 $('#area_name').val(capitalAreaName);
                 $.ajax({

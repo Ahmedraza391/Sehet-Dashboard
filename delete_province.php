@@ -2,15 +2,15 @@
 include 'connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['id'];
+    $province_id = $_POST['id'];
 
-    $delete_query = "DELETE FROM tbl_city_capital WHERE id = $id";
+    $delete_query = "DELETE FROM tbl_province WHERE id = $province_id";
     $result = mysqli_query($connection, $delete_query);
 
     if ($result) {
-        echo "City Capital Deleted Successfully";
+        echo 'Province Deleted Successfully';
     } else {
-        echo 'Failed to City Capital';
+        echo 'Failed to Delete Province';
     }
 } else {
     echo 'Invalid request';
