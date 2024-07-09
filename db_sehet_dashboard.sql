@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 09, 2024 at 12:52 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Jul 09, 2024 at 03:32 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -78,9 +78,8 @@ CREATE TABLE `tbl_area` (
 --
 
 INSERT INTO `tbl_area` (`id`, `area`, `city_id`) VALUES
-(1, 'ABCDEF', 3),
-(3, 'Finance & Trade Center', 1),
-(4, 'Model Town', 2);
+(1, 'Abdullah Town', 3),
+(3, 'Gulshn-e-Iqbal', 1);
 
 -- --------------------------------------------------------
 
@@ -143,6 +142,21 @@ INSERT INTO `tbl_province` (`id`, `province`) VALUES
 (3, 'Punjab'),
 (5, 'Balochistan'),
 (6, 'KPK');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_refferels`
+--
+
+CREATE TABLE `tbl_refferels` (
+  `id` int(11) NOT NULL,
+  `name` int(11) NOT NULL,
+  `company` int(11) NOT NULL,
+  `email` int(11) NOT NULL,
+  `financial_share` int(11) NOT NULL,
+  `status` varchar(50) NOT NULL DEFAULT 'show'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 

@@ -53,9 +53,9 @@ $page = "address";
                                 <div class="modal-body">
                                     <form id="editprovinceForm">
                                         <input type="hidden" id="edit_province_Id">
-                                        <div class="mb-3">
-                                            <label for="edit_province" class="form-label">Province</label>
-                                            <input type="text" class="form-control" id="edit_province" required>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" placeholder="" id="edit_province" required>
+                                            <label for="edit_province">Province</label>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </form>
@@ -140,10 +140,10 @@ $page = "address";
                                             <select class="form-select" id="province_menu" name="province_id" aria-label="Floating label select example" required>
                                             </select>
                                             <label for="province_menu">Provinces</label>
-                                            </div>
-                                        <div class="mb-3">
-                                            <label for="city" class="form-label">City</label>
-                                            <input type="text" class="form-control" id="city" name="city" required>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="city" placeholder="" name="city" required>
+                                            <label for="city">City</label>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </form>
@@ -229,7 +229,7 @@ $page = "address";
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="editCapitalAreaModalLabel">Edit Capital-Area</h5>
+                                    <h5 class="modal-title" id="editCapitalAreaModalLabel">Edit Area</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -240,9 +240,9 @@ $page = "address";
                                             </select>
                                             <label for="city_menu">Cities</label>
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="area_name" class="form-label">Area</label>
-                                            <input type="text" class="form-control" id="area_name" name="area_name" required>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="area_name" name="area_name"  placeholder="">
+                                            <label for="area_name">Area</label>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </form>

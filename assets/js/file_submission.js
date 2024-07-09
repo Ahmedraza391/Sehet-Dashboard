@@ -466,7 +466,7 @@ $(document).ready(function () {
         }
         city_func();
         // For Inserting / Updating / Deleting / Retrieving = Capital-Area 
-        function city_area(){
+        function city_area() {
             fetch_city_area();
             // For Insert / Add Capital Area
             $("#insert_capital_area_form").on("submit", function (e) {
@@ -483,24 +483,23 @@ $(document).ready(function () {
                         fetch_city_area();
                     }, error: function () {
                         alert("Failed To Insert Area")
-                    }   
+                    }
                 })
-            })  
+            })
 
-            // Continue on edit capital area
-             // For Edit Capital Area
-             $(document).on('click', '.edit-capital-area', function () {
+            // For Edit Capital Area
+            $(document).on('click', '.edit-capital-area', function () {
                 let capitalAreaId = $(this).data("id");
                 let capitalAreaName = $(this).data("area");
-                let capitalId = $(this).data("city");
+                let city_id = $(this).data("city");
                 $('#area_id').val(capitalAreaId);
                 $('#area_name').val(capitalAreaName);
                 $.ajax({
                     type: "POST",
                     url: "capital_area_option.php",
-                    data: { id: capitalId },
+                    data: { id: city_id },
                     success: function (response) {
-                        $("#city_captital_menu").html(response);
+                        $("#city_menu").html(response);
                     }
                 })
                 $('#editCapitalAreaModal').modal('show');
@@ -541,7 +540,7 @@ $(document).ready(function () {
                     });
                 }
             });
-            function fetch_city_area(){
+            function fetch_city_area() {
                 $.ajax({
                     type: 'GET',
                     url: 'fetch_capital_area.php',

@@ -53,9 +53,9 @@ $page = "services";
                                 <div class="modal-body">
                                     <form id="editserviceForm">
                                         <input type="hidden" id="edit_ServiceId">
-                                        <div class="mb-3">
-                                            <label for="editServiceName" class="form-label">Service</label>
-                                            <input type="text" class="form-control" id="edit_ServiceName" required>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" placeholder="" id="edit_ServiceName" required>
+                                            <label for="editServiceName" >Service</label>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </form>
@@ -134,11 +134,14 @@ $page = "services";
                                 <div class="modal-body">
                                     <form id="editSubServices">
                                         <input type="hidden" id="edit_SubServiceId" name="sub_service_id">
-                                        <select class="form-select" id="edit_service_id" name="service_id" aria-label="Floating label select example" required>
-                                        </select>
-                                        <div class="mb-3">
-                                            <label for="edit_ServiceName" class="form-label">Service</label>
-                                            <input type="text" class="form-control" name="sub_service_name" id="edit_service_name" required>
+                                        <div class="form-floating">
+                                            <select class="form-select mb-3" id="edit_service_id" name="service_id" aria-label="Floating label select example" required>
+                                            </select>
+                                            <label for="edit_service_id">Services</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" name="sub_service_name" id="edit_service_name" placeholder="" required>
+                                            <label for="edit_ServiceName">Sub-Service</label>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </form>
@@ -229,11 +232,14 @@ $page = "services";
                                 <div class="modal-body">
                                     <form id="editExtraServices">
                                         <input type="hidden" id="edit_extra_ServiceId" name="extra_service_id">
-                                        <select class="form-select" id="edit_sub_service_id" name="sub_service_id" aria-label="Floating label select example" required>
-                                        </select>
-                                        <div class="mb-3">
-                                            <label for="edit_extra_service_name" class="form-label">Extra-Service</label>
-                                            <input type="text" class="form-control" name="extra_service_name" id="edit_extra_service_name" required>
+                                        <div class="form-floating">
+                                            <select class="form-select mb-3" id="edit_sub_service_id" name="sub_service_id" aria-label="Floating label select example" required>
+                                            </select>
+                                            <label for="edit_sub_service_id">Sub Services</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" name="extra_service_name" id="edit_extra_service_name" placeholder="" required>
+                                            <label for="edit_extra_service_name">Extra-Service</label>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </form>
