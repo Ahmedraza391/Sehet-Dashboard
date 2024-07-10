@@ -211,7 +211,7 @@ $(document).ready(function () {
                         submitButton.prop("disabled", false);
                         fetchExtraServices();
                         $("#add_extra_service").modal("hide");
-                        $("#insert_extra_services").trigger("reset");
+                        $("#insert_extra_service_form").trigger("reset");
                         alert_box("Sub-Service Added Successfully", "Services");
                     },
                     error: function () {
@@ -692,6 +692,8 @@ $(document).ready(function () {
 
     // For Panel Page
     function panel_management() {
+        fetch_panel();
+        // For Fetch Province in insert  Panel Modal
         $("#province").on("change", function () {
             let province = $(this).val();
             $.ajax({
@@ -712,7 +714,7 @@ $(document).ready(function () {
                 }
             });
         });
-
+        // For Fetch City in insert  Panel Modal
         $("#city_id").on("change", function () {
             let city = $(this).val();
             $.ajax({
@@ -728,48 +730,107 @@ $(document).ready(function () {
                 }
             });
         });
-        // $("#panel_form").on("submit",function(e){
-        //     e.preventDefault();
-        //     var formData = $(this).serialize();
-        //     $.ajax({
-        //         url : "insert_panel.php",
-        //         type : "POST",
-        //         data : formData,
-        //         success:function(res){
-        //             $("#panel_modal").modal("hide");
-        //             alert_box("Panel Inserted Successfully","Panel Management");
-        //             $("#panel_form")[0].reset(); 
-        //         }
-        //     })
-        // })
-
+        // For insert Panel
         $("#panel_form").on("submit", function (e) {
             e.preventDefault();
-
+        
             // Validate form data before proceeding
             if (!validateForm()) {
                 return; // Stop further processing if validation fails
             }
-
+        
             var formData = $(this).serialize();
             $.ajax({
                 url: "insert_panel.php",
                 type: "POST",
                 data: formData,
                 success: function (res) {
-                    $("#panel_modal").modal("hide");
-                    alert_box("Panel Inserted Successfully", "Panel Management");
-                    $("#panel_form")[0].reset(); // Corrected selector for form reset
+                    if (res === "Panel Inserted Successfully") {
+                        $("#panel_modal").modal("hide");
+                        alert_box("Panel Inserted Successfully", "Panel Management");
+                        $("#panel_form")[0].reset(); // Corrected selector for form reset
+                    } else {
+                        alert("Unexpected response: " + res);
+                    }
                 },
                 error: function (xhr, status, error) {
                     console.error("Error:", error); // Log any AJAX errors for debugging
                 }
             });
         });
+        $(document).on("click","edit-panel",function(){
 
+        })
+        // For Edit Panel 
+        $("#edit_panel_form").on("submit",function(e){
+            e.preventDefault();
+        })
+        // For fetch View panel Information
+        $(document).on("click",".view-panel",function(){
+            $("#viewpanel").modal("show");
+            let id = $(this).data("id");
+            let company = $(this).data("company");
+            let email = $(this).data("email");
+            let manager = $(this).data("manager");
+            let contact = $(this).data("contact");
+            let manager_contact = $(this).data("manager_contact");
+            let province_id = $(this).data("province_id");
+            let city_id = $(this).data("city_id");
+            let area_id = $(this).data("area_id");
+            let status = $(this).data("status");
+            let services = $(this).data("services");
+            // For Fetch Province 
+            $.ajax({
+                url : "panel_fetch_province.php",
+                type : "POST",
+                data : {id :province_id},
+                success:function(res){
+                    $("#panel_province").html(res);
+                },error:function(res){
+                    "Error :" . $("#panel_province").html(res);
+                }
+            })
+            $.ajax({
+                url : "panel_fetch_city.php",
+                type : "POST",
+                data : {id :city_id},
+                success:function(res){
+                    $("#panel_city").html(res);
+                },error:function(res){
+                    "Error :" . $("#panel_city").html(res);
+                }
+            })
+            $.ajax({
+                url : "panel_fetch_services.php",
+                type : "POST",
+                data : {ids :services},
+                success:function(res){
+                    $("#panel_services").html(res);
+                },error:function(res){
+                    "Error :" . $("#panel_services").html(res);
+                }
+            })
+            $.ajax({
+                url : "panel_fetch_area.php",
+                type : "POST",
+                data : {id :area_id},
+                success:function(res){
+                    $("#panel_area").html(res);
+                },error:function(res){
+                    "Error :" . $("#panel_area").html(res);
+                }
+            })
+            $("#panel_id").html(id);
+            $("#panel_company").html(company);
+            $("#panel_email").html(email);
+            $("#panel_manager").html(manager);
+            $("#panel_company_contact").html(contact);
+            $("#panel_contact").html(manager_contact);
+            $("#panel_status").html(status);
+        })
         function validateForm() {
             var isValid = true;
-
+        
             // Validate each required field
             $("#panel_form input[required], #panel_form select[required]").each(function () {
                 if ($(this).val().trim() === '') {
@@ -779,28 +840,36 @@ $(document).ready(function () {
                     $(this).removeClass('is-invalid'); // Remove validation styling if valid
                 }
             });
-
-            // Custom validation for contact number field
-            var panelContact = $("#panel_contact").val().trim();
-            if (!/^03\d{9}$/.test(panelContact)) {
-                isValid = false;
-                $("#panel_contact").addClass('is-invalid'); // Add validation styling for invalid input
-            } else {
-                $("#panel_contact").removeClass('is-invalid'); // Remove validation styling if valid
-            }
-
-            var panelManagerContact = $("#panel_manager_contact").val().trim();
-            if (!/^03\d{9}$/.test(panelManagerContact)) {
-                isValid = false;
-                $("#panel_manager_contact").addClass('is-invalid'); // Add validation styling for invalid input
-            } else {
-                $("#panel_manager_contact").removeClass('is-invalid'); // Remove validation styling if valid
-            }
-
+        
+            // Custom validation for contact number fields
+            // var panelContact = $("#panel_contact").val().trim();
+            // if (!/^03\d{9}$/.test(panelContact)) {
+            //     isValid = false;
+            //     $("#panel_contact").addClass('is-invalid');
+            // } else {
+            //     $("#panel_contact").removeClass('is-invalid');
+            // }
+        
+            // var panelManagerContact = $("#panel_manager_contact").val().trim();
+            // if (!/^03\d{9}$/.test(panelManagerContact)) {
+            //     isValid = false;
+            //     $("#panel_manager_contact").addClass('is-invalid');
+            // } else {
+            //     $("#panel_manager_contact").removeClass('is-invalid');
+            // }
+        
             return isValid;
         }
-
-//  Continue on Edit panel
+        function fetch_panel(){
+            $.ajax({
+                url:"fetch_panel.php",
+                type : "POST",
+                success:function(res){
+                    $("#panelTable").html(res);
+                }
+            })
+        }
+        fetch_panel();
     }
     panel_management();
 

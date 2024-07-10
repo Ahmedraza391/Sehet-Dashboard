@@ -21,7 +21,7 @@ $page = "panels";
             </ol>
         </nav>
     </div>
-    <div class="addresses_content">
+    <div class="panel_content">
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-8">
@@ -33,13 +33,13 @@ $page = "panels";
                         <table class="table rounded table-bordered">
                             <thead>
                                 <th class="text-center">Id</th>
-                                <th class="text-left">Reffred By</th>
+                                <th class="text-left">Company</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">View</th>
                                 <th class="text-center">Edit</th>
                                 <th class="text-center">Delete</th>
                             </thead>
-                            <tbody id="reffralTable">
+                            <tbody id="panelTable">
                             </tbody>
                         </table>
                     </div>
@@ -54,22 +54,37 @@ $page = "panels";
                                 <div class="modal-body">
                                     <div class="card p-md-3">
                                         <div class="d-flex align-items-center justify-content-start">
-                                            <h6 class="">ID : #<span class="fs-6" id="ref_id"></span></h6>
-                                        </div>
-                                        <div class="name">
-                                            <h6>Name : <span class="fs-6" id="ref_name"></span></h6>
+                                            <h6 class="">ID : #<span class="fs-6" id="panel_id"></span></h6>
                                         </div>
                                         <div class="company">
-                                            <h6>Company : <span class="fs-6" id="ref_company"></span></h6>
+                                            <h6>Company : <span class="fs-6" id="panel_company"></span></h6>
                                         </div>
                                         <div class="email">
-                                            <h6>Email : <span class="fs-6" id="ref_email"></span></h6>
+                                            <h6>Email : <span class="fs-6" id="panel_email"></span></h6>
                                         </div>
-                                        <div class="share">
-                                            <h6>Financial Share : <span class="fs-6" id="ref_share"></span>%</h6>
+                                        <div class="manager">
+                                            <h6>Manager : <span class="fs-6" id="panel_manager"></span></h6>
+                                        </div>
+                                        <div class="c_contact">
+                                            <h6>Company Contact : <span class="fs-6" id="panel_company_contact"></span></h6>
+                                        </div>
+                                        <div class="contact">
+                                            <h6>Contact : <span class="fs-6" id="panel_contact"></span></h6>
+                                        </div>
+                                        <div class="province">
+                                            <h6>Province : <span class="fs-6" id="panel_province"></span></h6>
+                                        </div>
+                                        <div class="city">
+                                            <h6>City : <span class="fs-6" id="panel_city"></span></h6>
+                                        </div>
+                                        <div class="area">
+                                            <h6>Area : <span class="fs-6" id="panel_area"></span></h6>
                                         </div>
                                         <div class="Status">
-                                            <h6>Status : <span class="fs-6" id="ref_status"></span></h6>
+                                            <h6>Status : <span class="fs-6" id="panel_status"></span></h6>
+                                        </div>
+                                        <div class="services">
+                                            <h6>Services : <span class="fs-6" id="panel_services"></span></h6>
                                         </div>
                                     </div>
                                 </div>
@@ -79,33 +94,68 @@ $page = "panels";
                             </div>
                         </div>
                     </div>
+                    <!-- Conitnue on edit modal -->
                     <!-- Edit Modal -->
                     <div class="modal fade" id="editPanel" tabindex="-1" aria-labelledby="editPanelLabel" aria-hidden="true" data-bs-backdrop="static">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="editPanelLabel">Edit Reffrals</h5>
+                                    <h5 class="modal-title" id="editPanelLabel">Edit Panel</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="edit_reffrals_form">
+                                    <form id="edit_panel_form">
                                         <input type="hidden" id="reffral_id" name="reffral_id">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" placeholder="" id="reffral_name" name="reffral_name" required>
-                                            <label for="name">Enter Name</label>
+                                            <input type="text" class="form-control" id="panel_comapny" name="panel_comapny" placeholder="" required>
+                                            <label for="panel_comapny">Enter Company</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" placeholder="" id="reffral_company" name="reffral_company" required>
-                                            <label for="company">Enter Company</label>
+                                            <input type="text" class="form-control" id="panel_manager" name="panel_manager" placeholder="" required>
+                                            <label for="panel_manager">Enter Focal Person</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" placeholder="" id="reffral_email" name="reffral_email" required>
-                                            <label for="email">Enter Email</label>
+                                            <input type="email" class="form-control" id="panel_email" name="panel_email" placeholder="" required>
+                                            <label for="panel_email">Enter Email</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="number" class="form-control share" placeholder="" min="0" max="100" id="reffral_share" name="reffral_share" required>
-                                            <label for="share">Financial Share</label>
-                                            <div id="error" class="error"></div>
+                                            <input type="text" class="form-control" id="panel_contact" name="panel_contact_num" placeholder="" required pattern="^03\d{9}$" title="Contact number must start with 03 and be 11 digits long.">
+                                            <label for="panel_contact">Enter Focal Person Contact #</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="panel_manager_contact" name="panel_manager_contact_num" placeholder="" required pattern="^03\d{9}$" title="Contact number must start with 03 and be 11 digits long.">
+                                            <label for="panel_manager_contact">Enter Manager Contact #</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="province" name="province" required aria-label="Floating label select example">
+                                                <option selected value="" hidden>Select Province</option>
+                                            </select>
+                                            <label for="province">Province</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="city_id" name="city" required aria-label="Floating label select example">
+                                            </select>
+                                            <label for="city">Cities</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="area_id" name="area_id" required aria-label="Floating label select example">
+                                            </select>
+                                            <label for="area_id">Areas</label>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="border p-3 rounded" id="mainservices">
+                                                <label for="mainservices" class="form-label">Select Services</label>
+                                                <?php
+                                                // $query = "SELECT * FROM tbl_sub_services WHERE status = 'available'";
+                                                // $run_query = mysqli_query($connection, $query);
+                                                // foreach ($run_query as $services) {
+                                                //     echo "<div class='form-check'>";
+                                                //     echo "<input class='form-check-input' type='checkbox' name='services[]' value='$services[id]' id='$services[id]'>";
+                                                //     echo "<label class='form-check-label' for='$services[id]'>$services[sub_service]</label>";
+                                                //     echo "</div>";
+                                                // }
+                                                ?>
+                                            </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary" name="btn_update">Save changes</button>
                                     </form>
@@ -141,15 +191,15 @@ $page = "panels";
                                                     <label for="panel_manager">Enter Focal Person</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control" id="panel_email" name="panel_email" placeholder="" required>
+                                                    <input type="email" class="form-control" id="panel_email" name="panel_email" placeholder="" required>
                                                     <label for="panel_email">Enter Email</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
-                                                    <input type="number" class="form-control" id="panel_contact" name="panel_contact_num" placeholder="" required minlength="11" maxlength="11" pattern="03\d{9}" title="Contact number must start with 03 and be 11 digits long.">
+                                                    <input type="text" class="form-control" id="panel_contact" name="panel_contact_num" placeholder="" required pattern="^03\d{9}$" title="Contact number must start with 03 and be 11 digits long.">
                                                     <label for="panel_contact">Enter Focal Person Contact #</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
-                                                    <input type="number" class="form-control" id="panel_manager_contact" name="panel_manager_contact_num" placeholder="" required minlength="11" maxlength="11" pattern="03\d{9}" title="Contact number must start with 03 and be 11 digits long.">
+                                                    <input type="text" class="form-control" id="panel_manager_contact" name="panel_manager_contact_num" placeholder="" required pattern="^03\d{9}$" title="Contact number must start with 03 and be 11 digits long.">
                                                     <label for="panel_manager_contact">Enter Manager Contact #</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
@@ -168,7 +218,7 @@ $page = "panels";
                                                     <select class="form-select" id="city_id" name="city" required aria-label="Floating label select example">
                                                         <option selected value="" hidden>Select City</option>
                                                     </select>
-                                                    <label for="city">Citites</label>
+                                                    <label for="city">Cities</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
                                                     <select class="form-select" id="area_id" name="area_id" required aria-label="Floating label select example">
@@ -184,7 +234,7 @@ $page = "panels";
                                                         $run_query = mysqli_query($connection, $query);
                                                         foreach ($run_query as $services) {
                                                             echo "<div class='form-check'>";
-                                                            echo "<input class='form-check-input' type='checkbox' name='options[]' value='$services[id]' id='$services[id]'>";
+                                                            echo "<input class='form-check-input' type='checkbox' name='services[]' value='$services[id]' id='$services[id]'>";
                                                             echo "<label class='form-check-label' for='$services[id]'>$services[sub_service]</label>";
                                                             echo "</div>";
                                                         }

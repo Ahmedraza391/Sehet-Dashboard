@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2024 at 05:49 PM
+-- Generation Time: Jul 10, 2024 at 11:45 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -155,8 +155,8 @@ CREATE TABLE `tbl_extra_services` (
 --
 
 INSERT INTO `tbl_extra_services` (`id`, `extra_service`, `sub_services_id`, `status`) VALUES
-(2, 'Legs Checkup', 3, 'available'),
-(3, 'LLLS', 3, 'available');
+(1, 'Computed Tomography', 8, 'available'),
+(2, 'Plain Radiography ', 8, 'available');
 
 -- --------------------------------------------------------
 
@@ -174,16 +174,18 @@ CREATE TABLE `tbl_panel` (
   `province_id` int(11) NOT NULL,
   `city_id` int(11) NOT NULL,
   `area_id` int(11) NOT NULL,
-  `status` varchar(50) NOT NULL DEFAULT 'activate'
+  `status` varchar(50) NOT NULL DEFAULT 'activate',
+  `services` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_panel`
 --
 
-INSERT INTO `tbl_panel` (`id`, `company`, `email`, `focal_person`, `company_contact`, `focal_person_contact`, `province_id`, `city_id`, `area_id`, `status`) VALUES
-(1, 'Shan Foods', 'shanfoods@gmail.com', 'Muhammad Minhal', 3269243547, 9223372036854775807, 5, 8, 13, 'activate'),
-(2, 'IBEX Private Limitted.', 'ibex@gmail.com', 'Ahmed Raza', 3082757580, 3082757580, 5, 8, 13, 'activate');
+INSERT INTO `tbl_panel` (`id`, `company`, `email`, `focal_person`, `company_contact`, `focal_person_contact`, `province_id`, `city_id`, `area_id`, `status`, `services`) VALUES
+(1, 'Shan Foods', 'shanfoods@gmail.com', 'Muhammad Minhal', 3269243547, 3269243547, 5, 8, 13, 'activate', ''),
+(2, 'IBEX Private Limitted.', 'ibex@gmail.com', 'Ahmed Raza', 3082757580, 3082757580, 5, 8, 13, 'activate', ''),
+(3, 'NDure ', 'ndure@gmail.com', 'Muhammad Minhal', 3242342342, 3242342342, 2, 1, 3, 'activate', '1,2,3,4');
 
 -- --------------------------------------------------------
 
@@ -391,13 +393,13 @@ ALTER TABLE `tbl_employees`
 -- AUTO_INCREMENT for table `tbl_extra_services`
 --
 ALTER TABLE `tbl_extra_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_panel`
 --
 ALTER TABLE `tbl_panel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_province`
