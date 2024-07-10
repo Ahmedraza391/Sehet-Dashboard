@@ -95,6 +95,7 @@ $(document).ready(function () {
                     }
                 });
             }
+            fetchServices();
         }
         service_function();
         // For Inserting / Updating / Deleting / Retrieving = Sub Services 
@@ -186,6 +187,7 @@ $(document).ready(function () {
                     }
                 });
             }
+            fetchSubServices();
         }
         sub_service_function();
         // For Inserting / Updating / Deleting / Retrieving = Extra Services 
@@ -285,6 +287,7 @@ $(document).ready(function () {
                     }
                 });
             }
+            fetchExtraServices();
         }
         extra_service_function();
     }
@@ -568,10 +571,10 @@ $(document).ready(function () {
     address_mangement();
 
     // For Reffrells Page
-    function reffrels_management(){
+    function reffrels_management() {
         fetch_reffrals();
         // For Validate Numeber Input 
-        $(".share").on("input", function() {
+        $(".share").on("input", function () {
             var shareValue = parseFloat($(this).val());
             var errorElement = $(this).siblings(".error");
 
@@ -582,7 +585,7 @@ $(document).ready(function () {
             }
         });
         // For Insert Reffral
-        $("#reffral_form").on("submit", function(e) {
+        $("#reffral_form").on("submit", function (e) {
             e.preventDefault();
             var name = $("#ref_name").val();
             var email = $("#ref_email").val();
@@ -592,24 +595,24 @@ $(document).ready(function () {
                 url: "add_reffrals.php",
                 type: "POST",
                 data: {
-                    ref_name : name,
-                    ref_email : email,
-                    ref_company : company,
-                    ref_share : share
+                    ref_name: name,
+                    ref_email: email,
+                    ref_company: company,
+                    ref_share: share
                 },
-                success: function(res) {
+                success: function (res) {
                     $("#reffral_modal").modal("hide");
-                    alert_box('Reffral Added Successfully','Reffral Management');
-                    $("#reffral_form")[0].reset(); 
+                    alert_box('Reffral Added Successfully', 'Reffral Management');
+                    $("#reffral_form")[0].reset();
                     fetch_reffrals();
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     alert('Error submitting form: ' + error);
                 }
             });
         });
         // For Fetch Reffral Details in Modal
-        $(document).on("click",".edit-reffral",function(){
+        $(document).on("click", ".edit-reffral", function () {
             $("#editReffrals").modal("show");
             var id = $(this).data("id");
             var name = $(this).data("name");
@@ -625,16 +628,16 @@ $(document).ready(function () {
             $("#reffral_status").val(status);
         })
         // For Update / Edit Reffral
-        $("#edit_reffrals_form").on("submit",function(e){
+        $("#edit_reffrals_form").on("submit", function (e) {
             e.preventDefault();
             let formData = $(this).serialize();
             $.ajax({
-                url : "update_reffral.php",
-                type : "POST",
-                data : formData,
-                success:function(res){
+                url: "update_reffral.php",
+                type: "POST",
+                data: formData,
+                success: function (res) {
                     $("#editReffrals").modal("hide");
-                    alert_box("Refferal Updated Successfully","Reffral Management");
+                    alert_box("Refferal Updated Successfully", "Reffral Management");
                     fetch_reffrals();
                 }
             })
@@ -659,7 +662,7 @@ $(document).ready(function () {
             }
         });
         // For View Reffral Details
-        $(document).on("click",".view-reffrel",function(){
+        $(document).on("click", ".view-reffrel", function () {
             $("#viewReffral").modal("show");
             var id = $(this).data("id");
             var name = $(this).data("name");
@@ -674,20 +677,132 @@ $(document).ready(function () {
             $("#ref_share").html(share);
             $("#ref_status").html(status);
         })
-        function fetch_reffrals(){
+        function fetch_reffrals() {
             $.ajax({
-                url : "fetch_reffrals.php",
-                type : "POST",
-                success:function(res){
+                url: "fetch_reffrals.php",
+                type: "POST",
+                success: function (res) {
                     $("#reffralTable").html(res)
                 }
             })
         }
         fetch_reffrals();
     }
-    reffrels_management(); 
+    reffrels_management();
 
-    // For
+    // For Panel Page
+    function panel_management() {
+        $("#province").on("change", function () {
+            let province = $(this).val();
+            $.ajax({
+                url: "panel_fetch_city_option.php",
+                type: "POST",
+                data: { id: province },
+                success: function (res) {
+                    $("#city_id").html(res);
+                    let city = $("#city_id").val();
+                    $.ajax({
+                        url: "panel_fetch_area_option.php",
+                        type: "POST",
+                        data: { id: city },
+                        success: function (res) {
+                            $("#area_id").html(res);
+                        }
+                    });
+                }
+            });
+        });
+
+        $("#city_id").on("change", function () {
+            let city = $(this).val();
+            $.ajax({
+                url: "panel_fetch_area_option.php",
+                type: "POST",
+                data: { id: city },
+                success: function (res) {
+                    $("#area_id").html(res);
+
+                    // Automatically select the first area in the list
+                    let firstAreaOption = $("#area_id option:first").val();
+                    $("#area_id").val(firstAreaOption).change(); // Trigger change event if needed
+                }
+            });
+        });
+        // $("#panel_form").on("submit",function(e){
+        //     e.preventDefault();
+        //     var formData = $(this).serialize();
+        //     $.ajax({
+        //         url : "insert_panel.php",
+        //         type : "POST",
+        //         data : formData,
+        //         success:function(res){
+        //             $("#panel_modal").modal("hide");
+        //             alert_box("Panel Inserted Successfully","Panel Management");
+        //             $("#panel_form")[0].reset(); 
+        //         }
+        //     })
+        // })
+
+        $("#panel_form").on("submit", function (e) {
+            e.preventDefault();
+
+            // Validate form data before proceeding
+            if (!validateForm()) {
+                return; // Stop further processing if validation fails
+            }
+
+            var formData = $(this).serialize();
+            $.ajax({
+                url: "insert_panel.php",
+                type: "POST",
+                data: formData,
+                success: function (res) {
+                    $("#panel_modal").modal("hide");
+                    alert_box("Panel Inserted Successfully", "Panel Management");
+                    $("#panel_form")[0].reset(); // Corrected selector for form reset
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error); // Log any AJAX errors for debugging
+                }
+            });
+        });
+
+        function validateForm() {
+            var isValid = true;
+
+            // Validate each required field
+            $("#panel_form input[required], #panel_form select[required]").each(function () {
+                if ($(this).val().trim() === '') {
+                    isValid = false;
+                    $(this).addClass('is-invalid'); // Add validation styling if needed
+                } else {
+                    $(this).removeClass('is-invalid'); // Remove validation styling if valid
+                }
+            });
+
+            // Custom validation for contact number field
+            var panelContact = $("#panel_contact").val().trim();
+            if (!/^03\d{9}$/.test(panelContact)) {
+                isValid = false;
+                $("#panel_contact").addClass('is-invalid'); // Add validation styling for invalid input
+            } else {
+                $("#panel_contact").removeClass('is-invalid'); // Remove validation styling if valid
+            }
+
+            var panelManagerContact = $("#panel_manager_contact").val().trim();
+            if (!/^03\d{9}$/.test(panelManagerContact)) {
+                isValid = false;
+                $("#panel_manager_contact").addClass('is-invalid'); // Add validation styling for invalid input
+            } else {
+                $("#panel_manager_contact").removeClass('is-invalid'); // Remove validation styling if valid
+            }
+
+            return isValid;
+        }
+
+//  Continue on Edit panel
+    }
+    panel_management();
 
     // For Admin 
     function admin_submission() {

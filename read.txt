@@ -1,2 +1,6 @@
 continue on adding employee full work insert update delete fetch
 and panel full work
+
+jab ham province kai zarye ciy fetch karwate ha tu automatic area fetch nhi ho raha 
+
+update services table add services status

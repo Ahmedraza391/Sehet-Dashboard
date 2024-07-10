@@ -32,6 +32,14 @@
         </a>
       </li>
     
+
+      <li class="nav-item">
+        <a class="nav-link <?php if($page=="panels"){echo "active";} ?>" href="./panel_management.php">
+          <i class='bx bx-buildings'></i>
+          <span>Panels</span>
+        </a>
+      </li>
+    
       <li class="nav-heading">Pages</li>
 
       <li class="nav-item">

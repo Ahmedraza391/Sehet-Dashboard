@@ -32,10 +32,11 @@ $page = "services";
                     <div class="services_table">
                         <table class="table rounded table-bordered">
                             <thead>
-                                <th>Id</th>
-                                <th>Service</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th class="text-center">Id</th>
+                                <th class="text-left">Service</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Edit</th>
+                                <th class="text-center">Delete</th>
                             </thead>
                             <tbody id="serviceTable">
                             </tbody>
@@ -113,11 +114,12 @@ $page = "services";
                     <div class="services_table">
                         <table class="table rounded table-bordered">
                             <thead>
-                                <th>Id</th>
-                                <th>Sub Service</th>
-                                <th>Service</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th class="text-center">Id</th>
+                                <th class="text-left">Sub Service</th>
+                                <th class="text-center">Service</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Edit</th>
+                                <th class="text-center">Delete</th>
                             </thead>
                             <tbody id="subServiceTable">
                             </tbody>

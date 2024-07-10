@@ -82,20 +82,20 @@ $page = "reffrals";
                                         <input type="hidden" id="reffral_id" name="reffral_id">
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" placeholder="" id="reffral_name" name="reffral_name" required>
-                                            <label for="name">Enter Name</label>
+                                            <label for="reffral_name">Enter Name</label>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" placeholder="" id="reffral_company" name="reffral_company" required>
-                                            <label for="company">Enter Company</label>
+                                            <label for="reffral_company">Enter Company</label>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" placeholder="" id="reffral_email" name="reffral_email" required>
-                                            <label for="email">Enter Email</label>
+                                            <label for="reffral_email">Enter Email</label>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input type="number" class="form-control share" placeholder="" min="0" max="100" id="reffral_share" name="reffral_share" required>
-                                            <label for="share">Financial Share</label>
-                                            <div id="error" class="error"></div>
+                                            <label for="reffral_share">Financial Share</label>
+                                            <div id="error" class="error text-danger"></div>
                                         </div>
                                         <button type="submit" class="btn btn-primary" name="btn_update">Save changes</button>
                                     </form>
@@ -124,20 +124,20 @@ $page = "reffrals";
                                             <form id="reffral_form">
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="ref_name" name="ref_name" placeholder="" required>
-                                                    <label for="name">Enter Name</label>
+                                                    <label for="ref_name">Enter Name</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="ref_company" name="ref_company" placeholder="" required>
-                                                    <label for="company">Enter Company</label>
+                                                    <label for="ref_company">Enter Company</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="ref_email" name="ref_email" placeholder="" required>
-                                                    <label for="email">Enter Email</label>
+                                                    <label for="ref_email">Enter Email</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
                                                     <input type="number" class="form-control share" id="ref_share" name="ref_share" min="0" max="100" required placeholder="">
-                                                    <label for="share">Enter Financial Share</label>
-                                                    <div id="error" class="error"></div>
+                                                    <label for="ref_share">Enter Financial Share</label>
+                                                    <div id="error" class="error text-danger"></div>
                                                 </div>
                                                 <div class="button">
                                                     <button type="submit" name="btn_reffrals" value="add_reffrals" class="btn btn-primary">Add</button>
