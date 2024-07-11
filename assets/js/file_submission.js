@@ -118,15 +118,17 @@ $(document).ready(function () {
 
                     }
                 })
-            })
+            })  
             // For Edit Sub-Services
             $(document).on('click', '.edit-sub-service', function () {
                 let subserviceId = $(this).data("id");
                 let subserviceName = $(this).data("subservice");
+                let subservicePrice = $(this).data("subservice_price");
                 let serviceId = $(this).data("serviceid");
 
                 $('#edit_SubServiceId').val(subserviceId);
                 $('#edit_service_name').val(subserviceName);
+                $('#edit_service_price').val(subservicePrice);
                 $.ajax({
                     type: "POST",
                     url: "subservice_option.php",
@@ -224,9 +226,11 @@ $(document).ready(function () {
             $(document).on('click', '.edit-extra-service', function () {
                 let extraserviceId = $(this).data("id");
                 let extraserviceName = $(this).data("extraservice");
+                let extraservicePrice = $(this).data("extraservice_price");
                 let subserviceId = $(this).data("subserviceid");
                 $('#edit_extra_ServiceId').val(extraserviceId);
                 $('#edit_extra_service_name').val(extraserviceName);
+                $('#edit_extra_service_price').val(extraservicePrice);
                 $.ajax({
                     type: "POST",
                     url: "extraservice_option.php",
@@ -571,7 +575,7 @@ $(document).ready(function () {
     address_mangement();
 
     // For Reffrells Page
-    function reffrels_management() {
+    function refferals_management() {
         fetch_reffrals();
         // For Validate Numeber Input 
         $(".share").on("input", function () {
@@ -587,19 +591,11 @@ $(document).ready(function () {
         // For Insert Reffral
         $("#reffral_form").on("submit", function (e) {
             e.preventDefault();
-            var name = $("#ref_name").val();
-            var email = $("#ref_email").val();
-            var company = $("#ref_company").val();
-            var share = $("#ref_share").val();
+            let formData = $(this).serialize();
             $.ajax({
-                url: "add_reffrals.php",
+                url: "add_refferals.php",
                 type: "POST",
-                data: {
-                    ref_name: name,
-                    ref_email: email,
-                    ref_company: company,
-                    ref_share: share
-                },
+                data: formData,
                 success: function (res) {
                     $("#reffral_modal").modal("hide");
                     alert_box('Reffral Added Successfully', 'Reffral Management');
@@ -612,7 +608,7 @@ $(document).ready(function () {
             });
         });
         // For Fetch Reffral Details in Modal
-        $(document).on("click", ".edit-reffral", function () {
+        $(document).on("click", ".edit-refferal", function () {
             $("#editReffrals").modal("show");
             var id = $(this).data("id");
             var name = $(this).data("name");
@@ -632,7 +628,7 @@ $(document).ready(function () {
             e.preventDefault();
             let formData = $(this).serialize();
             $.ajax({
-                url: "update_reffral.php",
+                url: "update_refferal.php",
                 type: "POST",
                 data: formData,
                 success: function (res) {
@@ -643,13 +639,13 @@ $(document).ready(function () {
             })
         })
         // For Delete Reffral
-        $(document).on('click', '.delete-reffral', function () {
+        $(document).on('click', '.delete-refferal', function () {
             const id = $(this).data('id');
-            const confirmation = confirm('Are you sure you want to delete this Reffral?');
+            const confirmation = confirm('Are you sure you want to delete this Refferal?');
             if (confirmation) {
                 $.ajax({
                     type: 'POST',
-                    url: 'delete_reffral.php',
+                    url: 'delete_refferal.php',
                     data: { id: id },
                     success: function (response) {
                         fetch_reffrals();
@@ -662,7 +658,7 @@ $(document).ready(function () {
             }
         });
         // For View Reffral Details
-        $(document).on("click", ".view-reffrel", function () {
+        $(document).on("click", ".view-refferal", function () {
             $("#viewReffral").modal("show");
             var id = $(this).data("id");
             var name = $(this).data("name");
@@ -688,7 +684,7 @@ $(document).ready(function () {
         }
         fetch_reffrals();
     }
-    reffrels_management();
+    refferals_management();
 
     // For Panel Page
     function panel_management() {
@@ -733,12 +729,12 @@ $(document).ready(function () {
         // For insert Panel
         $("#panel_form").on("submit", function (e) {
             e.preventDefault();
-        
+
             // Validate form data before proceeding
             if (!validateForm()) {
                 return; // Stop further processing if validation fails
             }
-        
+
             var formData = $(this).serialize();
             $.ajax({
                 url: "insert_panel.php",
@@ -747,6 +743,7 @@ $(document).ready(function () {
                 success: function (res) {
                     if (res === "Panel Inserted Successfully") {
                         $("#panel_modal").modal("hide");
+                        fetch_panel();
                         alert_box("Panel Inserted Successfully", "Panel Management");
                         $("#panel_form")[0].reset(); // Corrected selector for form reset
                     } else {
@@ -758,15 +755,149 @@ $(document).ready(function () {
                 }
             });
         });
-        $(document).on("click","edit-panel",function(){
+        $(document).on("click", ".edit-panel", function () {
+            $("#editPanel").modal("show");
+
+            // Extract data attributes
+            let dataAttributes = [
+                'id', 'company', 'email', 'manager', 'contact',
+                'manager_contact', 'province_id', 'city_id', 'area_id',
+                'status', 'services'
+            ];
+
+            let data = {};
+            dataAttributes.forEach(attr => {
+                data[attr] = $(this).data(attr);
+            });
+
+            // Set the HTML content of the elements
+            $("#edit_panel_id").val(data.id);
+            $("#edit_panel_comapny").val(data.company);
+            $("#edit_panel_manager").val(data.manager);
+            $("#edit_panel_email").val(data.email);
+            $("#edit_panel_contact").val(data.contact);
+            $("#edit_panel_manager_contact").val(data.manager_contact);
+            // For Fetch Province , city ,area
+            $.ajax({
+                url: "panel_fetch_province_option.php",
+                type: "POST",
+                data: { id: data.province_id },
+                success: function (res) {
+                    $("#edit_province").html(res);
+                }, error: function (res) {
+                    "Error :".$("#edit_province").html(res);
+                }
+            })
+            $.ajax({
+                url: "panel_fetch_city_sec_option.php",
+                type: "POST",
+                data: { id: data.city_id },
+                success: function (res) {
+                    $("#edit_city_id").html(res);
+                }, error: function (res) {
+                    "Error :".$("#edit_city_id").html(res);
+                }
+            })
+            $.ajax({
+                url: "panel_fetch_area_sec_option.php",
+                type: "POST",
+                data: { id: data.city_id },
+                success: function (res) {
+                    $("#edit_area_id").html(res);
+                }, error: function (res) {
+                    "Error :".$("#edit_area_id").html(res);
+                }
+            })
+            // For on change province fetch cities in this province
+            $("#edit_province").on("change", function () {
+                let province = $(this).val();
+                $.ajax({
+                    url: "panel_fetch_edit_city_option.php",
+                    type: "POST",
+                    data: { id: province },
+                    success: function (res) {
+                        $("#edit_city_id").html(res);
+                        let city = $("#edit_city_id").val();
+                        $.ajax({
+                            url: "panel_fetch_edit_area_option.php",
+                            type: "POST",
+                            data: { id: city },
+                            success: function (res) {
+                                $("#edit_area_id").html(res);
+                            }
+                        });
+                    }
+                });
+            });
+            // For on change city fetch area in this province
+            $("#edit_city_id").on("change", function () {
+                let city = $(this).val();
+                $.ajax({
+                    url: "panel_fetch_edit_area_option.php",
+                    type: "POST",
+                    data: { id: city },
+                    success: function (res) {
+                        $("#edit_area_id").html(res);
+
+                        // Automatically select the first area in the list
+                        let firstAreaOption = $("#edit_area_id option:first").val();
+                        $("#edit_area_id").val(firstAreaOption).change(); // Trigger change event if needed
+                    }
+                });
+            });
+            // Fetch and display services
+            let services = data.services;
+            $.ajax({
+                url: "panel_fetch_sub_services.php",
+                type: "POST",
+                data: { services: services },
+                success: function (res) {
+                    $("#edit_services").html(res);
+                },
+                error: function (res) {
+                    $("#edit_services").html("Error: " + res);
+                }
+            });
+        });
+        // For Edit/ Update Panel 
+        $("#edit_panel_form").on("submit", function (e) {
+            e.preventDefault();
+            let formdata = $(this).serialize();
+            $.ajax({
+                url: "update_panel.php",
+                type: "POST",
+                data: formdata,
+                success: function (res) {
+                    fetch_panel();
+                    $("#editPanel").modal("hide");
+                    alert_box("Panel Updated Successfully", "Panel Management");
+                }, error: function (res) {
+                    alert("Error : ".res);
+                }
+            })
 
         })
-        // For Edit Panel 
-        $("#edit_panel_form").on("submit",function(e){
-            e.preventDefault();
-        })
+        // For Delete Panel
+        $(document).on("click", ".delete-panel", function() {
+            let del_id = $(this).data('id');
+            const confirmation = confirm('Are you sure you want to delete this Panel?');
+            if (confirmation) {
+                $.ajax({
+                    url: "delete_panel.php",
+                    type: "POST",
+                    data: { id: del_id },
+                    success: function(res) {
+                        fetch_panel();
+                    },
+                    error: function(xhr, status, error) {
+                        alert("Error: " + xhr.responseText);
+                    }
+                });
+            }
+        });
+        
         // For fetch View panel Information
-        $(document).on("click",".view-panel",function(){
+        $(document).on("click", ".view-panel", function () {
             $("#viewpanel").modal("show");
             let id = $(this).data("id");
             let company = $(this).data("company");
@@ -781,43 +912,43 @@ $(document).ready(function () {
             let services = $(this).data("services");
             // For Fetch Province 
             $.ajax({
-                url : "panel_fetch_province.php",
-                type : "POST",
-                data : {id :province_id},
-                success:function(res){
+                url: "panel_fetch_province.php",
+                type: "POST",
+                data: { id: province_id },
+                success: function (res) {
                     $("#panel_province").html(res);
-                },error:function(res){
-                    "Error :" . $("#panel_province").html(res);
+                }, error: function (res) {
+                    "Error :".$("#panel_province").html(res);
                 }
             })
             $.ajax({
-                url : "panel_fetch_city.php",
-                type : "POST",
-                data : {id :city_id},
-                success:function(res){
+                url: "panel_fetch_city.php",
+                type: "POST",
+                data: { id: city_id },
+                success: function (res) {
                     $("#panel_city").html(res);
-                },error:function(res){
-                    "Error :" . $("#panel_city").html(res);
+                }, error: function (res) {
+                    "Error :".$("#panel_city").html(res);
                 }
             })
             $.ajax({
-                url : "panel_fetch_services.php",
-                type : "POST",
-                data : {ids :services},
-                success:function(res){
+                url: "panel_fetch_services.php",
+                type: "POST",
+                data: { ids: services },
+                success: function (res) {
                     $("#panel_services").html(res);
-                },error:function(res){
-                    "Error :" . $("#panel_services").html(res);
+                }, error: function (res) {
+                    "Error :".$("#panel_services").html(res);
                 }
             })
             $.ajax({
-                url : "panel_fetch_area.php",
-                type : "POST",
-                data : {id :area_id},
-                success:function(res){
+                url: "panel_fetch_area.php",
+                type: "POST",
+                data: { id: area_id },
+                success: function (res) {
                     $("#panel_area").html(res);
-                },error:function(res){
-                    "Error :" . $("#panel_area").html(res);
+                }, error: function (res) {
+                    "Error :".$("#panel_area").html(res);
                 }
             })
             $("#panel_id").html(id);
@@ -830,7 +961,7 @@ $(document).ready(function () {
         })
         function validateForm() {
             var isValid = true;
-        
+
             // Validate each required field
             $("#panel_form input[required], #panel_form select[required]").each(function () {
                 if ($(this).val().trim() === '') {
@@ -840,7 +971,7 @@ $(document).ready(function () {
                     $(this).removeClass('is-invalid'); // Remove validation styling if valid
                 }
             });
-        
+
             // Custom validation for contact number fields
             // var panelContact = $("#panel_contact").val().trim();
             // if (!/^03\d{9}$/.test(panelContact)) {
@@ -849,7 +980,7 @@ $(document).ready(function () {
             // } else {
             //     $("#panel_contact").removeClass('is-invalid');
             // }
-        
+
             // var panelManagerContact = $("#panel_manager_contact").val().trim();
             // if (!/^03\d{9}$/.test(panelManagerContact)) {
             //     isValid = false;
@@ -857,19 +988,18 @@ $(document).ready(function () {
             // } else {
             //     $("#panel_manager_contact").removeClass('is-invalid');
             // }
-        
+
             return isValid;
         }
-        function fetch_panel(){
+        function fetch_panel() {
             $.ajax({
-                url:"fetch_panel.php",
-                type : "POST",
-                success:function(res){
+                url: "fetch_panel.php",
+                type: "POST",
+                success: function (res) {
                     $("#panelTable").html(res);
                 }
             })
         }
-        fetch_panel();
     }
     panel_management();
 

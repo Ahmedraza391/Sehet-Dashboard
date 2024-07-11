@@ -8,13 +8,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['reffral_email'];
     $share = $_POST['reffral_share'];
 
-    $update_query = "UPDATE tbl_reffrals SET name = '$name',company='$company',email='$email',financial_share='$share' WHERE id = $id";
+    $update_query = "UPDATE tbl_refferals SET name = '$name',company='$company',email='$email',financial_share='$share' WHERE id = $id";
     $result = mysqli_query($connection, $update_query);
 
     if ($result) {
-        echo "Reffral Successfully Updated";
+        echo "Refferal Successfully Updated";
     } else {
-        echo 'Failed to Update Reffral';
+        echo 'Failed to Update Refferal';
     }
 } else {
     echo 'Invalid request';

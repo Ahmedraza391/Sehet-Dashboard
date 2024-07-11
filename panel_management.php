@@ -23,13 +23,13 @@ $page = "panels";
     </div>
     <div class="panel_content">
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
                 <div class="card p-md-3">
                     <div class="heading my-2 text-center">
                         <h1 class="fs-3 fw-bold">Panels</h1>
                     </div>
-                    <div class="[panel_table">
+                    <div class="panel_table overflow_table">
                         <table class="table rounded table-bordered">
                             <thead>
                                 <th class="text-center">Id</th>
@@ -94,10 +94,9 @@ $page = "panels";
                             </div>
                         </div>
                     </div>
-                    <!-- Conitnue on edit modal -->
                     <!-- Edit Modal -->
                     <div class="modal fade" id="editPanel" tabindex="-1" aria-labelledby="editPanelLabel" aria-hidden="true" data-bs-backdrop="static">
-                        <div class="modal-dialog modal-lg">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="editPanelLabel">Edit Panel</h5>
@@ -105,57 +104,45 @@ $page = "panels";
                                 </div>
                                 <div class="modal-body">
                                     <form id="edit_panel_form">
-                                        <input type="hidden" id="reffral_id" name="reffral_id">
+                                        <input type="hidden" id="edit_panel_id" name="edit_panel_id">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="panel_comapny" name="panel_comapny" placeholder="" required>
-                                            <label for="panel_comapny">Enter Company</label>
+                                            <input type="text" class="form-control" id="edit_panel_comapny" name="edit_panel_comapny" placeholder="Enter Company" required>
+                                            <label for="edit_panel_comapny">Enter Company</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="panel_manager" name="panel_manager" placeholder="" required>
-                                            <label for="panel_manager">Enter Focal Person</label>
+                                            <input type="text" class="form-control" id="edit_panel_manager" name="edit_panel_manager" placeholder="Enter Focal Person" required>
+                                            <label for="edit_panel_manager">Enter Focal Person</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="email" class="form-control" id="panel_email" name="panel_email" placeholder="" required>
-                                            <label for="panel_email">Enter Email</label>
+                                            <input type="email" class="form-control" id="edit_panel_email" name="edit_panel_email" placeholder="Enter Email" required>
+                                            <label for="edit_panel_email">Enter Email</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="panel_contact" name="panel_contact_num" placeholder="" required pattern="^03\d{9}$" title="Contact number must start with 03 and be 11 digits long.">
-                                            <label for="panel_contact">Enter Focal Person Contact #</label>
+                                            <input type="text" class="form-control" id="edit_panel_contact" name="edit_panel_contact_num" placeholder="Enter Focal Person Contact #" required pattern="^03\d{9}$" title="Contact number must start with 03 and be 11 digits long.">
+                                            <label for="edit_panel_contact">Enter Focal Person Contact #</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="panel_manager_contact" name="panel_manager_contact_num" placeholder="" required pattern="^03\d{9}$" title="Contact number must start with 03 and be 11 digits long.">
-                                            <label for="panel_manager_contact">Enter Manager Contact #</label>
+                                            <input type="text" class="form-control" id="edit_panel_manager_contact" name="edit_panel_manager_contact_num" placeholder="Enter Manager Contact #" required pattern="^03\d{9}$" title="Contact number must start with 03 and be 11 digits long.">
+                                            <label for="edit_panel_manager_contact">Enter Manager Contact #</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <select class="form-select" id="province" name="province" required aria-label="Floating label select example">
+                                            <select class="form-select" id="edit_province" name="edit_province" required aria-label="Select Province">
                                                 <option selected value="" hidden>Select Province</option>
                                             </select>
-                                            <label for="province">Province</label>
+                                            <label for="edit_province">Province</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <select class="form-select" id="city_id" name="city" required aria-label="Floating label select example">
+                                            <select class="form-select" id="edit_city_id" name="edit_city" required aria-label="Select City">
                                             </select>
-                                            <label for="city">Cities</label>
+                                            <label for="edit_city_id">City</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <select class="form-select" id="area_id" name="area_id" required aria-label="Floating label select example">
+                                            <select class="form-select" id="edit_area_id" name="edit_area" required aria-label="Select Area">
                                             </select>
-                                            <label for="area_id">Areas</label>
+                                            <label for="edit_area_id">Area</label>
                                         </div>
-                                        <div class="mb-3">
-                                            <div class="border p-3 rounded" id="mainservices">
-                                                <label for="mainservices" class="form-label">Select Services</label>
-                                                <?php
-                                                // $query = "SELECT * FROM tbl_sub_services WHERE status = 'available'";
-                                                // $run_query = mysqli_query($connection, $query);
-                                                // foreach ($run_query as $services) {
-                                                //     echo "<div class='form-check'>";
-                                                //     echo "<input class='form-check-input' type='checkbox' name='services[]' value='$services[id]' id='$services[id]'>";
-                                                //     echo "<label class='form-check-label' for='$services[id]'>$services[sub_service]</label>";
-                                                //     echo "</div>";
-                                                // }
-                                                ?>
-                                            </div>
+                                        <div class="mb-3" id="edit_services">
+                                           
                                         </div>
                                         <button type="submit" class="btn btn-primary" name="btn_update">Save changes</button>
                                     </form>
@@ -167,13 +154,13 @@ $page = "panels";
                         </div>
                     </div>
 
-                    <!-- Add Reffrals Modal -->
-                    <div class="reffrel_modal">
+                    <!-- Add Panel Modal -->
+                    <div class="panel_modal">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#panel_modal">
                             Add Panels
                         </button>
                         <div class="modal fade" id="panel_modal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="panel_modalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
+                            <div class="modal-dialog modal-lg modal-dialog-scrollable">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h1 class="modal-title fs-4 fw-bold" id="panel_modalLabel">Add Panel</h1>
@@ -256,7 +243,7 @@ $page = "panels";
                     </div>
                 </div>
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-1"></div>
         </div>
     </div>
 </div>

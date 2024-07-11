@@ -23,13 +23,13 @@ $page = "reffrals";
     </div>
     <div class="addresses_content">
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
                 <div class="card p-md-3">
                     <div class="heading my-2 text-center">
-                        <h1 class="fs-3 fw-bold">Reffrels</h1>
+                        <h1 class="fs-3 fw-bold">Refferals</h1>
                     </div>
-                    <div class="reffral_table">
+                    <div class="reffral_table overflow_table">
                         <table class="table rounded table-bordered">
                             <thead>
                                 <th class="text-center">Id</th>
@@ -48,7 +48,7 @@ $page = "reffrals";
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h3 class="modal-title" id="viewReffralLabel">Reffral</h3>
+                                    <h3 class="modal-title" id="viewReffralLabel">Refferal</h3>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -74,7 +74,7 @@ $page = "reffrals";
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="editReffralsLabel">Edit Reffrals</h5>
+                                    <h5 class="modal-title" id="editReffralsLabel">Edit Refferal</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -89,7 +89,7 @@ $page = "reffrals";
                                             <label for="reffral_company">Enter Company</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" placeholder="" id="reffral_email" name="reffral_email" required>
+                                            <input type="text" class="form-control" placeholder="" id="reffral_email" name="reffral_email">
                                             <label for="reffral_email">Enter Email</label>
                                         </div>
                                         <div class="form-floating mb-3">
@@ -110,13 +110,13 @@ $page = "reffrals";
                     <!-- Add Reffrals Modal -->
                     <div class="reffrel_modal">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reffral_modal">
-                            Add Reffrals
+                            Add Refferals
                         </button>
                         <div class="modal fade" id="reffral_modal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="reffral_modalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h1 class="modal-title fs-4 fw-bold" id="reffral_modalLabel">Add Reffrals</h1>
+                                        <h1 class="modal-title fs-4 fw-bold" id="reffral_modalLabel">Add Refferals</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -131,7 +131,7 @@ $page = "reffrals";
                                                     <label for="ref_company">Enter Company</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control" id="ref_email" name="ref_email" placeholder="" required>
+                                                    <input type="text" class="form-control" id="ref_email" name="ref_email" placeholder="">
                                                     <label for="ref_email">Enter Email</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
@@ -155,7 +155,7 @@ $page = "reffrals";
                     </div>
                 </div>
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-1"></div>
         </div>
     </div>
 </div>

@@ -23,13 +23,13 @@ $page = "address";
     </div>
     <div class="addresses_content">
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
                 <div class="card p-md-3">
                     <div class="heading my-2 text-center">
                         <h1 class="fs-3 fw-bold">Province</h1>
                     </div>
-                    <div class="province_table">
+                    <div class="province_table overflow_table">
                         <table class="table rounded table-bordered">
                             <thead>
                                 <th>Id</th>
@@ -102,16 +102,16 @@ $page = "address";
                     </div>
                 </div>
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-1"></div>
         </div>
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
                 <div class="card p-md-3">
                     <div class="heading my-2 text-center">
                         <h1 class="fs-3 fw-bold">Cities</h1>
                     </div>
-                    <div class="city_table">
+                    <div class="city_table overflow_table">
                         <table class="table rounded table-bordered">
                             <thead>
                                 <th>Id</th>
@@ -201,16 +201,16 @@ $page = "address";
                     </div>
                 </div>
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-1"></div>
         </div>
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
                 <div class="card p-md-3">
                     <div class="heading my-2 text-center">
                         <h1 class="fs-3 fw-bold">City Areas</h1>
                     </div>
-                    <div class="city_area_table">
+                    <div class="city_area_table overflow_table">
                         <table class="table rounded table-bordered">
                             <thead>
                                 <th>Id</th>
@@ -300,7 +300,7 @@ $page = "address";
                     </div>
                 </div>
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-1"></div>
         </div>
     </div>
 </div>

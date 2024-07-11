@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2024 at 11:45 PM
+-- Generation Time: Jul 12, 2024 at 12:36 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -146,6 +146,7 @@ CREATE TABLE `tbl_employees` (
 CREATE TABLE `tbl_extra_services` (
   `id` int(11) NOT NULL,
   `extra_service` varchar(200) NOT NULL,
+  `extra_service_price` bigint(20) NOT NULL,
   `sub_services_id` int(11) NOT NULL,
   `status` varchar(100) NOT NULL DEFAULT 'available'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -154,9 +155,10 @@ CREATE TABLE `tbl_extra_services` (
 -- Dumping data for table `tbl_extra_services`
 --
 
-INSERT INTO `tbl_extra_services` (`id`, `extra_service`, `sub_services_id`, `status`) VALUES
-(1, 'Computed Tomography', 8, 'available'),
-(2, 'Plain Radiography ', 8, 'available');
+INSERT INTO `tbl_extra_services` (`id`, `extra_service`, `extra_service_price`, `sub_services_id`, `status`) VALUES
+(1, 'Computed Tomography', 1000, 8, 'available'),
+(2, 'Plain Radiography ', 800, 8, 'available'),
+(3, 'Leg Injection', 500, 2, 'available');
 
 -- --------------------------------------------------------
 
@@ -169,8 +171,8 @@ CREATE TABLE `tbl_panel` (
   `company` varchar(200) NOT NULL,
   `email` varchar(100) NOT NULL,
   `focal_person` varchar(200) NOT NULL,
-  `company_contact` bigint(11) NOT NULL,
-  `focal_person_contact` bigint(11) NOT NULL,
+  `company_contact` varchar(15) NOT NULL,
+  `focal_person_contact` varchar(15) NOT NULL,
   `province_id` int(11) NOT NULL,
   `city_id` int(11) NOT NULL,
   `area_id` int(11) NOT NULL,
@@ -183,9 +185,11 @@ CREATE TABLE `tbl_panel` (
 --
 
 INSERT INTO `tbl_panel` (`id`, `company`, `email`, `focal_person`, `company_contact`, `focal_person_contact`, `province_id`, `city_id`, `area_id`, `status`, `services`) VALUES
-(1, 'Shan Foods', 'shanfoods@gmail.com', 'Muhammad Minhal', 3269243547, 3269243547, 5, 8, 13, 'activate', ''),
-(2, 'IBEX Private Limitted.', 'ibex@gmail.com', 'Ahmed Raza', 3082757580, 3082757580, 5, 8, 13, 'activate', ''),
-(3, 'NDure ', 'ndure@gmail.com', 'Muhammad Minhal', 3242342342, 3242342342, 2, 1, 3, 'activate', '1,2,3,4');
+(1, 'Shan Foods', 'shanfoods@gmail.com', 'Muhammad Raza', '03269243547', '03269243547', 2, 1, 1, 'activate', '1,2,3,5,10,12'),
+(2, 'IBEX Private Limitted.', 'ibex@gmail.com', 'Ahmed Raza', '3082757580', '3082757580', 5, 8, 13, 'activate', ''),
+(3, 'NDure ', 'ndure@gmail.com', 'Muhammad Minhal', '3242342342', '3242342342', 2, 1, 3, 'activate', '1,2,3,4'),
+(4, 'K-Electric Private Limitted.', 'ke@gmail.com', 'Ejaz Aslam', '3331234567', '3331234567', 2, 1, 3, 'activate', '1,2,3,4,5,6,7,8,11,12'),
+(5, 'Orio Private Limitted.', 'orio@gmail.com', 'Istiyaq Manzoor', '03123445677', '03123445677', 3, 2, 5, 'activate', '5,6,7');
 
 -- --------------------------------------------------------
 
@@ -211,10 +215,10 @@ INSERT INTO `tbl_province` (`id`, `province`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbl_reffrals`
+-- Table structure for table `tbl_refferals`
 --
 
-CREATE TABLE `tbl_reffrals` (
+CREATE TABLE `tbl_refferals` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `company` varchar(100) NOT NULL,
@@ -224,14 +228,15 @@ CREATE TABLE `tbl_reffrals` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tbl_reffrals`
+-- Dumping data for table `tbl_refferals`
 --
 
-INSERT INTO `tbl_reffrals` (`id`, `name`, `company`, `email`, `financial_share`, `status`) VALUES
-(1, 'Ahmed Raza', 'Shan Food ', 'shanfood@gmail.com', 45, 'show'),
+INSERT INTO `tbl_refferals` (`id`, `name`, `company`, `email`, `financial_share`, `status`) VALUES
+(1, 'Ahmed Raza', 'Shan Food ', 'shanfood@gmail.com', 45, 'hide'),
 (2, 'Farooq Khan Ustad', 'Getz Pharma', 'getz@gmail.com', 22, 'show'),
-(3, 'Adnan Khan', 'Sui Gas Pvt Ltd.', 'adnanKhan@gmail.com', 45, 'show'),
-(6, 'Muhammad Istiyaq', 'PCB', 'raza@gmail.com', 23, 'show');
+(3, 'Adnan Khan', 'Sui Gas Pvt Ltd.', 'adnanKhan@gmail.com', 30, 'hide'),
+(6, 'Muhammad Istiyaq', 'PCB', 'raza@gmail.com', 23, 'show'),
+(10, 'Istiyaq Khan', 'XYZ Company', '', 51, 'show');
 
 -- --------------------------------------------------------
 
@@ -263,6 +268,7 @@ INSERT INTO `tbl_services` (`id`, `service`, `status`) VALUES
 CREATE TABLE `tbl_sub_services` (
   `id` int(11) NOT NULL,
   `sub_service` varchar(200) NOT NULL,
+  `sub_service_price` bigint(20) NOT NULL,
   `services_id` int(11) NOT NULL,
   `status` varchar(100) NOT NULL DEFAULT 'available'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -271,19 +277,21 @@ CREATE TABLE `tbl_sub_services` (
 -- Dumping data for table `tbl_sub_services`
 --
 
-INSERT INTO `tbl_sub_services` (`id`, `sub_service`, `services_id`, `status`) VALUES
-(1, 'Attendent', 1, 'available'),
-(2, 'Injection', 1, 'available'),
-(3, 'Drip Application', 1, 'available'),
-(4, 'Elderly Care', 1, 'available'),
-(5, 'Covid Care', 1, 'available'),
-(6, 'Dressing', 1, 'available'),
-(7, 'Blood Testing', 2, 'available'),
-(8, 'Portable XRAY', 2, 'available'),
-(9, 'Portable UltraSound - Conventional', 2, 'available'),
-(10, 'Portable UltraSound - Doppler', 2, 'available'),
-(11, 'Pharmacy', 3, 'available'),
-(12, 'Postal Hospital Care', 1, 'available');
+INSERT INTO `tbl_sub_services` (`id`, `sub_service`, `sub_service_price`, `services_id`, `status`) VALUES
+(1, 'Attendent', 1000, 1, 'available'),
+(2, 'Injection', 1200, 1, 'available'),
+(3, 'Drip Application', 2000, 1, 'available'),
+(4, 'Elderly Care', 0, 1, 'available'),
+(5, 'Covid Care', 0, 1, 'available'),
+(6, 'Dressing', 0, 1, 'available'),
+(7, 'Blood Testing', 0, 2, 'available'),
+(8, 'Portable XRAY', 0, 2, 'available'),
+(9, 'Portable UltraSound - Conventional', 0, 2, 'available'),
+(10, 'Portable UltraSound - Doppler', 0, 2, 'available'),
+(11, 'Pharmacy', 0, 3, 'available'),
+(12, 'Postal Hospital Care', 0, 1, 'available'),
+(13, 'Injections', 0, 1, 'available'),
+(14, 'Portable UltraSound - Enchardiography', 1400, 2, 'available');
 
 --
 -- Indexes for dumped tables
@@ -338,9 +346,9 @@ ALTER TABLE `tbl_province`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `tbl_reffrals`
+-- Indexes for table `tbl_refferals`
 --
-ALTER TABLE `tbl_reffrals`
+ALTER TABLE `tbl_refferals`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -393,13 +401,13 @@ ALTER TABLE `tbl_employees`
 -- AUTO_INCREMENT for table `tbl_extra_services`
 --
 ALTER TABLE `tbl_extra_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_panel`
 --
 ALTER TABLE `tbl_panel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_province`
@@ -408,10 +416,10 @@ ALTER TABLE `tbl_province`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `tbl_reffrals`
+-- AUTO_INCREMENT for table `tbl_refferals`
 --
-ALTER TABLE `tbl_reffrals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `tbl_refferals`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tbl_services`
@@ -423,7 +431,7 @@ ALTER TABLE `tbl_services`
 -- AUTO_INCREMENT for table `tbl_sub_services`
 --
 ALTER TABLE `tbl_sub_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

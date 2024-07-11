@@ -1283,3 +1283,14 @@ h6 {
 .mini-nav.active::after {
   width: 100% !important; /* Show underline for active links */
 }
+.overflow_table{
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 10px;
+}
+.overflow_table table{
+  width: 100% !important;
+  height: 100%;
+  min-width: max-content;
+}

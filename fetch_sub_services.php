@@ -10,7 +10,8 @@ if (mysqli_num_rows($result) > 0) {
         $output .= "<tr>";
         $output .= "<td class='text-center'>{$service['sub_id']}</td>";
         $output .= "<td class='text-left'>{$service['sub_service']}</td>";
-        $output .= "<td class='text-center'>{$service['service']}</td>";
+        $output .= "<td class='text-left'>Rs {$service['sub_service_price']}/-</td>";
+        $output .= "<td class='text-left'>{$service['service']}</td>";
         $output .= "<td class='text-center'>";
             if($service['sub_status']=="unavailable"){
                 $output .= "<a href='sub_services_available.php?id={$service['sub_id']}'  class='btn btn-primary btn-sm'>Available</a>";
@@ -19,7 +20,7 @@ if (mysqli_num_rows($result) > 0) {
             }
         $output .= "</td>";
         $output .= "<td class='text-center'>";
-        $output .= "<button type='button' class='btn btn-primary btn-sm edit-sub-service' data-id='{$service['sub_id']}' data-subservice='{$service['sub_service']}' data-serviceid='{$service['s_id']}'>Edit</button>";
+        $output .= "<button type='button' class='btn btn-primary btn-sm edit-sub-service' data-id='{$service['sub_id']}' data-subservice='{$service['sub_service']}'  data-subservice_price='{$service['sub_service_price']}' data-serviceid='{$service['s_id']}'>Edit</button>";
         $output .= "</td>";
         $output .= "<td class='text-center'>";
         $output .= "<button type='button' class='btn btn-danger btn-sm delete-sub-service' data-id='{$service['sub_id']}'>Delete</button>";

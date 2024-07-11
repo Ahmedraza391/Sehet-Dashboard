@@ -23,13 +23,13 @@ $page = "services";
     </div>
     <div class="services_content">
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
                 <div class="card p-md-3">
                     <div class="heading my-2 text-center">
                         <h1 class="fs-3 fw-bold">Services</h1>
                     </div>
-                    <div class="services_table">
+                    <div class="services_table overflow_table">
                         <table class="table rounded table-bordered">
                             <thead>
                                 <th class="text-center">Id</th>
@@ -102,21 +102,22 @@ $page = "services";
                     </div>
                 </div>
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-1"></div>
         </div>
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
                 <div class="card p-md-3">
                     <div class="heading my-2 text-center">
                         <h1 class="fs-3 fw-bold">Sub Services</h1>
                     </div>
-                    <div class="services_table">
+                    <div class="services_table overflow_table my-2">
                         <table class="table rounded table-bordered">
                             <thead>
                                 <th class="text-center">Id</th>
                                 <th class="text-left">Sub Service</th>
-                                <th class="text-center">Service</th>
+                                <th class="text-left">Price</th>
+                                <th class="text-left">Service</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Edit</th>
                                 <th class="text-center">Delete</th>
@@ -127,7 +128,7 @@ $page = "services";
                     </div>
                     <!-- Edit Modal -->
                     <div class="modal fade" id="editSubServicesModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="editModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
+                        <div class="modal-dialog modal-lg ">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="editModalLabel">Edit Sub-Service</h5>
@@ -145,6 +146,10 @@ $page = "services";
                                             <input type="text" class="form-control" name="sub_service_name" id="edit_service_name" placeholder="" required>
                                             <label for="edit_ServiceName">Sub-Service</label>
                                         </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" name="sub_service_price" id="edit_service_price" placeholder="" required>
+                                            <label for="edit_service_price">Sub-Service Price</label>
+                                        </div>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </form>
                                 </div>
@@ -154,7 +159,6 @@ $page = "services";
                             </div>
                         </div>
                     </div>
-
                     <!-- Add Service Modal -->
                     <div class="add_sub_service_modal">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_sub_service">
@@ -186,6 +190,10 @@ $page = "services";
                                                     <input type="text" class="form-control" id="sub_service" name="sub_service" placeholder="" required>
                                                     <label for="sub_serivce">Enter Sub-Service</label>
                                                 </div>
+                                                <div class="form-floating mb-3">
+                                                    <input type="number" class="form-control" id="sub_service_price" name="sub_service_price" placeholder="" required>
+                                                    <label for="sub_service_price">Sub-Service Price</label>
+                                                </div>
                                                 <div class="button">
                                                     <button type="submit" name="btn_service" class="btn btn-primary">Add Sub-Service</button>
                                                 </div>
@@ -201,23 +209,25 @@ $page = "services";
                     </div>
                 </div>
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-1"></div>
         </div>
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
                 <div class="card p-md-3">
                     <div class="heading my-2 text-center">
                         <h1 class="fs-3 fw-bold">Extra Services</h1>
                     </div>
-                    <div class="extra_services_table">
+                    <div class="extra_services_table overflow_table">
                         <table class="table rounded table-bordered">
                             <thead>
-                                <th>Id</th>
-                                <th>Extra Service</th>
-                                <th>Sub Service</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th class="text-center">Id</th>
+                                <th class="text-left">Extra Service</th>
+                                <th class="text-left">Extra Service Price</th>
+                                <th class="text-left">Sub Service</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Edit</th>
+                                <th class="text-center">Delete</th>
                             </thead>
                             <tbody id="extraServiceTable">
                             </tbody>
@@ -242,6 +252,10 @@ $page = "services";
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" name="extra_service_name" id="edit_extra_service_name" placeholder="" required>
                                             <label for="edit_extra_service_name">Extra-Service</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" name="extra_service_price" id="edit_extra_service_price" placeholder="" required>
+                                            <label for="edit_extra_service_price">Extra-Service Price</label>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </form>
@@ -283,6 +297,10 @@ $page = "services";
                                                     <input type="text" class="form-control" id="extra_service" name="extra_service" placeholder="" required>
                                                     <label for="sub_serivce">Enter Extra-Service</label>
                                                 </div>
+                                                <div class="form-floating mb-3">
+                                                    <input type="number" class="form-control" id="extra_service_price" name="extra_service_price" placeholder="" required>
+                                                    <label for="extra_service_price">Enter Extra-Service Price</label>
+                                                </div>
                                                 <div class="button">
                                                     <button type="submit" name="btn_service" class="btn btn-primary">Add Extra-Service</button>
                                                 </div>
@@ -299,7 +317,7 @@ $page = "services";
                     </div>
                 </div>
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-1"></div>
         </div>
     </div>
 </div>
