@@ -48,7 +48,7 @@ $page = "panels";
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h3 class="modal-title" id="viewpanelLabel">Panel</h3>
+                                    <h3 class="modal-title" id="viewpanelLabel">Panel Details</h3>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -80,11 +80,14 @@ $page = "panels";
                                         <div class="area">
                                             <h6>Area : <span class="fs-6" id="panel_area"></span></h6>
                                         </div>
-                                        <div class="Status">
+                                        <div class="status">
                                             <h6>Status : <span class="fs-6" id="panel_status"></span></h6>
                                         </div>
                                         <div class="services">
-                                            <h6>Services : <span class="fs-6" id="panel_services"></span></h6>
+                                            <h6>Services :</h6>
+                                            <ul id="panel_services">
+                                                <!-- Services and Extra Services will be dynamically inserted here -->
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -142,7 +145,10 @@ $page = "panels";
                                             <label for="edit_area_id">Area</label>
                                         </div>
                                         <div class="mb-3" id="edit_services">
-                                           
+                                            <!-- Services checkboxes will be dynamically populated here -->
+                                        </div>
+                                        <div class="mb-3" id="edit_extra_services">
+                                            <!-- Extra Services checkboxes will be dynamically populated here -->
                                         </div>
                                         <button type="submit" class="btn btn-primary" name="btn_update">Save changes</button>
                                     </form>
@@ -153,6 +159,7 @@ $page = "panels";
                             </div>
                         </div>
                     </div>
+
 
                     <!-- Add Panel Modal -->
                     <div class="panel_modal">
@@ -168,10 +175,10 @@ $page = "panels";
                                     </div>
                                     <div class="modal-body">
                                         <div class="panel_form">
-                                            <form id="panel_form">
+                                            <form id="panel_form" method="POST" action="">
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control" id="panel_comapny" name="panel_comapny" placeholder="" required>
-                                                    <label for="panel_comapny">Enter Company</label>
+                                                    <input type="text" class="form-control" id="panel_company" name="panel_company" placeholder="" required>
+                                                    <label for="panel_company">Enter Company</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="panel_manager" name="panel_manager" placeholder="" required>
@@ -219,10 +226,30 @@ $page = "panels";
                                                         <?php
                                                         $query = "SELECT * FROM tbl_sub_services WHERE status = 'available'";
                                                         $run_query = mysqli_query($connection, $query);
+
                                                         foreach ($run_query as $services) {
                                                             echo "<div class='form-check'>";
-                                                            echo "<input class='form-check-input' type='checkbox' name='services[]' value='$services[id]' id='$services[id]'>";
-                                                            echo "<label class='form-check-label' for='$services[id]'>$services[sub_service]</label>";
+                                                            echo "<input class='form-check-input' type='checkbox'  name='services[]' value='{$services['id']}' id='{$services['id']}'>";
+                                                            echo "<label class='form-check-label' for='{$services['id']}'>{$services['sub_service']} (Price: {$services['sub_service_price']})</label>";
+
+                                                            // Check if there are extra services for the current sub-service
+                                                            $extra_services_query = "SELECT * FROM tbl_extra_services WHERE sub_services_id = {$services['id']}";
+                                                            $extra_services_result = mysqli_query($connection, $extra_services_query);
+
+                                                            if (mysqli_num_rows($extra_services_result) > 0) {
+                                                                echo "<div class='form-group' style='margin-left: 20px;'>";
+                                                                echo "<label for='extra_services_{$services['id']}'>Choose extra services:</label>";
+                                                                while ($extra_service = mysqli_fetch_assoc($extra_services_result)) {
+                                                                    echo "<div class='form-check'>";
+                                                                    echo "<input class='form-check-input' type='checkbox' name='extra_services[{$services['id']}][]' value='{$extra_service['id']}' id='extra_service_{$extra_service['id']}'>";
+                                                                    echo "<label class='form-check-label' for='extra_service_{$extra_service['id']}'>{$extra_service['extra_service']} (Price: {$extra_service['extra_service_price']})</label>";
+                                                                    echo "</div>";
+                                                                }
+
+                                                                echo "</div>";
+                                                                echo "<hr>";
+                                                            }
+
                                                             echo "</div>";
                                                         }
                                                         ?>
@@ -248,9 +275,3 @@ $page = "panels";
     </div>
 </div>
 <?php include("./Components/bottom.php") ?>
-
-
-
-
-
-<!-- Continue on edit panels -->

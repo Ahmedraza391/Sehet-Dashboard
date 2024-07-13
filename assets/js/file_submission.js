@@ -118,7 +118,7 @@ $(document).ready(function () {
 
                     }
                 })
-            })  
+            })
             // For Edit Sub-Services
             $(document).on('click', '.edit-sub-service', function () {
                 let subserviceId = $(this).data("id");
@@ -710,7 +710,7 @@ $(document).ready(function () {
                 }
             });
         });
-        // For Fetch City in insert  Panel Modal
+        // For Fetch City in insert  Panel Modal 
         $("#city_id").on("change", function () {
             let city = $(this).val();
             $.ajax({
@@ -726,13 +726,11 @@ $(document).ready(function () {
                 }
             });
         });
-        // For insert Panel
         $("#panel_form").on("submit", function (e) {
             e.preventDefault();
 
-            // Validate form data before proceeding
             if (!validateForm()) {
-                return; // Stop further processing if validation fails
+                return;
             }
 
             var formData = $(this).serialize();
@@ -745,16 +743,51 @@ $(document).ready(function () {
                         $("#panel_modal").modal("hide");
                         fetch_panel();
                         alert_box("Panel Inserted Successfully", "Panel Management");
-                        $("#panel_form")[0].reset(); // Corrected selector for form reset
+                        $("#panel_form")[0].reset();
                     } else {
                         alert("Unexpected response: " + res);
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error("Error:", error); // Log any AJAX errors for debugging
+                    console.error("Error:", error);
                 }
             });
         });
+
+        function validateForm() {
+            var isValid = true;
+            var subServicesSelected = {};
+
+            $("#panel_form input[required], #panel_form select[required]").each(function () {
+                if ($(this).val().trim() === '') {
+                    isValid = false;
+                    $(this).addClass('is-invalid');
+                } else {
+                    $(this).removeClass('is-invalid');
+                }
+            });
+
+            $("#panel_form input[type='checkbox'][name^='extra_services']").each(function () {
+                var subServiceId = $(this).attr('name').match(/\d+/)[0];
+                if ($(this).is(':checked')) {
+                    subServicesSelected[subServiceId] = subServicesSelected[subServiceId] || false;
+                }
+            });
+
+            for (var subServiceId in subServicesSelected) {
+                if (subServicesSelected.hasOwnProperty(subServiceId)) {
+                    var subServiceCheckbox = $("#panel_form input[type='checkbox'][name='services[]'][value='" + subServiceId + "']");
+                    if (!subServiceCheckbox.is(':checked')) {
+                        isValid = false;
+                        subServiceCheckbox.addClass('is-invalid');
+                    } else {
+                        subServiceCheckbox.removeClass('is-invalid');
+                    }
+                }
+            }
+
+            return isValid;
+        }
         $(document).on("click", ".edit-panel", function () {
             $("#editPanel").modal("show");
 
@@ -878,7 +911,7 @@ $(document).ready(function () {
 
         })
         // For Delete Panel
-        $(document).on("click", ".delete-panel", function() {
+        $(document).on("click", ".delete-panel", function () {
             let del_id = $(this).data('id');
             const confirmation = confirm('Are you sure you want to delete this Panel?');
             if (confirmation) {
@@ -886,19 +919,19 @@ $(document).ready(function () {
                     url: "delete_panel.php",
                     type: "POST",
                     data: { id: del_id },
-                    success: function(res) {
+                    success: function (res) {
                         fetch_panel();
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         alert("Error: " + xhr.responseText);
                     }
                 });
             }
         });
-        
-        // For fetch View panel Information
         $(document).on("click", ".view-panel", function () {
-            $("#viewpanel").modal("show");
+            $("#viewpanel").modal("show"); // Show the modal
+        
+            // Extract data attributes from the button
             let id = $(this).data("id");
             let company = $(this).data("company");
             let email = $(this).data("email");
@@ -909,88 +942,103 @@ $(document).ready(function () {
             let city_id = $(this).data("city_id");
             let area_id = $(this).data("area_id");
             let status = $(this).data("status");
+            let sub_services = $(this).data("sub_services");
             let services = $(this).data("services");
-            // For Fetch Province 
+            let extra_services = $(this).data("extra_services");
+        
+            // Display panel information in modal
+            $("#panel_id").text(id);
+            $("#panel_company").text(company);
+            $("#panel_email").text(email);
+            $("#panel_manager").text(manager);
+            $("#panel_company_contact").text(contact);
+            $("#panel_contact").text(manager_contact);
+            $("#panel_status").text(status);
+        
+            // Fetch and display Province
             $.ajax({
                 url: "panel_fetch_province.php",
                 type: "POST",
                 data: { id: province_id },
                 success: function (res) {
-                    $("#panel_province").html(res);
-                }, error: function (res) {
-                    "Error :".$("#panel_province").html(res);
+                    $("#panel_province").text(res);
+                },
+                error: function (res) {
+                    console.error("Error fetching province: " + res);
                 }
-            })
+            });
+        
+            // Fetch and display City
             $.ajax({
                 url: "panel_fetch_city.php",
                 type: "POST",
                 data: { id: city_id },
                 success: function (res) {
-                    $("#panel_city").html(res);
-                }, error: function (res) {
-                    "Error :".$("#panel_city").html(res);
+                    $("#panel_city").text(res);
+                },
+                error: function (res) {
+                    console.error("Error fetching city: " + res);
                 }
-            })
-            $.ajax({
-                url: "panel_fetch_services.php",
-                type: "POST",
-                data: { ids: services },
-                success: function (res) {
-                    $("#panel_services").html(res);
-                }, error: function (res) {
-                    "Error :".$("#panel_services").html(res);
-                }
-            })
+            });
+        
+            // Fetch and display Area
             $.ajax({
                 url: "panel_fetch_area.php",
                 type: "POST",
                 data: { id: area_id },
                 success: function (res) {
-                    $("#panel_area").html(res);
-                }, error: function (res) {
-                    "Error :".$("#panel_area").html(res);
-                }
-            })
-            $("#panel_id").html(id);
-            $("#panel_company").html(company);
-            $("#panel_email").html(email);
-            $("#panel_manager").html(manager);
-            $("#panel_company_contact").html(contact);
-            $("#panel_contact").html(manager_contact);
-            $("#panel_status").html(status);
-        })
-        function validateForm() {
-            var isValid = true;
-
-            // Validate each required field
-            $("#panel_form input[required], #panel_form select[required]").each(function () {
-                if ($(this).val().trim() === '') {
-                    isValid = false;
-                    $(this).addClass('is-invalid'); // Add validation styling if needed
-                } else {
-                    $(this).removeClass('is-invalid'); // Remove validation styling if valid
+                    $("#panel_area").text(res);
+                },
+                error: function (res) {
+                    console.error("Error fetching area: " + res);
                 }
             });
 
-            // Custom validation for contact number fields
-            // var panelContact = $("#panel_contact").val().trim();
-            // if (!/^03\d{9}$/.test(panelContact)) {
-            //     isValid = false;
-            //     $("#panel_contact").addClass('is-invalid');
-            // } else {
-            //     $("#panel_contact").removeClass('is-invalid');
-            // }
+            // continue on edit panel 
+        
+            // Display services information
+            let servicesHtml = "<ul>";
+            if (services.length > 0) {
+                services.forEach(service => {
+                    // yaha ik condition lagy agar service kai andar sub_service m any wali id phly ki id sy match kar jay tu sub_service ik hi dafa show ho warna normal show ho
+                    servicesHtml += `<li>${service.sub_service} (Price: ${service.sub_service_price})`;
+        
+                    // Check if there are extra services for this main service
+                    let extrasForService = extra_services.filter(extra => extra.id === service.id);
+                    if (extrasForService.length > 0) {
+                        servicesHtml += "<ul>";
+                        extrasForService.forEach(extra => {
+                            servicesHtml += `<li>${extra.extra_service} (Price: ${extra.extra_service_price})</li>`;
+                        });
+                        servicesHtml += "</ul>";
+                    }
+        
+                    servicesHtml += "</li>";
+                });
+            } else {
+                servicesHtml += "<li>No services available.</li>"; // Handle case when services array is empty
+            }
+            servicesHtml += "</ul>";
+            $("#panel_services").html(servicesHtml);
+        });
+        
 
-            // var panelManagerContact = $("#panel_manager_contact").val().trim();
-            // if (!/^03\d{9}$/.test(panelManagerContact)) {
-            //     isValid = false;
-            //     $("#panel_manager_contact").addClass('is-invalid');
-            // } else {
-            //     $("#panel_manager_contact").removeClass('is-invalid');
-            // }
 
-            return isValid;
-        }
+        // function validateForm() {
+        //     var isValid = true;
+
+        //     // Validate each required field
+        //     $("#panel_form input[required], #panel_form select[required]").each(function () {
+        //         if ($(this).val().trim() === '') {
+        //             isValid = false;
+        //             $(this).addClass('is-invalid'); // Add validation styling if needed
+        //         } else {
+        //             $(this).removeClass('is-invalid'); // Remove validation styling if valid
+        //         }
+        //     });
+
+        //     return isValid;
+        // }
         function fetch_panel() {
             $.ajax({
                 url: "fetch_panel.php",
@@ -1002,6 +1050,7 @@ $(document).ready(function () {
         }
     }
     panel_management();
+
 
     // For Admin 
     function admin_submission() {

@@ -1,6 +1,29 @@
 <?php
 include("connection.php");
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $company = $_POST['panel_company'];
+    $manager = $_POST['panel_manager'];
+    $email = $_POST['panel_email'];
+    $p_contact = $_POST['panel_contact_num'];
+    $manager_contact = $_POST['panel_manager_contact_num'];
+    $province = $_POST['province'];
+    $city = $_POST['city'];
+    $area = $_POST['area_id'];
+    $services = $_POST['services'];
+    $fetched_services = implode(",", $services);
+
+    $query = "INSERT INTO tbl_panel (company, focal_person, email, focal_person_contact, company_contact, province_id, city_id, area_id, services)
+              VALUES ('$company', '$manager', '$email', '$manager_contact', '$p_contact', '$province', '$city', '$area', '$fetched_services')";
+
+    if (mysqli_query($connection, $query)) {
+        echo "Panel Added Successfully";
+    } else {
+        echo "Error in Panel Addition";
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['edit_panel_id'])) {
     $id = $_POST['edit_panel_id'];
     $company = $_POST['edit_panel_comapny'];
     $manager = $_POST['edit_panel_manager'];
@@ -30,3 +53,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Error in Panel Updatation";
     }
 }
+?>
