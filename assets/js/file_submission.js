@@ -765,6 +765,74 @@ $(document).ready(function () {
             });
         });
         // for provinces cities changing functionality for both insert and edit
+        function validateForm() {
+            var isValid = true;
+            var subServicesSelected = {};
+
+            $("#panel_form input[required], #panel_form select[required]").each(function () {
+                if ($(this).val().trim() === '') {
+                    isValid = false;
+                    $(this).addClass('is-invalid');
+                } else {
+                    $(this).removeClass('is-invalid');
+                }
+            });
+
+            $("#panel_form input[type='checkbox'][name^='extra_services']").each(function () {
+                var subServiceId = $(this).attr('name').match(/\d+/)[0];
+                if ($(this).is(':checked')) {
+                    subServicesSelected[subServiceId] = subServicesSelected[subServiceId] || false;
+                }
+            });
+
+            for (var subServiceId in subServicesSelected) {
+                if (subServicesSelected.hasOwnProperty(subServiceId)) {
+                    var subServiceCheckbox = $("#panel_form input[type='checkbox'][name='services[]'][value='" + subServiceId + "']");
+                    if (!subServiceCheckbox.is(':checked')) {
+                        isValid = false;
+                        subServiceCheckbox.addClass('is-invalid');
+                    } else {
+                        subServiceCheckbox.removeClass('is-invalid');
+                    }
+                }
+            }
+
+            return isValid;
+        }
+        function validateEditForm() {
+            var isValid = true;
+            var subServicesSelected = {};
+
+            $("#edit_panel_form input[required], #edit_panel_form select[required]").each(function () {
+                if ($(this).val().trim() === '') {
+                    isValid = false;
+                    $(this).addClass('is-invalid');
+                } else {
+                    $(this).removeClass('is-invalid');
+                }
+            });
+
+            $("#edit_panel_form input[type='checkbox'][name^='extra_services']").each(function () {
+                var subServiceId = $(this).attr('name').match(/\d+/)[0];
+                if ($(this).is(':checked')) {
+                    subServicesSelected[subServiceId] = subServicesSelected[subServiceId] || false;
+                }
+            });
+
+            for (var subServiceId in subServicesSelected) {
+                if (subServicesSelected.hasOwnProperty(subServiceId)) {
+                    var subServiceCheckbox = $("#edit_panel_form input[type='checkbox'][name='edit_services[]'][value='" + subServiceId + "']");
+                    if (!subServiceCheckbox.is(':checked')) {
+                        isValid = false;
+                        subServiceCheckbox.addClass('is-invalid');
+                    } else {
+                        subServiceCheckbox.removeClass('is-invalid');
+                    }
+                }
+            }
+
+            return isValid;
+        }
         // for insert Data
         $("#panel_form").on("submit", function (e) {
             e.preventDefault();
@@ -795,30 +863,20 @@ $(document).ready(function () {
         });
         $(document).on("click", ".edit-panel", function () {
             $("#editPanel").modal("show");
-        
-            let dataAttributes = [
-                'id', 'company', 'email', 'manager', 'contact',
-                'manager_contact', 'province_id', 'city_id', 'area_id',
-                'status', 'services', 'extra_services'
-            ];
-            
-            let data = {};
-            dataAttributes.forEach(attr => {
-                data[attr] = $(this).data(attr);
-            });
-            
-            $("#edit_panel_id").val(data.id);
-            $("#edit_panel_company").val(data.company);
-            $("#edit_panel_manager").val(data.manager);
-            $("#edit_panel_email").val(data.email);
-            $("#edit_panel_contact").val(data.contact);
-            $("#edit_panel_manager_contact").val(data.manager_contact);
-        
+
+            let panel_id = $(this).data('id');
+            $("#edit_panel_id").val(panel_id);
+            $("#edit_panel_company").val($(this).data('company'));
+            $("#edit_panel_manager").val($(this).data('manager'));
+            $("#edit_panel_email").val($(this).data('email'));
+            $("#edit_panel_contact").val($(this).data('contact'));
+            $("#edit_panel_manager_contact").val($(this).data('manager_contact'));
+
             // Fetch Province, City, Area
             $.ajax({
                 url: "panel_fetch_province_option.php",
                 type: "POST",
-                data: { id: data.province_id },
+                data: { id: $(this).data('province_id') },
                 success: function (res) {
                     $("#edit_province").html(res);
                 },
@@ -829,7 +887,7 @@ $(document).ready(function () {
             $.ajax({
                 url: "panel_fetch_city_sec_option.php",
                 type: "POST",
-                data: { id: data.city_id },
+                data: { id: $(this).data('city_id') },
                 success: function (res) {
                     $("#edit_city_id").html(res);
                 },
@@ -840,7 +898,7 @@ $(document).ready(function () {
             $.ajax({
                 url: "panel_fetch_area_sec_option.php",
                 type: "POST",
-                data: { id: data.area_id },
+                data: { id: $(this).data('area_id') },
                 success: function (res) {
                     $("#edit_area_id").html(res);
                 },
@@ -848,35 +906,43 @@ $(document).ready(function () {
                     $("#edit_area_id").html("Error: " + res);
                 }
             });
-        
+
             // Fetch and display services and extra services with prices
-            let services = data.services;
-            let extra_services = data.extra_services;
-        
-            let servicesHtml = '';
-            services.forEach(service => {
-                servicesHtml += `<div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="edit_panel_services[]" value="${service.sub_services_id}" id="service_${service.sub_services_id}" checked>
-                                    <label class="form-check-label" for="service_${service.sub_services_id}">${service.sub_service}</label>
-                                    <input type="number" class="form-control" name="edit_panel_service_prices[${service.sub_services_id}]" value="${service.sub_service_price}" placeholder="Enter Price">
-                                 </div>`;
+            $.ajax({
+                url: "panel_fetch_services.php",
+                type: "POST",
+                data: { panel_id: panel_id },
+                success: function (response) {
+                    let services = JSON.parse(response);
+                    let servicesHtml = '';
+
+                    services.forEach(service => {
+                        servicesHtml += `<div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="edit_panel_services[]" value="${service.sub_services_id}" id="service_${service.sub_services_id}" ${service.selected ? 'checked' : ''}>
+                                            <label class="form-check-label" for="service_${service.sub_services_id}">${service.sub_service}</label>
+                                            <input type="number" class="form-control" name="edit_panel_service_prices[${service.sub_services_id}]" value="${service.sub_service_price}" placeholder="Enter Price">
+                                         </div>`;
+
+                        if (Object.keys(service.extra_services).length > 0) {
+                            Object.values(service.extra_services).forEach(extraService => {
+                                servicesHtml += `<div class="form-check ms-md-5">
+                                                    <input class="form-check-input" type="checkbox" name="edit_panel_extra_services[${service.sub_services_id}][]" value="${extraService.extra_services_id}" id="extra_service_${extraService.extra_services_id}" ${extraService.selected ? 'checked' : ''}>
+                                                    <label class="form-check-label" for="extra_service_${extraService.extra_services_id}">${extraService.extra_service}</label>
+                                                    <input type="number" class="form-control" name="edit_panel_extra_service_prices[${service.sub_services_id}][${extraService.extra_services_id}]" value="${extraService.extra_service_price}" placeholder="Enter Price">
+                                                 </div>`;
+                            });
+                        }
+                    });
+
+                    $("#edit_services_container").html(servicesHtml);
+                },
+                error: function (response) {
+                    $("#edit_services_container").html("Error: " + response);
+                }
             });
-            $("#edit_services_container").html(servicesHtml);
-        
-            let extraServicesHtml = '';
-            extra_services.forEach(extraService => {
-                extraServicesHtml += `<label for='panel_extra_services'>Choose Extra Services:</label>`;
-                extraServicesHtml += `<div class="form-check ms-md-5" id='panel_extra_services'>
-                                        <input class="form-check-input" type="checkbox" name="edit_panel_extra_services[${extraService.sub_services_id}][]" value="${extraService.extra_services_id}" id="extra_service_${extraService.extra_services_id}" checked>
-                                        <label class="form-check-label" for="extra_service_${extraService.extra_services_id}">${extraService.extra_service}</label>
-                                        <input type="number" class="form-control" name="edit_panel_extra_service_prices[${extraService.sub_services_id}][${extraService.extra_services_id}]" value="${extraService.extra_service_price}" placeholder="Enter Price">
-                                     </div>`;
-                                    });
-                                    extraServicesHtml += `<hr>`;
-            $("#edit_extra_services_container").html(extraServicesHtml);
         });
-        
-        
+
+
         $("#edit_panel_form").on("submit", function (e) {
             e.preventDefault();
             if (!validateEditForm()) {
@@ -897,7 +963,7 @@ $(document).ready(function () {
                 }
             });
         });
-        
+
         // For Delete Panel
         $(document).on("click", ".delete-panel", function () {
             let del_id = $(this).data('id');
@@ -1023,74 +1089,6 @@ $(document).ready(function () {
                     $("#panelTable").html(res);
                 }
             })
-        }
-        function validateForm() {
-            var isValid = true;
-            var subServicesSelected = {};
-
-            $("#panel_form input[required], #panel_form select[required]").each(function () {
-                if ($(this).val().trim() === '') {
-                    isValid = false;
-                    $(this).addClass('is-invalid');
-                } else {
-                    $(this).removeClass('is-invalid');
-                }
-            });
-
-            $("#panel_form input[type='checkbox'][name^='extra_services']").each(function () {
-                var subServiceId = $(this).attr('name').match(/\d+/)[0];
-                if ($(this).is(':checked')) {
-                    subServicesSelected[subServiceId] = subServicesSelected[subServiceId] || false;
-                }
-            });
-
-            for (var subServiceId in subServicesSelected) {
-                if (subServicesSelected.hasOwnProperty(subServiceId)) {
-                    var subServiceCheckbox = $("#panel_form input[type='checkbox'][name='services[]'][value='" + subServiceId + "']");
-                    if (!subServiceCheckbox.is(':checked')) {
-                        isValid = false;
-                        subServiceCheckbox.addClass('is-invalid');
-                    } else {
-                        subServiceCheckbox.removeClass('is-invalid');
-                    }
-                }
-            }
-
-            return isValid;
-        }
-        function validateEditForm() {
-            var isValid = true;
-            var subServicesSelected = {};
-
-            $("#edit_panel_form input[required], #edit_panel_form select[required]").each(function () {
-                if ($(this).val().trim() === '') {
-                    isValid = false;
-                    $(this).addClass('is-invalid');
-                } else {
-                    $(this).removeClass('is-invalid');
-                }
-            });
-
-            $("#edit_panel_form input[type='checkbox'][name^='extra_services']").each(function () {
-                var subServiceId = $(this).attr('name').match(/\d+/)[0];
-                if ($(this).is(':checked')) {
-                    subServicesSelected[subServiceId] = subServicesSelected[subServiceId] || false;
-                }
-            });
-
-            for (var subServiceId in subServicesSelected) {
-                if (subServicesSelected.hasOwnProperty(subServiceId)) {
-                    var subServiceCheckbox = $("#edit_panel_form input[type='checkbox'][name='edit_services[]'][value='" + subServiceId + "']");
-                    if (!subServiceCheckbox.is(':checked')) {
-                        isValid = false;
-                        subServiceCheckbox.addClass('is-invalid');
-                    } else {
-                        subServiceCheckbox.removeClass('is-invalid');
-                    }
-                }
-            }
-
-            return isValid;
         }
 
     }

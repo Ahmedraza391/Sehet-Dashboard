@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 16, 2024 at 02:53 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Jul 16, 2024 at 08:00 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -201,7 +201,8 @@ INSERT INTO `tbl_panel` (`id`, `company`, `email`, `focal_person`, `company_cont
 (6, 'ABC Comapny', 'abc@gmail.com', 'Muhammad Ikram', '03242342342', '03242342342', 3, 3, 1, 'activate', '2'),
 (7, 'Ibex ', 'ibex@gmail.com', 'Muhammad Minhal', '03123445677', '03123445677', 5, 8, 14, 'activate', '2'),
 (8, 'ZE Comps', 'comps@gmail.com', 'Muhammad Fayaz', '03269243547', '03269243547', 3, 2, 5, 'activate', '1,3,4,5,6,8,14'),
-(9, 'Aj ', 'aj@gmail.com', 'Abdul Sttar', '03269243547', '03269243547', 2, 10, 16, 'activate', '1');
+(9, 'Aj KL', 'ajkl@gmail.com', 'Muhammad Raza', '03269243511', '03269243511', 5, 7, 11, 'activate', '1'),
+(10, 'Infinix Private Ltd.', 'infinix@gmail.com', 'Kamran Afzal', '03441234554', '03441234554', 5, 8, 13, 'activate', '1,2,3,4,8,11');
 
 -- --------------------------------------------------------
 
@@ -242,19 +243,35 @@ INSERT INTO `tbl_panel_services` (`id`, `panel_id`, `sub_services_id`, `extra_se
 (20, 6, 2, NULL, '1020', NULL),
 (21, 6, 2, 3, '1020', NULL),
 (22, 6, 2, 4, '1020', NULL),
-(26, 8, 1, NULL, '3998', NULL),
-(27, 8, 3, NULL, '3000', NULL),
-(28, 8, 4, NULL, '2000', NULL),
-(29, 8, 5, NULL, '1000', NULL),
-(30, 8, 6, NULL, '1198', NULL),
-(31, 8, 8, NULL, '1500', NULL),
-(32, 8, 8, 1, '1500', '750'),
-(33, 8, 8, 2, '1500', '748'),
-(34, 8, 14, NULL, '3000', NULL),
-(36, 9, 1, NULL, '2700', '0'),
 (38, 7, 2, NULL, '1500', '0'),
 (39, 3, 1, NULL, '1000', '0'),
-(40, 3, 2, NULL, '3000', '0');
+(40, 3, 2, NULL, '3000', '0'),
+(41, 10, 1, NULL, '1200', NULL),
+(42, 10, 2, NULL, '3000', NULL),
+(43, 10, 2, 3, '3000', '1500'),
+(44, 10, 2, 4, '3000', '1500'),
+(45, 10, 3, NULL, '2500', NULL),
+(46, 10, 4, NULL, '3000', NULL),
+(47, 10, 8, NULL, '5000', NULL),
+(48, 10, 8, 1, '5000', '2600'),
+(49, 10, 8, 2, '5000', '2394'),
+(50, 10, 11, NULL, '595', NULL),
+(70, 8, 2, NULL, '1198', '0'),
+(71, 8, 2, 3, '0', '1500'),
+(72, 8, 2, 4, '0', '1500'),
+(73, 8, 3, NULL, '3000', '0'),
+(74, 8, 4, NULL, '2000', '0'),
+(75, 8, 5, NULL, '1000', '0'),
+(76, 8, 6, NULL, '1198', '0'),
+(77, 8, 8, NULL, '0', '0'),
+(78, 8, 8, 1, '0', '750'),
+(79, 8, 8, 2, '0', '748'),
+(80, 8, 14, NULL, '3000', '0'),
+(91, 9, 1, NULL, '2700', '0'),
+(92, 9, 2, NULL, '0', '0'),
+(93, 9, 2, 3, '0', '1200'),
+(94, 9, 2, 4, '0', '299'),
+(95, 9, 13, NULL, '1200', '0');
 
 -- --------------------------------------------------------
 
@@ -477,13 +494,13 @@ ALTER TABLE `tbl_extra_services`
 -- AUTO_INCREMENT for table `tbl_panel`
 --
 ALTER TABLE `tbl_panel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tbl_panel_services`
 --
 ALTER TABLE `tbl_panel_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT for table `tbl_province`
