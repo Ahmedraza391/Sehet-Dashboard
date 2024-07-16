@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2024 at 08:01 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Jul 16, 2024 at 02:53 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -130,12 +130,20 @@ CREATE TABLE `tbl_employees` (
   `emp_father_name` varchar(100) NOT NULL,
   `emp_email` varchar(100) NOT NULL,
   `emp_password` varchar(200) NOT NULL,
-  `emp_contact` int(11) NOT NULL,
-  `emp_nic` bigint(20) NOT NULL,
+  `emp_contact` varchar(20) NOT NULL,
+  `emp_nic` varchar(20) NOT NULL,
   `emp_dob` varchar(100) NOT NULL,
   `emp_designation` varchar(200) NOT NULL,
-  `emp_status` varchar(50) NOT NULL DEFAULT 'activate'
+  `emp_status` varchar(50) NOT NULL DEFAULT 'deactivate',
+  `pages_access` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_employees`
+--
+
+INSERT INTO `tbl_employees` (`emp_id`, `emp_name`, `emp_father_name`, `emp_email`, `emp_password`, `emp_contact`, `emp_nic`, `emp_dob`, `emp_designation`, `emp_status`, `pages_access`) VALUES
+(1, 'Ahmed Raza Jutt', 'Muhammad Razzaq Jutt', '0312ahmedjutt@gmail.com', '', '03269243547', '4230111018266', '2007-05-19', 'admin', 'activate', 'service_page, address_page');
 
 -- --------------------------------------------------------
 
@@ -186,23 +194,14 @@ CREATE TABLE `tbl_panel` (
 --
 
 INSERT INTO `tbl_panel` (`id`, `company`, `email`, `focal_person`, `company_contact`, `focal_person_contact`, `province_id`, `city_id`, `area_id`, `status`, `services`) VALUES
-(1, 'Service Shoes', 'serviceshoes@gmail.com', 'Muhammad Fayaz', '03071234567', '03071234567', 5, 7, 11, 'activate', '1,2,3,4,5,6,7,8,9,10,11,12'),
-(2, 'NDure', 'ndure@gmail.com', 'Ahmed Raza', '03123445677', '03123445677', 2, 1, 3, 'activate', '2,8'),
-(3, 'Ibex ', 'ibex@gmail.com', 'Ahmed Raza', '03269243547', '03269243547', 3, 2, 5, 'activate', '2,9'),
-(4, 'Folio 3', 'folio3@gmail.com', 'Minhal Khan', '03441234554', '03441234554', 6, 6, 9, 'activate', '1,2'),
-(6, 'ABC Comapny', 'abc@gmail.com', 'Ejaz Aslam', '03242342342', '03242342342', 5, 7, 11, 'activate', '8'),
-(7, 'XYZ Comapnhy', 'xyz@gmail.com', 'Ahmed Raza', '03123445677', '03123445677', 3, 2, 5, 'activate', '2,8,9,10'),
-(8, 'yzd', 'random@gmail.com', 'Istiyaq', '03269243547', '03269243547', 3, 2, 5, 'activate', '2,8'),
-(9, 'ABC Foods', 'abcfoods@gmail.com', 'Ayan Ahmed', '03441234554', '03441234554', 2, 10, 16, 'activate', '1,2,3,8,11'),
-(10, 'Amazon', 'amazon@gamil.com', 'Muhammad Dilawar', '03331234567', '03331234567', 2, 1, 3, 'activate', '1,2,3,4,5,6,7,8,9,10,11,12,13,14'),
-(11, 'Indus Radiology', 'indusradiology@gamil.com', 'Adnan Bahsir', '03071234567', '03071234567', 5, 7, 11, 'activate', '1,2,3,4,5,6,7,8,9,10,11,12,13,14'),
-(12, 'Radioz', 'radioz@gmail.com', 'Muhammad Fayaz', '03331234567', '03331234567', 5, 8, 13, 'activate', '1,3,4,5,6'),
-(15, 'HHH Coms', 'hhh@gmail.com', 'Ejaz Aslam', '03071234567', '03071234567', 6, 9, 15, 'activate', '1,3,14'),
-(18, 'NDure', 'ndure@gmail.com', 'Ahmed Raza', '03242342342', '03242342342', 3, 2, 5, 'activate', '6,7'),
-(19, 'POI Comps', 'poi@gmail.com', 'Jamal Khalid', '03242342342', '03242342342', 3, 2, 5, 'activate', '1,3,4,5'),
-(22, 'JK Company', 'jk@gmail.com', 'Abdul Sttar', '03331234567', '03071234567', 5, 7, 11, 'activate', '1,3,4,5,6'),
-(23, 'JUTT Collection', 'juttcollection@gmail.com', 'Ahmed Raza', '03269243547', '03123445677', 2, 1, 3, 'activate', '2,8'),
-(24, 'Junaid Jamshaid', 'jdot@gmail.com', 'Abdul Ghafoor', '03242342342', '03242342342', 5, 7, 11, 'activate', '1,2,3,4,5,6,7,8,9,10,11,12,13,14');
+(2, 'NDure', 'ndure@gmail.com', 'Wahab Khan', '03331234567', '03331234567', 2, 1, 3, 'activate', '1,2,3,4'),
+(3, 'Service Shoes', 'serviceshoes@gmail.com', 'Ahmed Raza', '03242342342', '03242342342', 3, 2, 5, 'activate', '1,2'),
+(4, 'POI Comps', 'poi@gmail.com', 'Wahab Khan', '03331234567', '03331234567', 5, 7, 11, 'activate', '1,2,8'),
+(5, 'Bata Shoes', 'batashoes@gmail.com', 'Muhammad Ikram', '03071234567', '03071234567', 6, 6, 10, 'activate', '1,2'),
+(6, 'ABC Comapny', 'abc@gmail.com', 'Muhammad Ikram', '03242342342', '03242342342', 3, 3, 1, 'activate', '2'),
+(7, 'Ibex ', 'ibex@gmail.com', 'Muhammad Minhal', '03123445677', '03123445677', 5, 8, 14, 'activate', '2'),
+(8, 'ZE Comps', 'comps@gmail.com', 'Muhammad Fayaz', '03269243547', '03269243547', 3, 2, 5, 'activate', '1,3,4,5,6,8,14'),
+(9, 'Aj ', 'aj@gmail.com', 'Abdul Sttar', '03269243547', '03269243547', 2, 10, 16, 'activate', '1');
 
 -- --------------------------------------------------------
 
@@ -214,80 +213,48 @@ CREATE TABLE `tbl_panel_services` (
   `id` int(11) NOT NULL,
   `panel_id` int(11) NOT NULL,
   `sub_services_id` int(11) NOT NULL,
-  `extra_services_id` int(11) DEFAULT NULL
+  `extra_services_id` int(11) DEFAULT NULL,
+  `sub_service_price` varchar(200) DEFAULT '0',
+  `extra_service_price` varchar(200) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_panel_services`
 --
 
-INSERT INTO `tbl_panel_services` (`id`, `panel_id`, `sub_services_id`, `extra_services_id`) VALUES
-(1, 1, 1, 0),
-(2, 1, 2, 3),
-(3, 1, 3, 0),
-(4, 1, 4, 0),
-(5, 1, 5, 0),
-(6, 1, 6, 0),
-(7, 1, 7, 0),
-(8, 1, 8, 1),
-(9, 1, 9, 0),
-(10, 1, 10, 0),
-(11, 1, 11, 0),
-(12, 1, 12, 0),
-(13, 2, 2, 3),
-(14, 2, 8, 1),
-(15, 3, 2, 3),
-(16, 3, 9, 0),
-(17, 4, 1, 0),
-(18, 4, 2, 0),
-(19, 6, 8, 1),
-(20, 7, 2, 3),
-(21, 7, 8, 1),
-(22, 7, 9, 0),
-(23, 7, 10, 0),
-(24, 8, 2, 3),
-(25, 8, 8, 1),
-(26, 9, 2, 3),
-(27, 9, 2, 4),
-(28, 9, 8, 1),
-(29, 9, 8, 2),
-(30, 10, 2, 3),
-(31, 10, 2, 4),
-(32, 10, 8, 1),
-(33, 10, 8, 2),
-(34, 11, 2, 3),
-(35, 11, 2, 4),
-(36, 11, 8, 1),
-(37, 11, 8, 2),
-(38, 22, 1, NULL),
-(39, 22, 3, NULL),
-(40, 22, 4, NULL),
-(41, 22, 5, NULL),
-(42, 22, 6, NULL),
-(43, 23, 2, NULL),
-(44, 23, 2, 3),
-(45, 23, 2, 4),
-(46, 23, 8, NULL),
-(47, 23, 8, 1),
-(48, 23, 8, 2),
-(49, 24, 1, NULL),
-(50, 24, 2, NULL),
-(51, 24, 2, 3),
-(52, 24, 2, 4),
-(53, 24, 3, NULL),
-(54, 24, 4, NULL),
-(55, 24, 5, NULL),
-(56, 24, 6, NULL),
-(57, 24, 7, NULL),
-(58, 24, 8, NULL),
-(59, 24, 8, 1),
-(60, 24, 8, 2),
-(61, 24, 9, NULL),
-(62, 24, 10, NULL),
-(63, 24, 11, NULL),
-(64, 24, 12, NULL),
-(65, 24, 13, NULL),
-(66, 24, 14, NULL);
+INSERT INTO `tbl_panel_services` (`id`, `panel_id`, `sub_services_id`, `extra_services_id`, `sub_service_price`, `extra_service_price`) VALUES
+(1, 2, 1, NULL, '1499', NULL),
+(2, 2, 2, NULL, '800', NULL),
+(3, 2, 2, 3, '800', NULL),
+(4, 2, 3, NULL, '1200', NULL),
+(5, 2, 4, NULL, '1200', NULL),
+(9, 4, 1, NULL, '1798', NULL),
+(10, 4, 2, NULL, '1000', NULL),
+(11, 4, 2, 3, '1000', '0'),
+(12, 4, 2, 4, '1000', NULL),
+(13, 4, 8, NULL, '2000', NULL),
+(14, 4, 8, 1, '2000', NULL),
+(15, 4, 8, 2, '2000', NULL),
+(16, 5, 1, NULL, '1300', NULL),
+(17, 5, 2, NULL, '2000', NULL),
+(18, 5, 2, 3, '2000', NULL),
+(19, 5, 2, 4, '2000', NULL),
+(20, 6, 2, NULL, '1020', NULL),
+(21, 6, 2, 3, '1020', NULL),
+(22, 6, 2, 4, '1020', NULL),
+(26, 8, 1, NULL, '3998', NULL),
+(27, 8, 3, NULL, '3000', NULL),
+(28, 8, 4, NULL, '2000', NULL),
+(29, 8, 5, NULL, '1000', NULL),
+(30, 8, 6, NULL, '1198', NULL),
+(31, 8, 8, NULL, '1500', NULL),
+(32, 8, 8, 1, '1500', '750'),
+(33, 8, 8, 2, '1500', '748'),
+(34, 8, 14, NULL, '3000', NULL),
+(36, 9, 1, NULL, '2700', '0'),
+(38, 7, 2, NULL, '1500', '0'),
+(39, 3, 1, NULL, '1000', '0'),
+(40, 3, 2, NULL, '3000', '0');
 
 -- --------------------------------------------------------
 
@@ -333,8 +300,7 @@ INSERT INTO `tbl_refferals` (`id`, `name`, `company`, `email`, `financial_share`
 (1, 'Ahmed Raza', 'Shan Food ', 'shanfood@gmail.com', 45, 'hide'),
 (2, 'Farooq Khan Ustad', 'Getz Pharma', 'getz@gmail.com', 22, 'show'),
 (3, 'Adnan Khan', 'Sui Gas Pvt Ltd.', 'adnanKhan@gmail.com', 30, 'hide'),
-(6, 'Muhammad Istiyaq', 'PCB', 'raza@gmail.com', 23, 'show'),
-(10, 'Istiyaq Khan', 'XYZ Company', '', 51, 'show');
+(6, 'Muhammad Istiyaq', 'PCB', 'raza@gmail.com', 23, 'show');
 
 -- --------------------------------------------------------
 
@@ -499,7 +465,7 @@ ALTER TABLE `tbl_city`
 -- AUTO_INCREMENT for table `tbl_employees`
 --
 ALTER TABLE `tbl_employees`
-  MODIFY `emp_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `emp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_extra_services`
@@ -511,13 +477,13 @@ ALTER TABLE `tbl_extra_services`
 -- AUTO_INCREMENT for table `tbl_panel`
 --
 ALTER TABLE `tbl_panel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_panel_services`
 --
 ALTER TABLE `tbl_panel_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `tbl_province`
