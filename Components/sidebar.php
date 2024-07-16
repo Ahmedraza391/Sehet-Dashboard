@@ -5,78 +5,47 @@
     <ul class="sidebar-nav" id="sidebar-nav">
 
       <li class="nav-item">
-        <a class="nav-link <?php if($page=="home"){echo "active";} ?>" href="index.php">
-          <i class="bi bi-grid"></i>
+        <a class="nav-link <?php if($page=="home"){echo "active";} ?> text-primary" href="index.php">
+          <i class="bi bi-grid text-primary"></i>
           <span>Dashboard</span>
         </a>
       </li>
     
       <li class="nav-item">
-        <a class="nav-link <?php if($page=="services"){echo "active";} ?>" href="./services.php">
-          <i class="ri-customer-service-line"></i>
+        <a class="nav-link <?php if($page=="services"){echo "active";} ?> text-primary" href="./services.php">
+          <i class="ri-customer-service-line text-primary"></i>
           <span>Services</span>
         </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link <?php if($page=="address"){echo "active";} ?>" href="./address_management.php">
-          <i class='bx bxs-buildings'></i>
+        <a class="nav-link <?php if($page=="address"){echo "active";} ?> text-primary" href="./address_management.php">
+          <i class='bx bxs-buildings text-primary'></i>
           <span>Addresses</span>
         </a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link <?php if($page=="reffrals"){echo "active";} ?>" href="./refferals_management.php">
-          <i class='bx bxs-add-to-queue'></i> 
+        <a class="nav-link <?php if($page=="reffrals"){echo "active";} ?> text-primary" href="./refferals_management.php">
+          <i class='bx bxs-add-to-queue text-primary'></i> 
           <span>Reffrals</span>
         </a>
       </li>
     
 
       <li class="nav-item">
-        <a class="nav-link <?php if($page=="panels"){echo "active";} ?>" href="./panel_management.php">
-          <i class='bx bx-buildings'></i>
+        <a class="nav-link <?php if($page=="panels"){echo "active";} ?> text-primary" href="./panel_management.php">
+          <i class='bx bx-buildings text-primary'></i>
           <span>Panels</span>
         </a>
       </li>
-    
-      <li class="nav-heading">Pages</li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
-          <i class="bi bi-person"></i>
-          <span>Profile</span>
+        <a class="nav-link <?php if($page=="emp_register"){echo "active";} ?> text-primary" href="./employee_management.php">
+        <i class="ri-group-2-line text-primary"></i>
+          <span>Employee Register</span>
         </a>
-      </li><!-- End Profile Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="./admin_register.php">
-          <i class="bi bi-card-list"></i>
-          <span>Register</span>
-        </a>
-      </li><!-- End Register Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="./admin_login.php">
-          <i class="bi bi-box-arrow-in-right"></i>
-          <span>Login</span>
-        </a>
-      </li><!-- End Login Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-error-404.html">
-          <i class="bi bi-dash-circle"></i>
-          <span>Error 404</span>
-        </a>
-      </li><!-- End Error 404 Page Nav -->
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-blank.html">
-          <i class="bi bi-file-earmark"></i>
-          <span>Blank</span>
-        </a>
-      </li><!-- End Blank Page Nav -->
-
+      </li>
     </ul>
 
   </aside><!-- End Sidebar-->

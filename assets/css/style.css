@@ -13,6 +13,30 @@
   scroll-behavior: smooth;
 }
 
+::-webkit-scrollbar {
+  width: 12px !important;
+  height: 10px;
+}
+ 
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 191, 255, 0.397);
+}
+ 
+::-webkit-scrollbar-thumb {
+  background-color: #0b5dd77a !important;
+  outline: 1px solid rgb(255, 255, 255) !important;
+}
+input[type=number]::-webkit-outer-spin-button, 
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 body {
   font-family: "Open Sans", sans-serif;
   background: #f6f9ff;

@@ -9,13 +9,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link mini-nav <?php if($file == 'admin_register'){echo 'active';} ?>" title="Admin Register" href="./admin_register.php">Admin Register</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link mini-nav <?php if($file == 'admin_login'){echo 'active';} ?>" title="Admin Login" href="./admin_login.php">Admin Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link mini-nav <?php if($file == 'emp_register'){echo 'active';} ?>" title="Employee Register" href="./employee_register.php">Employee Register</a>
+          <a class="nav-link mini-nav <?php if($file == 'emp_login'){echo 'active';} ?>" title="Employee Registration" href="./user_registration.php">Employee Registration</a>
         </li>
         <li class="nav-item">
           <a class="nav-link mini-nav <?php if($file == 'emp_login'){echo 'active';} ?>" title="Employee Login" href="./employee_login.php">Employee Login</a>

@@ -1,6 +1,6 @@
 continue on adding employee full work insert update delete fetch
 and panel full work
 
-continue on edit panel modal
+continue on edit panel modal lazmiiii
 
 small screens par tamam tables kay button ki alignment set karni ha

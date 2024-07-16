@@ -43,56 +43,40 @@ $page = "panels";
                             </tbody>
                         </table>
                     </div>
-                    <!-- View Modal -->
-                    <div class="modal fade" id="viewpanel" tabindex="-1" aria-labelledby="viewpanelLabel" aria-hidden="true" data-bs-backdrop="static">
-                        <div class="modal-dialog modal-lg">
+                    <!-- View Panel Modal -->
+                    <div class="modal fade" id="viewpanel" tabindex="-1" aria-labelledby="viewPanelLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h3 class="modal-title" id="viewpanelLabel">Panel Details</h3>
+                                    <h5 class="modal-title" id="viewPanelLabel">View Panel</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="card p-md-3">
-                                        <div class="d-flex align-items-center justify-content-start">
-                                            <h6 class="">ID : #<span class="fs-6" id="panel_id"></span></h6>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Panel ID:</strong> <span id="view_panel_id"></span></p>
+                                            <p><strong>Company:</strong> <span id="view_panel_company"></span></p>
+                                            <p><strong>Email:</strong> <span id="view_panel_email"></span></p>
+                                            <p><strong>Focal Person:</strong> <span id="view_panel_manager"></span></p>
+                                            <p><strong>Company Contact:</strong> <span id="view_panel_company_contact"></span></p>
+                                            <p><strong>Focal Person Contact:</strong> <span id="view_panel_contact"></span></p>
                                         </div>
-                                        <div class="company">
-                                            <h6>Company : <span class="fs-6" id="panel_company"></span></h6>
+                                        <div class="col-md-6">
+                                            <p><strong>Status:</strong> <span id="view_panel_status"></span></p>
+                                            <p><strong>Province:</strong> <span id="view_panel_province"></span></p>
+                                            <p><strong>City:</strong> <span id="view_panel_city"></span></p>
+                                            <p><strong>Area:</strong> <span id="view_panel_area"></span></p>
                                         </div>
-                                        <div class="email">
-                                            <h6>Email : <span class="fs-6" id="panel_email"></span></h6>
-                                        </div>
-                                        <div class="manager">
-                                            <h6>Manager : <span class="fs-6" id="panel_manager"></span></h6>
-                                        </div>
-                                        <div class="c_contact">
-                                            <h6>Company Contact : <span class="fs-6" id="panel_company_contact"></span></h6>
-                                        </div>
-                                        <div class="contact">
-                                            <h6>Contact : <span class="fs-6" id="panel_contact"></span></h6>
-                                        </div>
-                                        <div class="province">
-                                            <h6>Province : <span class="fs-6" id="panel_province"></span></h6>
-                                        </div>
-                                        <div class="city">
-                                            <h6>City : <span class="fs-6" id="panel_city"></span></h6>
-                                        </div>
-                                        <div class="area">
-                                            <h6>Area : <span class="fs-6" id="panel_area"></span></h6>
-                                        </div>
-                                        <div class="status">
-                                            <h6>Status : <span class="fs-6" id="panel_status"></span></h6>
-                                        </div>
-                                        <div class="services">
-                                            <h6>Services :</h6>
-                                            <ul id="panel_services">
-                                                <!-- Services and Extra Services will be dynamically inserted here -->
-                                            </ul>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h5>Services</h5>
+                                            <div id="view_panel_services"></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
@@ -109,8 +93,8 @@ $page = "panels";
                                     <form id="edit_panel_form">
                                         <input type="hidden" id="edit_panel_id" name="edit_panel_id">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="edit_panel_comapny" name="edit_panel_comapny" placeholder="Enter Company" required>
-                                            <label for="edit_panel_comapny">Enter Company</label>
+                                            <input type="text" class="form-control" id="edit_panel_company" name="edit_panel_company" placeholder="Enter Company" required>
+                                            <label for="edit_panel_company">Enter Company</label>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="edit_panel_manager" name="edit_panel_manager" placeholder="Enter Focal Person" required>
@@ -129,25 +113,25 @@ $page = "panels";
                                             <label for="edit_panel_manager_contact">Enter Manager Contact #</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <select class="form-select" id="edit_province" name="edit_province" required aria-label="Select Province">
+                                            <select class="form-select" id="edit_province" name="edit_panel_province" required aria-label="Select Province">
                                                 <option selected value="" hidden>Select Province</option>
                                             </select>
                                             <label for="edit_province">Province</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <select class="form-select" id="edit_city_id" name="edit_city" required aria-label="Select City">
+                                            <select class="form-select" id="edit_city_id" name="edit_panel_city" required aria-label="Select City">
                                             </select>
                                             <label for="edit_city_id">City</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <select class="form-select" id="edit_area_id" name="edit_area" required aria-label="Select Area">
+                                            <select class="form-select" id="edit_area_id" name="edit_panel_area" required aria-label="Select Area">
                                             </select>
                                             <label for="edit_area_id">Area</label>
                                         </div>
-                                        <div class="mb-3" id="edit_services">
+                                        <div id="edit_services_container">
                                             <!-- Services checkboxes will be dynamically populated here -->
                                         </div>
-                                        <div class="mb-3" id="edit_extra_services">
+                                        <div id="edit_extra_services_container">
                                             <!-- Extra Services checkboxes will be dynamically populated here -->
                                         </div>
                                         <button type="submit" class="btn btn-primary" name="btn_update">Save changes</button>
@@ -159,7 +143,6 @@ $page = "panels";
                             </div>
                         </div>
                     </div>
-
 
                     <!-- Add Panel Modal -->
                     <div class="panel_modal">
@@ -175,7 +158,7 @@ $page = "panels";
                                     </div>
                                     <div class="modal-body">
                                         <div class="panel_form">
-                                            <form id="panel_form" method="POST" action="">
+                                            <form id="panel_form" method="POST" action="insert_panel.php">
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="panel_company" name="panel_company" placeholder="" required>
                                                     <label for="panel_company">Enter Company</label>
@@ -221,7 +204,7 @@ $page = "panels";
                                                     <label for="area_id">Areas</label>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <div class="border p-3 rounded" id="mainservices">
+                                                    <div class="border p-3 rounded overflow-y-auto" style="height: 400px !important;" id="mainservices">
                                                         <label for="mainservices" class="form-label">Select Services</label>
                                                         <?php
                                                         $query = "SELECT * FROM tbl_sub_services WHERE status = 'available'";
@@ -229,10 +212,11 @@ $page = "panels";
 
                                                         foreach ($run_query as $services) {
                                                             echo "<div class='form-check'>";
-                                                            echo "<input class='form-check-input' type='checkbox'  name='services[]' value='{$services['id']}' id='{$services['id']}'>";
-                                                            echo "<label class='form-check-label' for='{$services['id']}'>{$services['sub_service']} (Price: {$services['sub_service_price']})</label>";
+                                                            echo "<input class='form-check-input' type='checkbox' name='services[]' value='{$services['id']}' id='{$services['id']}'>";
+                                                            echo "<label class='form-check-label' for='{$services['id']}'>{$services['sub_service']}</label>";
+                                                            echo "<input type='number' class='form-control' name='service_prices[{$services['id']}]' placeholder='Enter Price'>";
+                                                            echo "</div>";
 
-                                                            // Check if there are extra services for the current sub-service
                                                             $extra_services_query = "SELECT * FROM tbl_extra_services WHERE sub_services_id = {$services['id']}";
                                                             $extra_services_result = mysqli_query($connection, $extra_services_query);
 
@@ -242,15 +226,13 @@ $page = "panels";
                                                                 while ($extra_service = mysqli_fetch_assoc($extra_services_result)) {
                                                                     echo "<div class='form-check'>";
                                                                     echo "<input class='form-check-input' type='checkbox' name='extra_services[{$services['id']}][]' value='{$extra_service['id']}' id='extra_service_{$extra_service['id']}'>";
-                                                                    echo "<label class='form-check-label' for='extra_service_{$extra_service['id']}'>{$extra_service['extra_service']} (Price: {$extra_service['extra_service_price']})</label>";
+                                                                    echo "<label class='form-check-label' for='extra_service_{$extra_service['id']}'>{$extra_service['extra_service']}</label>";
+                                                                    echo "<input type='number' class='form-control' name='extra_service_prices[{$services['id']}][{$extra_service['id']}]' placeholder='Enter Price'>";
                                                                     echo "</div>";
                                                                 }
-
                                                                 echo "</div>";
                                                                 echo "<hr>";
                                                             }
-
-                                                            echo "</div>";
                                                         }
                                                         ?>
                                                     </div>

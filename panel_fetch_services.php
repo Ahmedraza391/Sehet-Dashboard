@@ -1,40 +1,50 @@
 <?php
-include("connection.php");
+include 'connection.php';
 
-$ids = $_POST['ids'];
-$id_array = explode(",", $ids);
+$panel_id = $_POST['panel_id'];
 
-// Prepare query to fetch panels with matching service IDs
-$fetch_query = "SELECT * FROM tbl_panel WHERE";
-foreach ($id_array as $index => $id) {
-    if ($index > 0) {
-        $fetch_query .= " OR";
+// Fetch services and extra services
+$services_query = "SELECT ps.panel_id, ps.sub_services_id, ss.sub_service, ps.sub_service_price
+                   FROM tbl_panel_services ps
+                   LEFT JOIN tbl_sub_services ss ON ps.sub_services_id = ss.id
+                   WHERE ps.panel_id = $panel_id
+                   GROUP BY ps.sub_services_id";
+
+$extra_services_query = "SELECT ps.panel_id, ps.sub_services_id, ps.extra_services_id, 
+                        es.extra_service, ps.extra_service_price
+                   FROM tbl_panel_services ps
+                   LEFT JOIN tbl_extra_services es ON ps.extra_services_id = es.id
+                   WHERE ps.panel_id = $panel_id AND ps.extra_services_id IS NOT NULL";
+
+$fetch_services = mysqli_query($connection, $services_query);
+$fetch_extra_services = mysqli_query($connection, $extra_services_query);
+
+$services = [];
+if ($fetch_services) {
+    while ($service = mysqli_fetch_assoc($fetch_services)) {
+        $services[] = [
+            'sub_services_id' => $service['sub_services_id'],
+            'sub_service' => $service['sub_service'],
+            'sub_service_price' => $service['sub_service_price']
+        ];
     }
-    $fetch_query .= " FIND_IN_SET('$id', services) > 0";
 }
 
-$result = mysqli_query($connection, $fetch_query);
-
-if (mysqli_num_rows($result) > 0) {
-    $service_ids = [];
-    while ($row = mysqli_fetch_assoc($result)) {
-        $service_ids = array_merge($service_ids, explode(",", $row['services']));
+$extra_services = [];
+if ($fetch_extra_services) {
+    while ($extra_service = mysqli_fetch_assoc($fetch_extra_services)) {
+        $extra_services[] = [
+            'sub_services_id' => $extra_service['sub_services_id'],
+            'extra_service' => $extra_service['extra_service'],
+            'extra_service_price' => $extra_service['extra_service_price']
+        ];
     }
-    $service_ids = array_unique($service_ids); // Remove duplicate IDs
-    $service_ids_str = implode(",", $service_ids);
-
-    // Fetch service names from tbl_sub_services based on service IDs
-    $service_query = "SELECT sub_service FROM tbl_sub_services WHERE id IN ($service_ids_str)";
-    $service_result = mysqli_query($connection, $service_query);
-
-    if (mysqli_num_rows($service_result) > 0) {
-        while ($service_row = mysqli_fetch_assoc($service_result)) {
-            echo "".htmlspecialchars($service_row['sub_service']) . ", ". " ";
-        }
-    } else {
-        echo "No matching services found";
-    }
-} else {
-    echo "Empty";
 }
+
+$response = [
+    'services' => $services,
+    'extra_services' => $extra_services
+];
+
+echo json_encode($response);
 ?>

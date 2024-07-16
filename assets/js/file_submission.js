@@ -689,6 +689,7 @@ $(document).ready(function () {
     // For Panel Page
     function panel_management() {
         fetch_panel();
+        // for provinces cities changing functionality for both insert and edit
         // For Fetch Province in insert  Panel Modal
         $("#province").on("change", function () {
             let province = $(this).val();
@@ -726,6 +727,45 @@ $(document).ready(function () {
                 }
             });
         });
+        // For Fetch Province in Edit  Panel Modal 
+        $("#edit_province").on("change", function () {
+            let province = $(this).val();
+            $.ajax({
+                url: "panel_fetch_edit_city_option.php",
+                type: "POST",
+                data: { id: province },
+                success: function (res) {
+                    $("#edit_city_id").html(res);
+                    let city = $("#edit_city_id").val();
+                    $.ajax({
+                        url: "panel_fetch_edit_area_option.php",
+                        type: "POST",
+                        data: { id: city },
+                        success: function (res) {
+                            $("#edit_area_id").html(res);
+                        }
+                    });
+                }
+            });
+        });
+        // For Fetch City in Edit  Panel Modal 
+        $("#edit_city_id").on("change", function () {
+            let city = $(this).val();
+            $.ajax({
+                url: "panel_fetch_edit_area_option.php",
+                type: "POST",
+                data: { id: city },
+                success: function (res) {
+                    $("#edit_area_id").html(res);
+
+                    // Automatically select the first area in the list
+                    let firstAreaOption = $("#edit_area_id option:first").val();
+                    $("#edit_area_id").val(firstAreaOption).change(); // Trigger change event if needed
+                }
+            });
+        });
+        // for provinces cities changing functionality for both insert and edit
+        // for insert Data
         $("#panel_form").on("submit", function (e) {
             e.preventDefault();
 
@@ -753,7 +793,237 @@ $(document).ready(function () {
                 }
             });
         });
+        $(document).on("click", ".edit-panel", function () {
+            $("#editPanel").modal("show");
+        
+            let dataAttributes = [
+                'id', 'company', 'email', 'manager', 'contact',
+                'manager_contact', 'province_id', 'city_id', 'area_id',
+                'status', 'services', 'extra_services'
+            ];
+            
+            let data = {};
+            dataAttributes.forEach(attr => {
+                data[attr] = $(this).data(attr);
+            });
+            
+            $("#edit_panel_id").val(data.id);
+            $("#edit_panel_company").val(data.company);
+            $("#edit_panel_manager").val(data.manager);
+            $("#edit_panel_email").val(data.email);
+            $("#edit_panel_contact").val(data.contact);
+            $("#edit_panel_manager_contact").val(data.manager_contact);
+        
+            // Fetch Province, City, Area
+            $.ajax({
+                url: "panel_fetch_province_option.php",
+                type: "POST",
+                data: { id: data.province_id },
+                success: function (res) {
+                    $("#edit_province").html(res);
+                },
+                error: function (res) {
+                    $("#edit_province").html("Error: " + res);
+                }
+            });
+            $.ajax({
+                url: "panel_fetch_city_sec_option.php",
+                type: "POST",
+                data: { id: data.city_id },
+                success: function (res) {
+                    $("#edit_city_id").html(res);
+                },
+                error: function (res) {
+                    $("#edit_city_id").html("Error: " + res);
+                }
+            });
+            $.ajax({
+                url: "panel_fetch_area_sec_option.php",
+                type: "POST",
+                data: { id: data.area_id },
+                success: function (res) {
+                    $("#edit_area_id").html(res);
+                },
+                error: function (res) {
+                    $("#edit_area_id").html("Error: " + res);
+                }
+            });
+        
+            // Fetch and display services and extra services with prices
+            let services = data.services;
+            let extra_services = data.extra_services;
+        
+            let servicesHtml = '';
+            services.forEach(service => {
+                servicesHtml += `<div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="edit_panel_services[]" value="${service.sub_services_id}" id="service_${service.sub_services_id}" checked>
+                                    <label class="form-check-label" for="service_${service.sub_services_id}">${service.sub_service}</label>
+                                    <input type="number" class="form-control" name="edit_panel_service_prices[${service.sub_services_id}]" value="${service.sub_service_price}" placeholder="Enter Price">
+                                 </div>`;
+            });
+            $("#edit_services_container").html(servicesHtml);
+        
+            let extraServicesHtml = '';
+            extra_services.forEach(extraService => {
+                extraServicesHtml += `<label for='panel_extra_services'>Choose Extra Services:</label>`;
+                extraServicesHtml += `<div class="form-check ms-md-5" id='panel_extra_services'>
+                                        <input class="form-check-input" type="checkbox" name="edit_panel_extra_services[${extraService.sub_services_id}][]" value="${extraService.extra_services_id}" id="extra_service_${extraService.extra_services_id}" checked>
+                                        <label class="form-check-label" for="extra_service_${extraService.extra_services_id}">${extraService.extra_service}</label>
+                                        <input type="number" class="form-control" name="edit_panel_extra_service_prices[${extraService.sub_services_id}][${extraService.extra_services_id}]" value="${extraService.extra_service_price}" placeholder="Enter Price">
+                                     </div>`;
+                                    });
+                                    extraServicesHtml += `<hr>`;
+            $("#edit_extra_services_container").html(extraServicesHtml);
+        });
+        
+        
+        $("#edit_panel_form").on("submit", function (e) {
+            e.preventDefault();
+            if (!validateEditForm()) {
+                return;
+            }
+            let formdata = $(this).serialize();
+            $.ajax({
+                url: "update_panel.php",
+                type: "POST",
+                data: formdata,
+                success: function (res) {
+                    fetch_panel();
+                    $("#editPanel").modal("hide");
+                    alert_box("Panel Updated Successfully", "Panel Management");
+                },
+                error: function (res) {
+                    alert("Error: " + res);
+                }
+            });
+        });
+        
+        // For Delete Panel
+        $(document).on("click", ".delete-panel", function () {
+            let del_id = $(this).data('id');
+            const confirmation = confirm('Are you sure you want to delete this Panel?');
+            if (confirmation) {
+                $.ajax({
+                    url: "delete_panel.php",
+                    type: "POST",
+                    data: { id: del_id },
+                    success: function (res) {
+                        fetch_panel();
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Error: " + xhr.responseText);
+                    }
+                });
+            }
+        });
+        // for view panel
+        $(document).on("click", ".view-panel", function () {
+            $("#viewpanel").modal("show"); // Show the modal
 
+            // Extract data attributes from the button
+            let id = $(this).data("id");
+            let company = $(this).data("company");
+            let email = $(this).data("email");
+            let manager = $(this).data("manager");
+            let contact = $(this).data("contact");
+            let manager_contact = $(this).data("manager_contact");
+            let province_id = $(this).data("province_id");
+            let city_id = $(this).data("city_id");
+            let area_id = $(this).data("area_id");
+            let status = $(this).data("status");
+            let sub_services = $(this).data("sub_services");
+            let services = $(this).data("services");
+            let extra_services = $(this).data("extra_services");
+            // Display panel information in modal
+            $("#view_panel_id").text(id);
+            $("#view_panel_company").text(company);
+            $("#view_panel_email").text(email);
+            $("#view_panel_manager").text(manager);
+            $("#view_panel_company_contact").text(contact);
+            $("#view_panel_contact").text(manager_contact);
+            $("#view_panel_status").text(status);
+
+            // Fetch and display Province
+            $.ajax({
+                url: "panel_fetch_province.php",
+                type: "POST",
+                data: { id: province_id },
+                success: function (res) {
+                    $("#view_panel_province").text(res);
+                },
+                error: function (res) {
+                    console.error("Error fetching province: " + res);
+                }
+            });
+
+            // Fetch and display City
+            $.ajax({
+                url: "panel_fetch_city.php",
+                type: "POST",
+                data: { id: city_id },
+                success: function (res) {
+                    $("#view_panel_city").text(res);
+                },
+                error: function (res) {
+                    console.error("Error fetching city: " + res);
+                }
+            });
+
+            // Fetch and display Area
+            $.ajax({
+                url: "panel_fetch_area.php",
+                type: "POST",
+                data: { id: area_id },
+                success: function (res) {
+                    $("#view_panel_area").text(res);
+                },
+                error: function (res) {
+                    console.error("Error fetching area: " + res);
+                }
+            });
+
+            // continue on edit panel 
+
+            // Display services information
+            let servicesHtml = "<ul>";
+            if (services.length > 0) {
+                let displayedServices = new Set();
+
+                services.forEach(service => {
+                    if (!displayedServices.has(service.sub_service)) {
+                        displayedServices.add(service.sub_service);
+
+                        servicesHtml += `<li>${service.sub_service} (Price: ${service.sub_service_price})`;
+
+                        // Check if there are extra services for this main service
+                        let extrasForService = extra_services.filter(extra => extra.sub_services_id === service.sub_services_id);
+                        if (extrasForService.length > 0) {
+                            servicesHtml += "<ul>";
+                            extrasForService.forEach(extra => {
+                                servicesHtml += `<li>${extra.extra_service} (Price: ${extra.extra_service_price})</li>`;
+                            });
+                            servicesHtml += "</ul>";
+                        }
+
+                        servicesHtml += "</li>";
+                    }
+                });
+            } else {
+                servicesHtml += "<li>No services available.</li>";
+            }
+            servicesHtml += "</ul>";
+            $("#view_panel_services").html(servicesHtml);
+
+        });
+        function fetch_panel() {
+            $.ajax({
+                url: "fetch_panel.php",
+                type: "POST",
+                success: function (res) {
+                    $("#panelTable").html(res);
+                }
+            })
+        }
         function validateForm() {
             var isValid = true;
             var subServicesSelected = {};
@@ -788,316 +1058,452 @@ $(document).ready(function () {
 
             return isValid;
         }
-        $(document).on("click", ".edit-panel", function () {
-            $("#editPanel").modal("show");
+        function validateEditForm() {
+            var isValid = true;
+            var subServicesSelected = {};
 
-            // Extract data attributes
-            let dataAttributes = [
-                'id', 'company', 'email', 'manager', 'contact',
-                'manager_contact', 'province_id', 'city_id', 'area_id',
-                'status', 'services'
-            ];
-
-            let data = {};
-            dataAttributes.forEach(attr => {
-                data[attr] = $(this).data(attr);
+            $("#edit_panel_form input[required], #edit_panel_form select[required]").each(function () {
+                if ($(this).val().trim() === '') {
+                    isValid = false;
+                    $(this).addClass('is-invalid');
+                } else {
+                    $(this).removeClass('is-invalid');
+                }
             });
 
-            // Set the HTML content of the elements
-            $("#edit_panel_id").val(data.id);
-            $("#edit_panel_comapny").val(data.company);
-            $("#edit_panel_manager").val(data.manager);
-            $("#edit_panel_email").val(data.email);
-            $("#edit_panel_contact").val(data.contact);
-            $("#edit_panel_manager_contact").val(data.manager_contact);
-            // For Fetch Province , city ,area
-            $.ajax({
-                url: "panel_fetch_province_option.php",
-                type: "POST",
-                data: { id: data.province_id },
-                success: function (res) {
-                    $("#edit_province").html(res);
-                }, error: function (res) {
-                    "Error :".$("#edit_province").html(res);
+            $("#edit_panel_form input[type='checkbox'][name^='extra_services']").each(function () {
+                var subServiceId = $(this).attr('name').match(/\d+/)[0];
+                if ($(this).is(':checked')) {
+                    subServicesSelected[subServiceId] = subServicesSelected[subServiceId] || false;
                 }
-            })
-            $.ajax({
-                url: "panel_fetch_city_sec_option.php",
-                type: "POST",
-                data: { id: data.city_id },
-                success: function (res) {
-                    $("#edit_city_id").html(res);
-                }, error: function (res) {
-                    "Error :".$("#edit_city_id").html(res);
-                }
-            })
-            $.ajax({
-                url: "panel_fetch_area_sec_option.php",
-                type: "POST",
-                data: { id: data.city_id },
-                success: function (res) {
-                    $("#edit_area_id").html(res);
-                }, error: function (res) {
-                    "Error :".$("#edit_area_id").html(res);
-                }
-            })
-            // For on change province fetch cities in this province
-            $("#edit_province").on("change", function () {
-                let province = $(this).val();
-                $.ajax({
-                    url: "panel_fetch_edit_city_option.php",
-                    type: "POST",
-                    data: { id: province },
-                    success: function (res) {
-                        $("#edit_city_id").html(res);
-                        let city = $("#edit_city_id").val();
-                        $.ajax({
-                            url: "panel_fetch_edit_area_option.php",
-                            type: "POST",
-                            data: { id: city },
-                            success: function (res) {
-                                $("#edit_area_id").html(res);
-                            }
-                        });
+            });
+
+            for (var subServiceId in subServicesSelected) {
+                if (subServicesSelected.hasOwnProperty(subServiceId)) {
+                    var subServiceCheckbox = $("#edit_panel_form input[type='checkbox'][name='edit_services[]'][value='" + subServiceId + "']");
+                    if (!subServiceCheckbox.is(':checked')) {
+                        isValid = false;
+                        subServiceCheckbox.addClass('is-invalid');
+                    } else {
+                        subServiceCheckbox.removeClass('is-invalid');
                     }
-                });
-            });
-            // For on change city fetch area in this province
-            $("#edit_city_id").on("change", function () {
-                let city = $(this).val();
-                $.ajax({
-                    url: "panel_fetch_edit_area_option.php",
-                    type: "POST",
-                    data: { id: city },
-                    success: function (res) {
-                        $("#edit_area_id").html(res);
-
-                        // Automatically select the first area in the list
-                        let firstAreaOption = $("#edit_area_id option:first").val();
-                        $("#edit_area_id").val(firstAreaOption).change(); // Trigger change event if needed
-                    }
-                });
-            });
-            // Fetch and display services
-            let services = data.services;
-            $.ajax({
-                url: "panel_fetch_sub_services.php",
-                type: "POST",
-                data: { services: services },
-                success: function (res) {
-                    $("#edit_services").html(res);
-                },
-                error: function (res) {
-                    $("#edit_services").html("Error: " + res);
                 }
-            });
-        });
-        // For Edit/ Update Panel 
-        $("#edit_panel_form").on("submit", function (e) {
-            e.preventDefault();
-            let formdata = $(this).serialize();
-            $.ajax({
-                url: "update_panel.php",
-                type: "POST",
-                data: formdata,
-                success: function (res) {
-                    fetch_panel();
-                    $("#editPanel").modal("hide");
-                    alert_box("Panel Updated Successfully", "Panel Management");
-                }, error: function (res) {
-                    alert("Error : ".res);
-                }
-            })
-
-        })
-        // For Delete Panel
-        $(document).on("click", ".delete-panel", function () {
-            let del_id = $(this).data('id');
-            const confirmation = confirm('Are you sure you want to delete this Panel?');
-            if (confirmation) {
-                $.ajax({
-                    url: "delete_panel.php",
-                    type: "POST",
-                    data: { id: del_id },
-                    success: function (res) {
-                        fetch_panel();
-                    },
-                    error: function (xhr, status, error) {
-                        alert("Error: " + xhr.responseText);
-                    }
-                });
             }
-        });
-        $(document).on("click", ".view-panel", function () {
-            $("#viewpanel").modal("show"); // Show the modal
-        
-            // Extract data attributes from the button
-            let id = $(this).data("id");
-            let company = $(this).data("company");
-            let email = $(this).data("email");
-            let manager = $(this).data("manager");
-            let contact = $(this).data("contact");
-            let manager_contact = $(this).data("manager_contact");
-            let province_id = $(this).data("province_id");
-            let city_id = $(this).data("city_id");
-            let area_id = $(this).data("area_id");
-            let status = $(this).data("status");
-            let sub_services = $(this).data("sub_services");
-            let services = $(this).data("services");
-            let extra_services = $(this).data("extra_services");
-        
-            // Display panel information in modal
-            $("#panel_id").text(id);
-            $("#panel_company").text(company);
-            $("#panel_email").text(email);
-            $("#panel_manager").text(manager);
-            $("#panel_company_contact").text(contact);
-            $("#panel_contact").text(manager_contact);
-            $("#panel_status").text(status);
-        
-            // Fetch and display Province
-            $.ajax({
-                url: "panel_fetch_province.php",
-                type: "POST",
-                data: { id: province_id },
-                success: function (res) {
-                    $("#panel_province").text(res);
-                },
-                error: function (res) {
-                    console.error("Error fetching province: " + res);
-                }
-            });
-        
-            // Fetch and display City
-            $.ajax({
-                url: "panel_fetch_city.php",
-                type: "POST",
-                data: { id: city_id },
-                success: function (res) {
-                    $("#panel_city").text(res);
-                },
-                error: function (res) {
-                    console.error("Error fetching city: " + res);
-                }
-            });
-        
-            // Fetch and display Area
-            $.ajax({
-                url: "panel_fetch_area.php",
-                type: "POST",
-                data: { id: area_id },
-                success: function (res) {
-                    $("#panel_area").text(res);
-                },
-                error: function (res) {
-                    console.error("Error fetching area: " + res);
-                }
-            });
 
-            // continue on edit panel 
-        
-            // Display services information
-            let servicesHtml = "<ul>";
-            if (services.length > 0) {
-                services.forEach(service => {
-                    // yaha ik condition lagy agar service kai andar sub_service m any wali id phly ki id sy match kar jay tu sub_service ik hi dafa show ho warna normal show ho
-                    servicesHtml += `<li>${service.sub_service} (Price: ${service.sub_service_price})`;
-        
-                    // Check if there are extra services for this main service
-                    let extrasForService = extra_services.filter(extra => extra.id === service.id);
-                    if (extrasForService.length > 0) {
-                        servicesHtml += "<ul>";
-                        extrasForService.forEach(extra => {
-                            servicesHtml += `<li>${extra.extra_service} (Price: ${extra.extra_service_price})</li>`;
-                        });
-                        servicesHtml += "</ul>";
-                    }
-        
-                    servicesHtml += "</li>";
-                });
-            } else {
-                servicesHtml += "<li>No services available.</li>"; // Handle case when services array is empty
-            }
-            servicesHtml += "</ul>";
-            $("#panel_services").html(servicesHtml);
-        });
-        
-
-
-        // function validateForm() {
-        //     var isValid = true;
-
-        //     // Validate each required field
-        //     $("#panel_form input[required], #panel_form select[required]").each(function () {
-        //         if ($(this).val().trim() === '') {
-        //             isValid = false;
-        //             $(this).addClass('is-invalid'); // Add validation styling if needed
-        //         } else {
-        //             $(this).removeClass('is-invalid'); // Remove validation styling if valid
-        //         }
-        //     });
-
-        //     return isValid;
-        // }
-        function fetch_panel() {
-            $.ajax({
-                url: "fetch_panel.php",
-                type: "POST",
-                success: function (res) {
-                    $("#panelTable").html(res);
-                }
-            })
+            return isValid;
         }
+
     }
     panel_management();
 
+    function employee_management() {
+        // For insert employees and validation
+        function formSubmitting() {
+            // Function to update feedback message
+            function updateFeedback(element, message) {
+                var feedback = element.next('.invalid-feedback');
+                if (message) {
+                    feedback.text(message);
+                    element.addClass('is-invalid');
+                } else {
+                    feedback.text('');
+                    element.removeClass('is-invalid');
+                }
+            }
 
-    // For Admin 
-    function admin_submission() {
-        // For username 
-        $(document).on("focusout", "#username", function () {
-            var data = $(this).val();
-            // Check if the input is not empty before sending the AJAX request
-            if (data.trim() !== "") {
-                $.ajax({
-                    type: "POST",
-                    url: "check_if_admin_exists.php",
-                    data: { username: data },
-                    success: function (response) {
-                        $("#usernameFeedback").html(response);
+            // Form submission handling
+            $("#insert_employee_form").on("submit", function (e) {
+                e.preventDefault();
 
-                    },
-                    error: function (response) {
-                        alert(response);
+                var isValidForm = true;
+
+                // Validate each field
+                $('#insert_employee_form input, #insert_employee_form select').each(function () {
+                    var element = $(this);
+                    var id = element.attr('id');
+                    var value = element.val().trim();
+
+                    switch (id) {
+                        case "emp_name":
+                            if (value === "") {
+                                updateFeedback(element, "Employee name is required.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        case "emp_father_name":
+                            if (value === "") {
+                                updateFeedback(element, "Father name is required.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        case "emp_emai":
+                            if (value === "") {
+                                updateFeedback(element, "Employee email is required.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        case "emp_contact":
+                            if (!element[0].checkValidity()) {
+                                updateFeedback(element, "Please enter a valid contact number starting with 03 and having 11 digits.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        case "emp_nic":
+                            if (!element[0].checkValidity()) {
+                                updateFeedback(element, "Please enter a valid NIC number with exactly 13 digits.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        case "emp_dob":
+                            if (!element[0].checkValidity()) {
+                                updateFeedback(element, "Please select a date of birth from previous years only.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        case "emp_designation":
+                            if (value === "") {
+                                updateFeedback(element, "Please select a designation.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        // Add more cases for additional fields as needed
                     }
                 });
-            } else {
-                $("#usernameFeedback").text("")
-            }
-        });
-        // for Register Admin
-        $('#registerForm').on('submit', function (event) {
-            event.preventDefault(); // Prevent the form from submitting via the browser
 
-            var formData = new FormData(this);
-
-            $.ajax({
-                url: 'admin_register_progress.php', // PHP script to handle form data
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function (response) {
-                    alert('Account created successfully', 'Admin');
-                    window.location.href = "admin_login.php";
-                },
-                error: function () {
-                    alert('Error in creating account');
+                // If form is valid, submit via AJAX
+                if (isValidForm) {
+                    var formData = $(this).serialize();
+                    $.ajax({
+                        url: "employee_insert_registration.php",
+                        type: "POST",
+                        data: formData,
+                        success: function (res) {
+                            $("#add_employe").modal("hide");
+                            alert_box('Employee Added Successfully', 'Referral Management');
+                            $("#insert_employee_form")[0].reset();
+                            fetch_employees();
+                        },
+                        error: function (xhr, status, error) {
+                            alert('Error submitting form: ' + error);
+                        }
+                    });
                 }
             });
+
+            // Update feedback messages on input change
+            $("#insert_employee_form input, #insert_employee_form select").on("change input", function () {
+                var element = $(this);
+                var id = element.attr("id");
+
+                switch (id) {
+                    case "emp_name":
+                        if (element.val().trim() === "") {
+                            updateFeedback(element, "Employee name is required.");
+                        } else {
+                            updateFeedback(element, "");
+                        }
+                        break;
+                    case "emp_father_name":
+                        if (element.val().trim() === "") {
+                            updateFeedback(element, "Father name is required.");
+                        } else {
+                            updateFeedback(element, "");
+                        }
+                        break;
+                    case "emp_emai":
+                        if (element.val().trim() === "") {
+                            updateFeedback(element, "Employee email is required.");
+                        } else {
+                            updateFeedback(element, "");
+                        }
+                        break;
+                    case "emp_contact":
+                        if (!element[0].checkValidity()) {
+                            updateFeedback(element, "Please enter a valid contact number starting with 03 and having 11 digits.");
+                        } else {
+                            updateFeedback(element, "");
+                        }
+                        break;
+                    case "emp_nic":
+                        if (!element[0].checkValidity()) {
+                            updateFeedback(element, "Please enter a valid NIC number with exactly 13 digits.");
+                        } else {
+                            updateFeedback(element, "");
+                        }
+                        break;
+                    case "emp_dob":
+                        if (!element[0].checkValidity()) {
+                            updateFeedback(element, "Please select a date of birth from previous years only.");
+                        } else {
+                            updateFeedback(element, "");
+                        }
+                        break;
+                    case "emp_designation":
+                        if (element.val() === "") {
+                            updateFeedback(element, "Please select a designation.");
+                        } else {
+                            updateFeedback(element, "");
+                        }
+                        break;
+                }
+            });
+        }
+        formSubmitting();
+        // For View Employees Details
+        $(document).on("click", ".view-employee", function () {
+            $("#viewEmployee").modal("show");
+            var id = $(this).data("id");
+            var name = $(this).data("name");
+            var f_name = $(this).data("f_name");
+            var email = $(this).data("email");
+            var contact = $(this).data("contact");
+            var nic = $(this).data("nic");
+            var dob = $(this).data("dob");
+            var designation = $(this).data("designation");
+            if ($(this).data("designation") == "") {
+                $("#emp_designation").html("No Designation Found.");
+            } else {
+                $("#emp_designation").html(designation);
+            }
+            var status = $(this).data("status");
+            $("#emp_id").html(id);
+            $("#emp_name").html(name);
+            $("#emp_f_name").html(f_name);
+            $("#emp_email").html(email);
+            $("#emp_contact").html(contact);
+            $("#emp_nic").html(nic);
+            $("#emp_dob").html(dob);
+            $("#emp_status").html(status);
+        })
+        // For Fetch Reffral Details in Modal
+        $(document).on("click", ".edit-employee", function () {
+            $("#editEmployee").modal("show");
+            var id = $(this).data("id");
+            var name = $(this).data("name");
+            var f_name = $(this).data("f_name");
+            var email = $(this).data("email");
+            var contact = $(this).data("contact");
+            var nic = $(this).data("nic");
+            var dob = $(this).data("dob");
+            var designation = $(this).data("designation");
+            $("#edit_emp_id").val(id);
+            $("#edit_emp_name").val(name);
+            $("#edit_emp_father_name").val(f_name);
+            $("#edit_emp_email").val(email);
+            $("#edit_emp_contact").val(contact);
+            $("#edit_emp_nic").val(nic);
+            $("#edit_emp_dob").val(dob);
+            // Set the selected designation
+            $("#edit_emp_designation").val(designation).change();
         });
+        function editFormSubmitting() {
+            // Form submission handling for edit_employee_form
+            $("#edit_employee_form").on("submit", function (e) {
+                e.preventDefault();
+
+                var isValidForm = true;
+
+                // Validate each field
+                $('#edit_employee_form input, #edit_employee_form select').each(function () {
+                    var element = $(this);
+                    var id = element.attr('id');
+                    var value = element.val().trim();
+
+                    switch (id) {
+                        case "edit_emp_name":
+                            if (value === "") {
+                                updateFeedback(element, "Employee name is required.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        case "edit_emp_father_name":
+                            if (value === "") {
+                                updateFeedback(element, "Father name is required.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        case "edit_emp_email":
+                            if (value === "") {
+                                updateFeedback(element, "Employee email is required.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        case "edit_emp_contact":
+                            if (!element[0].checkValidity()) {
+                                updateFeedback(element, "Please enter a valid contact number starting with 03 and having 11 digits.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        case "edit_emp_nic":
+                            if (!element[0].checkValidity()) {
+                                updateFeedback(element, "Please enter a valid NIC number with exactly 13 digits.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        case "edit_emp_dob":
+                            if (!element[0].checkValidity()) {
+                                updateFeedback(element, "Please select a date of birth from previous years only.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        case "edit_emp_designation":
+                            if (value === "") {
+                                updateFeedback(element, "Please select a designation.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        // Add more cases for additional fields as needed
+                    }
+                });
+
+                // If form is valid, submit via AJAX
+                if (isValidForm) {
+                    var formData = $(this).serialize();
+                    $.ajax({
+                        url: "update_employee.php",
+                        type: "POST",
+                        data: formData,
+                        success: function (res) {
+                            $("#editEmployee").modal("hide");
+                            alert_box(res, 'Employees Management');
+                            $("#edit_employee_form")[0].reset();
+                            fetch_employees();
+                        },
+                        error: function (xhr, status, error) {
+                            alert('Error submitting form: ' + error);
+                        }
+                    });
+                }
+            });
+
+            // Update feedback messages on input change
+            $("#edit_employee_form input, #edit_employee_form select").on("change input", function () {
+                var element = $(this);
+                var id = element.attr("id");
+
+                switch (id) {
+                    case "edit_emp_name":
+                        if (element.val().trim() === "") {
+                            updateFeedback(element, "Employee name is required.");
+                        } else {
+                            updateFeedback(element, "");
+                        }
+                        break;
+                    case "edit_emp_father_name":
+                        if (element.val().trim() === "") {
+                            updateFeedback(element, "Father name is required.");
+                        } else {
+                            updateFeedback(element, "");
+                        }
+                        break;
+                    case "edit_emp_email":
+                        if (element.val().trim() === "") {
+                            updateFeedback(element, "Employee email is required.");
+                        } else {
+                            updateFeedback(element, "");
+                        }
+                        break;
+                    case "edit_emp_contact":
+                        if (!element[0].checkValidity()) {
+                            updateFeedback(element, "Please enter a valid contact number starting with 03 and having 11 digits.");
+                        } else {
+                            updateFeedback(element, "");
+                        }
+                        break;
+                    case "edit_emp_nic":
+                        if (!element[0].checkValidity()) {
+                            updateFeedback(element, "Please enter a valid NIC number with exactly 13 digits.");
+                        } else {
+                            updateFeedback(element, "");
+                        }
+                        break;
+                    case "edit_emp_dob":
+                        if (!element[0].checkValidity()) {
+                            updateFeedback(element, "Please select a date of birth from previous years only.");
+                        } else {
+                            updateFeedback(element, "");
+                        }
+                        break;
+                    case "edit_emp_designation":
+                        if (element.val() === "") {
+                            updateFeedback(element, "Please select a designation.");
+                        } else {
+                            updateFeedback(element, "");
+                        }
+                        break;
+                }
+            });
+
+            function updateFeedback(element, message) {
+                if (message) {
+                    element.addClass("is-invalid");
+                    element.siblings(".invalid-feedback").text(message).show();
+                } else {
+                    element.removeClass("is-invalid");
+                    element.siblings(".invalid-feedback").text("").hide();
+                }
+            }
+        }
+        editFormSubmitting();
+        // For Delete Reffral
+        $(document).on('click', '.delete-employee', function () {
+            const emp_id = $(this).data('id');
+            const confirmation = confirm('Are you sure you want to delete this Employee?');
+            if (confirmation) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'delete_employee.php',
+                    data: { id: emp_id },
+                    success: function (response) {
+                        fetch_employees();
+                        alert_box("Employee Deleted Successfully", "Employee Management")
+                    },
+                    error: function () {
+                        alert('Failed to Delete Employee');
+                    }
+                });
+            }
+        });
+        function fetch_employees() {
+            $.ajax({
+                url: "fetch_employee.php",
+                type: "POST",
+                success: function (res) {
+                    $("#employeeTable").html(res)
+                }
+            })
+        }
+        fetch_employees()
     }
-    admin_submission()
+    employee_management();
     function alert_box(message, heading) {
         toastr.options.progressBar = true;
         toastr.options.timeOut = 3000;
