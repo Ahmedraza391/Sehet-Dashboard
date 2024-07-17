@@ -28,6 +28,7 @@ if (isset($_POST['panel_id'])) {
         SELECT ps.sub_services_id, ps.sub_service_price 
         FROM tbl_panel_services ps
         WHERE ps.panel_id = $panel_id
+        AND ps.extra_services_id IS NULL
     ";
 
     $selected_services_result = mysqli_query($connection, $selected_services_query);
@@ -63,6 +64,7 @@ if (isset($_POST['panel_id'])) {
         SELECT ps.extra_services_id, ps.extra_service_price, ps.sub_services_id 
         FROM tbl_panel_services ps
         WHERE ps.panel_id = $panel_id
+        AND ps.extra_services_id IS NOT NULL
     ";
 
     $selected_extra_services_result = mysqli_query($connection, $selected_extra_services_query);

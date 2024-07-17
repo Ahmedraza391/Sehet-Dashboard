@@ -907,7 +907,6 @@ $(document).ready(function () {
                 }
             });
 
-            // Fetch and display services and extra services with prices
             $.ajax({
                 url: "panel_fetch_services.php",
                 type: "POST",
@@ -915,14 +914,14 @@ $(document).ready(function () {
                 success: function (response) {
                     let services = JSON.parse(response);
                     let servicesHtml = '';
-
+            
                     services.forEach(service => {
                         servicesHtml += `<div class="form-check">
                                             <input class="form-check-input" type="checkbox" name="edit_panel_services[]" value="${service.sub_services_id}" id="service_${service.sub_services_id}" ${service.selected ? 'checked' : ''}>
                                             <label class="form-check-label" for="service_${service.sub_services_id}">${service.sub_service}</label>
                                             <input type="number" class="form-control" name="edit_panel_service_prices[${service.sub_services_id}]" value="${service.sub_service_price}" placeholder="Enter Price">
                                          </div>`;
-
+            
                         if (Object.keys(service.extra_services).length > 0) {
                             Object.values(service.extra_services).forEach(extraService => {
                                 servicesHtml += `<div class="form-check ms-md-5">
@@ -933,13 +932,15 @@ $(document).ready(function () {
                             });
                         }
                     });
-
+            
                     $("#edit_services_container").html(servicesHtml);
                 },
                 error: function (response) {
                     $("#edit_services_container").html("Error: " + response);
                 }
             });
+            
+            
         });
 
 

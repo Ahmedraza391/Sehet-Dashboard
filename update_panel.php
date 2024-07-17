@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $deleteServicesQuery = "DELETE FROM tbl_panel_services WHERE panel_id = $panel_id";
         mysqli_query($connection, $deleteServicesQuery);
 
-        // Insert selected services and extra services with prices
+        // Insert selected services and their prices
         foreach ($edit_services as $service_id) {
             $service_price = isset($service_prices[$service_id]) ? $service_prices[$service_id] : 0;
             $insertServiceQuery = "INSERT INTO tbl_panel_services (panel_id, sub_services_id, sub_service_price) VALUES ($panel_id, $service_id, $service_price)";
@@ -61,4 +61,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     mysqli_close($connection);
 }
 ?>
-<!-- continue on update panel  -->

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 16, 2024 at 08:00 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Jul 17, 2024 at 09:32 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -167,7 +167,10 @@ INSERT INTO `tbl_extra_services` (`id`, `extra_service`, `extra_service_price`, 
 (1, 'Computed Tomography', 1000, 8, 'available'),
 (2, 'Plain Radiography ', 800, 8, 'available'),
 (3, 'Leg Injection', 500, 2, 'available'),
-(4, 'Hand Injection', 400, 2, 'available');
+(4, 'Hand Injection', 400, 2, 'available'),
+(5, 'Full Body Test', 1500, 5, 'available'),
+(6, 'Small Drip', 1000, 3, 'available'),
+(7, 'Large Drip', 2000, 3, 'available');
 
 -- --------------------------------------------------------
 
@@ -194,7 +197,6 @@ CREATE TABLE `tbl_panel` (
 --
 
 INSERT INTO `tbl_panel` (`id`, `company`, `email`, `focal_person`, `company_contact`, `focal_person_contact`, `province_id`, `city_id`, `area_id`, `status`, `services`) VALUES
-(2, 'NDure', 'ndure@gmail.com', 'Wahab Khan', '03331234567', '03331234567', 2, 1, 3, 'activate', '1,2,3,4'),
 (3, 'Service Shoes', 'serviceshoes@gmail.com', 'Ahmed Raza', '03242342342', '03242342342', 3, 2, 5, 'activate', '1,2'),
 (4, 'POI Comps', 'poi@gmail.com', 'Wahab Khan', '03331234567', '03331234567', 5, 7, 11, 'activate', '1,2,8'),
 (5, 'Bata Shoes', 'batashoes@gmail.com', 'Muhammad Ikram', '03071234567', '03071234567', 6, 6, 10, 'activate', '1,2'),
@@ -243,7 +245,6 @@ INSERT INTO `tbl_panel_services` (`id`, `panel_id`, `sub_services_id`, `extra_se
 (20, 6, 2, NULL, '1020', NULL),
 (21, 6, 2, 3, '1020', NULL),
 (22, 6, 2, 4, '1020', NULL),
-(38, 7, 2, NULL, '1500', '0'),
 (39, 3, 1, NULL, '1000', '0'),
 (40, 3, 2, NULL, '3000', '0'),
 (41, 10, 1, NULL, '1200', NULL),
@@ -256,22 +257,23 @@ INSERT INTO `tbl_panel_services` (`id`, `panel_id`, `sub_services_id`, `extra_se
 (48, 10, 8, 1, '5000', '2600'),
 (49, 10, 8, 2, '5000', '2394'),
 (50, 10, 11, NULL, '595', NULL),
-(70, 8, 2, NULL, '1198', '0'),
-(71, 8, 2, 3, '0', '1500'),
-(72, 8, 2, 4, '0', '1500'),
-(73, 8, 3, NULL, '3000', '0'),
-(74, 8, 4, NULL, '2000', '0'),
-(75, 8, 5, NULL, '1000', '0'),
-(76, 8, 6, NULL, '1198', '0'),
-(77, 8, 8, NULL, '0', '0'),
-(78, 8, 8, 1, '0', '750'),
-(79, 8, 8, 2, '0', '748'),
-(80, 8, 14, NULL, '3000', '0'),
-(91, 9, 1, NULL, '2700', '0'),
-(92, 9, 2, NULL, '0', '0'),
-(93, 9, 2, 3, '0', '1200'),
-(94, 9, 2, 4, '0', '299'),
-(95, 9, 13, NULL, '1200', '0');
+(107, 9, 1, NULL, '2700', '0'),
+(108, 9, 2, NULL, '1300', '0'),
+(109, 9, 2, 3, '0', '1200'),
+(110, 9, 2, 4, '0', '299'),
+(111, 9, 13, NULL, '1200', '0'),
+(114, 7, 2, NULL, '0', '0'),
+(115, 7, 2, 3, '0', '1200'),
+(116, 7, 8, NULL, '1500', '0'),
+(117, 7, 8, 1, '0', '1000'),
+(190, 8, 2, NULL, '2500', '0'),
+(191, 8, 3, NULL, '3000', '0'),
+(192, 8, 3, 6, '0', '2500'),
+(193, 8, 4, NULL, '2000', '0'),
+(194, 8, 5, NULL, '1000', '0'),
+(195, 8, 6, NULL, '1198', '0'),
+(196, 8, 8, NULL, '1200', '0'),
+(197, 8, 8, 1, '0', '750');
 
 -- --------------------------------------------------------
 
@@ -488,7 +490,7 @@ ALTER TABLE `tbl_employees`
 -- AUTO_INCREMENT for table `tbl_extra_services`
 --
 ALTER TABLE `tbl_extra_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_panel`
@@ -500,7 +502,7 @@ ALTER TABLE `tbl_panel`
 -- AUTO_INCREMENT for table `tbl_panel_services`
 --
 ALTER TABLE `tbl_panel_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=198;
 
 --
 -- AUTO_INCREMENT for table `tbl_province`

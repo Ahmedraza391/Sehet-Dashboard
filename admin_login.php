@@ -1,12 +1,14 @@
-<?php ob_start();
-session_start(); ?>
-<?php include("connection.php") ?>
-<?php include("./Components/top.php") ?>
+<?php
+ob_start();
+session_start();
+include("connection.php");
+include("./Components/top.php");
+?>
 <title>Admin - Login</title>
 <?php
 $file = "admin_login";
+include("./Components/login_navbar.php");
 ?>
-<?php include("./Components/login_navbar.php") ?>
 <div class="container p-md-5 top_header_margin_div">
     <div class="login_content">
         <div class="row">
@@ -22,39 +24,31 @@ $file = "admin_login";
                             <div class="col-12">
                                 <label for="yourUsername" class="form-label">Username</label>
                                 <div class="input-group has-validation">
-                                    <input type="text" name="txtusername" value="<?php if (isset($_COOKIE['cook_username'])) {echo $_COOKIE['cook_username'];} ?>" class="form-control" id="yourUsername" required value="">
+                                    <input type="text" name="txtusername" value="<?php if (isset($_COOKIE['cook_username'])) {echo $_COOKIE['cook_username'];} ?>" class="form-control" id="yourUsername" required>
                                     <div class="invalid-feedback">Please enter your username.</div>
                                 </div>
                             </div>
                             <?php
                                 $value = "";
-                                if(isset($_SESSION['original_password'])){
-                                    if (isset($_COOKIE['cook_password'])) 
-                                    {
-                                        if(password_verify($_SESSION['original_password'],$_COOKIE['cook_password'])){
+                                if (isset($_SESSION['original_password'])) {
+                                    if (isset($_COOKIE['cook_password'])) {
+                                        if (password_verify($_SESSION['original_password'], $_COOKIE['cook_password'])) {
                                             $value = $_SESSION['original_password'];
                                         }
-                                        $value =  $_SESSION['original_password'];
-                                    }else{
-                                        $value =  $_SESSION['original_password'];
+                                    } else {
+                                        $value = $_SESSION['original_password'];
                                     }
                                 }
                             ?>
                             <div class="col-12 mb-3 password-wrapper">
                                 <label for="password" class="form-label">Admin Password</label>
-                                <input type="password" name="txtpassword" value="<?php echo $value; ?>" class="form-control password" id="" required value="">
-                                <i class="bi bi-eye-slash togglePassword" id="" style="transform: translateY(0%)!important;"></i>
+                                <input type="password" name="txtpassword" value="<?php echo htmlspecialchars($value); ?>" class="form-control password" required>
+                                <i class="bi bi-eye-slash togglePassword" style="transform: translateY(0%)!important;"></i>
                                 <div class="invalid-feedback">Please, Enter password!</div>
                             </div>
                             <div class="col-12">
                                 <div class="form-check">
-                                    <?php 
-                                        if(isset($_COOKIE['cook_username'])){
-                                            echo "<input class='form-check-input' type='checkbox' checked name='remember_me' id='rememberMe'>";
-                                        }else{
-                                            echo "<input class='form-check-input' type='checkbox' name='remember_me' id='rememberMe'>";
-                                        }
-                                    ?>
+                                    <input class="form-check-input" type="checkbox" name="remember_me" id="rememberMe" <?php if (isset($_COOKIE['cook_username']) && isset($_COOKIE['cook_password'])) { echo 'checked'; } ?>>
                                     <label class="form-check-label" for="rememberMe">Remember me</label>
                                 </div>
                             </div>
@@ -66,29 +60,39 @@ $file = "admin_login";
                             </div>
                         </form>
                         <?php
-                        if(isset($_POST['btn-login'])){
+                        if (isset($_POST['btn-login'])) {
                             $username = $_POST['txtusername'];
                             $password = $_POST['txtpassword'];
-                            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-                            $check_user_have = mysqli_query($connection,"SELECT * FROM tbl_admin WHERE admin_username='$username' AND admin_password = '$password'");
-                            $count = mysqli_num_rows($check_user_have);
-                            if($count>0){
-                                $fetch_user = mysqli_fetch_assoc($check_user_have);
-                                $id = $fetch_user['id'];
-                                $_SESSION['admin']=$id;
-                                $_SESSION['original_password']=$password;
-                                if(isset($_POST['remember_me'])){
-                                    setcookie('cook_username', $username, time() + (86400 * 30));
-                                    setcookie('cook_password', $hashed_password, time() + (86400 * 30));
-                                } else {
-                                    setcookie('cook_username', "", time() - 3600, "/");
-                                    setcookie('cook_password', "", time() - 3600, "/");
-                                }
-                                echo "<script>alert('Admin Login Successfully');window.location.href = 'index.php';</script>";
-                            }else{
-                                echo "<script>alert('Incorrect Username Or Password');window.location.href = 'index.php';</script>";
-                            }
 
+                            // Fetch user data from database
+                            $check_user_have = mysqli_query($connection, "SELECT * FROM tbl_admin WHERE admin_username='$username'");
+                            $count = mysqli_num_rows($check_user_have);
+
+                            if ($count > 0) {
+                                $fetch_user = mysqli_fetch_assoc($check_user_have);
+                                $stored_hashed_password = $fetch_user['admin_password'];
+
+                                // Verify password
+                                if (password_verify($password, $stored_hashed_password)) {
+                                    $id = $fetch_user['id'];
+                                    $_SESSION['admin'] = $id;
+                                    $_SESSION['original_password'] = $password;
+
+                                    if (isset($_POST['remember_me'])) {
+                                        setcookie('cook_username', $username, time() + (86400 * 30), "/", "", true, true); // Secure flag and HttpOnly flag
+                                        setcookie('cook_password', $stored_hashed_password, time() + (86400 * 30), "/", "", true, true); // Secure flag and HttpOnly flag
+                                    } else {
+                                        setcookie('cook_username', "", time() - 3600, "/", "", true, true); // Secure flag and HttpOnly flag
+                                        setcookie('cook_password', "", time() - 3600, "/", "", true, true); // Secure flag and HttpOnly flag
+                                    }
+
+                                    echo "<script>alert('Admin Login Successfully');window.location.href = 'index.php';</script>";
+                                } else {
+                                    echo "<script>alert('Incorrect Username Or Password');window.location.href = 'admin_login.php';</script>";
+                                }
+                            } else {
+                                echo "<script>alert('Incorrect Username Or Password');window.location.href = 'admin_login.php';</script>";
+                            }
                         }
                         ?>
                     </div>
@@ -98,5 +102,4 @@ $file = "admin_login";
         </div>
     </div>
 </div>
-<?php include("./Components/bottom.php");
-ob_end_flush(); ?>
+<?php include("./Components/bottom.php"); ob_end_flush(); ?>
