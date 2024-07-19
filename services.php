@@ -1,10 +1,31 @@
 <?php
 session_start();
-if (!isset($_SESSION['admin'])) {
+include("connection.php");
+if ((isset($_SESSION['employee_user'])) || (isset($_SESSION['admin']))) {
+    // User is either employee_user or admin, continue with the script
+} else {
+    // Redirect to admin login page if no session is found
     echo "<script>window.location.href='admin_login.php'</script>";
+    exit();
+}
+
+$this_page = "service_management";
+
+if (isset($_SESSION['employee_user'])) {
+    $id = $_SESSION['employee_user']['user_id'];
+    $query = mysqli_query($connection,"SELECT * FROM tbl_employee_users WHERE user_id ='$id'");
+    $fetch_qurey = mysqli_fetch_assoc($query);
+    $pages = explode(",", $fetch_qurey['pages_access']);    
+
+    if (in_array($this_page, $pages)) {
+        // User has permission to access this page, continue with the script
+    } else {
+        // Alert the user and redirect if they don't have permission
+        echo "<script>alert('You don\'t have permission to access this page.'); window.location.href='index.php';</script>";
+        exit();
+    }
 }
 ?>
-<?php include("connection.php") ?>
 <?php include("./Components/top.php") ?>
 <?php
 $page = "services";

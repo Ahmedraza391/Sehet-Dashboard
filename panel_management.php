@@ -1,10 +1,26 @@
 <?php
 session_start();
-if (!isset($_SESSION['admin'])) {
-    echo "<script>window.location.href='admin_login.php'</script>";
+include("connection.php");
+if ((isset($_SESSION['employee_user'])) || (isset($_SESSION['admin'])) ) {
+
+}else{
+  echo "<script>window.location.href='admin_login.php'</script>";
+}
+$this_page = "panel_management";
+
+if (isset($_SESSION['employee_user'])) {
+    $id = $_SESSION['employee_user']['user_id'];
+    $query = mysqli_query($connection,"SELECT * FROM tbl_employee_users WHERE user_id ='$id'");
+    $fetch_qurey = mysqli_fetch_assoc($query);
+    $pages = explode(",", $fetch_qurey['pages_access']);    
+
+    if (in_array($this_page, $pages)) {
+    } else {
+        echo "<script>alert('You don\'t have permission to access this page.'); window.location.href='index.php';</script>";
+        exit();
+    }
 }
 ?>
-<?php include("connection.php") ?>
 <?php include("./Components/top.php") ?>
 <?php
 $page = "panels";
@@ -105,11 +121,11 @@ $page = "panels";
                                             <label for="edit_panel_email">Enter Email</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="edit_panel_contact" name="edit_panel_contact_num" placeholder="Enter Focal Person Contact #" required pattern="^03\d{9}$" title="Contact number must start with 03 and be 11 digits long.">
+                                            <input type="number" class="form-control no-spinner" id="edit_panel_contact" name="edit_panel_contact_num" placeholder="Enter Focal Person Contact #" required>
                                             <label for="edit_panel_contact">Enter Focal Person Contact #</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="edit_panel_manager_contact" name="edit_panel_manager_contact_num" placeholder="Enter Manager Contact #" required pattern="^03\d{9}$" title="Contact number must start with 03 and be 11 digits long.">
+                                            <input type="number" class="form-control no-spinner" id="edit_panel_manager_contact" name="edit_panel_manager_contact_num" placeholder="Enter Manager Contact #" required>
                                             <label for="edit_panel_manager_contact">Enter Manager Contact #</label>
                                         </div>
                                         <div class="form-floating mb-3">
@@ -172,11 +188,11 @@ $page = "panels";
                                                     <label for="panel_email">Enter Email</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control" id="panel_contact" name="panel_contact_num" placeholder="" required pattern="^03\d{9}$" title="Contact number must start with 03 and be 11 digits long.">
+                                                    <input type="number" class="form-control no-spinner" id="panel_contact" name="panel_contact_num" placeholder="" required>
                                                     <label for="panel_contact">Enter Focal Person Contact #</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control" id="panel_manager_contact" name="panel_manager_contact_num" placeholder="" required pattern="^03\d{9}$" title="Contact number must start with 03 and be 11 digits long.">
+                                                    <input type="number" class="form-control no-spinner" id="panel_manager_contact" name="panel_manager_contact_num" placeholder="" required>
                                                     <label for="panel_manager_contact">Enter Manager Contact #</label>
                                                 </div>
                                                 <div class="form-floating mb-3">

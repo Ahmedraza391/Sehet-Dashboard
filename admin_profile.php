@@ -29,7 +29,10 @@ if (!isset($_SESSION['admin'])) {
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
                         <?php
-                        $fetch_image_query = mysqli_query($connection, "SELECT * FROM tbl_admin WHERE id = $_SESSION[admin]");
+                        if(isset($_SESSION['admin'])){
+                            $id = $_SESSION['admin']['id'];
+                        }
+                        $fetch_image_query = mysqli_query($connection, "SELECT * FROM tbl_admin WHERE id = '$id'");
                         if (mysqli_num_rows($fetch_image_query) > 0) {
                             $fetch_data = mysqli_fetch_assoc($fetch_image_query);
                         }
@@ -73,7 +76,7 @@ if (!isset($_SESSION['admin'])) {
                                 <div class="row align-items-center">
                                     <div class="col-lg-3 col-md-4 label">Password</div>
                                     <div class="col-lg-9 col-md-8 password-wrapper">
-                                        <input type="password" disabled value="<?php echo $_SESSION['original_password']; ?>" class="form-control password">
+                                        <input type="password" disabled value="<?php echo $fetch_data['admin_password']; ?>" class="form-control password">
                                         <i class="bi bi-eye-slash togglePassword"></i>
                                     </div>
                                 </div>
@@ -122,23 +125,23 @@ if (!isset($_SESSION['admin'])) {
                                                 // Move the uploaded file to the server
                                                 if (move_uploaded_file($imageTmpName, $imageDestination)) {
                                                     // Insert image info into database
-                                                    $sql = "UPDATE tbl_admin SET admin_image ='$imageDestination' WHERE id = $_SESSION[admin]";
+                                                    $sql = "UPDATE tbl_admin SET admin_image ='$imageDestination' WHERE id = '$id'";
                                                     if ($connection->query($sql) === TRUE) {
-                                                        echo "<p class='text-success'>Image uploaded successfully!</p>";
+                                                        echo "<script>alert('Image Updated Successfully');</script>";
                                                     } else {
-                                                        echo "<p class='text-danger'>Error: " . $sql . "<br>" . $connection->error . "</p>";
+                                                        echo "<script>alert('Error: " . $sql . "<br>" . $connection->error . "')</script>";
                                                     }
                                                 } else {
-                                                    echo "<p class='text-danger'>There was an error uploading your file.</p>";
+                                                    echo "<script>alert('There was an error uploading your file.')</script>";
                                                 }
                                             } else {
-                                                echo "<p class='text-danger'>Your file is too big!</p>";
+                                                echo "<script>alert('Your file is too big!');</script>";
                                             }
                                         } else {
-                                            echo "<p class='text-danger'>There was an error uploading your file!</p>";
+                                            echo "<script>alert('There was an error uploading your file!');</script>";
                                         }
                                     } else {
-                                        echo "<p class='text-danger'>You cannot upload files of this type!</p>";
+                                        echo "<script>alert('You cannot upload files of this type!');</script>";
                                     }
 
                                     $connection->close();
@@ -160,7 +163,7 @@ if (!isset($_SESSION['admin'])) {
                                     <div class="row mb-3">
                                         <label for="company" class="col-md-4 col-lg-3 col-form-label">Password</label>
                                         <div class="col-md-8 col-lg-9 mb-3 password-wrapper">
-                                            <input type="password" value="<?php echo $_SESSION['original_password']; ?>" class="form-control password" required name="admin_password">
+                                            <input type="password" value="<?php echo $fetch_data['admin_password']; ?>" class="form-control password" required name="admin_password">
                                             <i class="bi bi-eye-slash togglePassword"></i>
                                             <div class="invalid-feedback">Please, Enter password!</div>
                                         </div>
@@ -178,7 +181,7 @@ if (!isset($_SESSION['admin'])) {
                                         
                                         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-                                        $update_data_query = "UPDATE tbl_admin SET admin_name='$name',admin_username='$username',admin_password='$password' WHERE id = $_SESSION[admin]";
+                                        $update_data_query = "UPDATE tbl_admin SET admin_name='$name',admin_username='$username',admin_password='$password' WHERE id = '$id'";
                                         $run_update_query = mysqli_query($connection,$update_data_query);
                                         if($run_update_query){
                                             $_SESSION['original_password'] = $password;

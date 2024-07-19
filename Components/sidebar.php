@@ -43,7 +43,14 @@
       <li class="nav-item">
         <a class="nav-link <?php if($page=="emp_register"){echo "active";} ?> text-primary" href="./employee_management.php">
         <i class="ri-group-2-line text-primary"></i>
-          <span>Employee Register</span>
+          <span>Employees</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link <?php if($page=="emp_user_register"){echo "active";} ?> text-primary" href="./user_management.php">
+        <i class="ri-account-circle-fill"></i>
+          <span>Users</span>
         </a>
       </li>
     </ul>

@@ -1,10 +1,26 @@
 <?php
 session_start();
-if (!isset($_SESSION['admin'])) {
-    echo "<script>window.location.href='admin_login.php'</script>";
+include("connection.php");
+if ((isset($_SESSION['employee_user'])) || (isset($_SESSION['admin'])) ) {
+
+}else{
+  echo "<script>window.location.href='admin_login.php'</script>";
+}
+$this_page = "reffrel_management";
+
+if (isset($_SESSION['employee_user'])) {
+    $id = $_SESSION['employee_user']['user_id'];
+    $query = mysqli_query($connection,"SELECT * FROM tbl_employee_users WHERE user_id ='$id'");
+    $fetch_qurey = mysqli_fetch_assoc($query);
+    $pages = explode(",", $fetch_qurey['pages_access']);    
+
+    if (in_array($this_page, $pages)) {
+    } else {
+        echo "<script>alert('You don\'t have permission to access this page.'); window.location.href='index.php';</script>";
+        exit();
+    }
 }
 ?>
-<?php include("connection.php") ?>
 <?php include("./Components/top.php") ?>
 <?php
 $page = "reffrals";

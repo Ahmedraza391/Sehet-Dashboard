@@ -1,10 +1,26 @@
 <?php
 session_start();
-if (!isset($_SESSION['admin'])) {
-    echo "<script>window.location.href='admin_login.php'</script>";
+include("connection.php");
+if ((isset($_SESSION['employee_user'])) || (isset($_SESSION['admin'])) ) {
+
+}else{
+  echo "<script>window.location.href='admin_login.php'</script>";
+}
+$this_page = "employee_management";
+
+if (isset($_SESSION['employee_user'])) {
+    $id = $_SESSION['employee_user']['user_id'];
+    $query = mysqli_query($connection,"SELECT * FROM tbl_employee_users WHERE user_id ='$id'");
+    $fetch_qurey = mysqli_fetch_assoc($query);
+    $pages = explode(",", $fetch_qurey['pages_access']);    
+
+    if (in_array($this_page, $pages)) {
+    } else {
+        echo "<script>alert('You don\'t have permission to access this page.'); window.location.href='index.php';</script>";
+        exit();
+    }
 }
 ?>
-<?php include("connection.php") ?>
 <?php include("./Components/top.php") ?>
 <?php
 $page = "emp_register";
@@ -92,7 +108,7 @@ $page = "emp_register";
                     </div>
                     <!-- Edit Modal -->
                     <div class="modal fade" id="editEmployee" tabindex="-1" aria-labelledby="editEmployeeLabel" aria-hidden="true" data-bs-backdrop="static">
-                        <div class="modal-dialog modal-lg">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="editEmployeeLabel">Edit Employee</h5>
@@ -117,9 +133,9 @@ $page = "emp_register";
                                             <div class="invalid-feedback emp_emai_feedback">Please enter a valid email address.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="tel" class="form-control" id="edit_emp_contact" name="edit_emp_contact" placeholder="" pattern="03\d{9}" title="Please enter a valid contact number starting with 03 and having 11 digits." required>
+                                            <input type="number" class="form-control no-spinner" id="edit_emp_contact" name="edit_emp_contact" placeholder="" required>
                                             <label for="edit_emp_contact">Employee Contact #</label>
-                                            <div class="invalid-feedback emp_contact_feedback">Please enter a valid contact number starting with 03 and having 11 digits.</div>
+                                            <div class="invalid-feedback emp_contact_feedback">Contact Field Required.</div>
                                         </div>
                                         <div class="form-floating mb-3">
                                             <input type="text" class="form-control" id="edit_emp_nic" name="edit_emp_nic" placeholder="" pattern="\d{13}" required>
@@ -144,7 +160,7 @@ $page = "emp_register";
                                             <div class="invalid-feedback emp_designation_feedback">Please select a designation.</div>
                                         </div>
                                         <div class="button">
-                                            <button type="submit" name="btn_employee" id="btn_employee" class="btn btn-primary">Save Changes</button>
+                                            <button type="submit" name="btn_employee" id="update_employee" class="btn btn-primary">Save Changes</button>
                                         </div>
                                     </form>
 
@@ -162,7 +178,7 @@ $page = "emp_register";
                             Add Employees
                         </button>
                         <div class="modal fade" id="add_employe" tabindex="-1" data-bs-backdrop="static" aria-labelledby="add_employeLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
+                            <div class="modal-dialog modal-lg modal-dialog-scrollable">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h1 class="modal-title fs-4 fw-bold" id="add_employeLabel">Add Employee</h1>
@@ -187,9 +203,9 @@ $page = "emp_register";
                                                     <div class="invalid-feedback emp_emai_feedback">Please enter a valid email address.</div>
                                                 </div>
                                                 <div class="form-floating mb-3">
-                                                    <input type="tel" class="form-control" id="emp_contact" name="emp_contact" placeholder="" pattern="03\d{9}" title="Please enter a valid contact number starting with 03 and having 11 digits." required>
+                                                    <input type="number" class="form-control no-spinner" id="emp_contact" name="emp_contact" placeholder="" required>
                                                     <label for="emp_contact">Employee Contact #</label>
-                                                    <div class="invalid-feedback emp_contact_feedback">Please enter a valid contact number starting with 03 and having 11 digits.</div>
+                                                    <div class="invalid-feedback emp_contact_feedback">Contact Field Required.</div>
                                                 </div>
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="emp_nic" name="emp_nic" placeholder="" pattern="\d{13}" required>
@@ -202,7 +218,7 @@ $page = "emp_register";
                                                     <div class="invalid-feedback emp_dob_feedback">Please select a date of birth from previous years only.</div>
                                                 </div>
                                                 <div class="form-floating mb-3">
-                                                    <select class="form-select" id="emp_designation" name="designation" aria-label="Floating label select example" required>
+                                                    <select class="form-select" id="emp_designation" name="emp_designation" aria-label="Floating label select example" required>
                                                         <option value="" hidden selected>Select Designation</option>
                                                         <option value="nursing_staff">Nursing Staff</option>
                                                         <option value="doctor">Doctor</option>
@@ -214,7 +230,7 @@ $page = "emp_register";
                                                     <div class="invalid-feedback emp_designation_feedback">Please select a designation.</div>
                                                 </div>
                                                 <div class="button">
-                                                    <button type="submit" name="btn_employee" id="btn_employee" class="btn btn-primary">Add Employee</button>
+                                                    <button type="submit" name="btn_employee" id="insert_employee" class="btn btn-primary">Add Employee</button>
                                                 </div>
                                             </form>
                                         </div>

@@ -1,6 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION['admin'])) {
+if ((isset($_SESSION['employee_user'])) || (isset($_SESSION['admin'])) ) {
+
+}else{
   echo "<script>window.location.href='admin_login.php'</script>";
 }
 ?>

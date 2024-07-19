@@ -17,8 +17,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pages_string = implode(", ", $pages);
 
     // SQL query to insert data into database
-    $sql = "INSERT INTO tbl_employees (emp_name, emp_father_name, emp_email, emp_contact, emp_nic, emp_dob, emp_designation, pages_access)
-            VALUES ('$emp_name', '$emp_father_name', '$emp_email', '$emp_contact', '$emp_nic', '$emp_dob', '$emp_designation', '$pages_string')";
+    $sql = "INSERT INTO tbl_employees (emp_name, emp_father_name, emp_email, emp_contact, emp_nic, emp_dob, emp_designation)
+            VALUES ('$emp_name', '$emp_father_name', '$emp_email', '$emp_contact', '$emp_nic', '$emp_dob', '$emp_designation')";
 
     if ($connection->query($sql) === TRUE) {
         echo "Employee added successfully!";

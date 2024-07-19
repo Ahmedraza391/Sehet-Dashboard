@@ -10,6 +10,33 @@ $(document).ready(function () {
     //     });
     // }
     // for_disabled_right_click();
+    
+    // For Show / Hide Password Functionality
+    document.querySelectorAll('.togglePassword').forEach(function (toggle) {
+        toggle.addEventListener('click', function () {
+            var passwordInput = this.previousElementSibling; // Get the password input element
+            var passwordIcon = this;
+    
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordIcon.classList.remove('bi-eye-slash');
+                passwordIcon.classList.add('bi-eye');
+            } else {
+                passwordInput.type = 'password';
+                passwordIcon.classList.remove('bi-eye');
+                passwordIcon.classList.add('bi-eye-slash');
+            }
+        });
+    });
+    // For disabled Spinner button
+    document.querySelectorAll('.no-spinner').forEach(function(input) {
+        input.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+                event.preventDefault();
+            }
+        });
+    });
+
     // For Services Page
     function Service_page_functions() {
         // For Inserting / Updating / Deleting / Retrieving = Services 
@@ -914,14 +941,14 @@ $(document).ready(function () {
                 success: function (response) {
                     let services = JSON.parse(response);
                     let servicesHtml = '';
-            
+
                     services.forEach(service => {
                         servicesHtml += `<div class="form-check">
                                             <input class="form-check-input" type="checkbox" name="edit_panel_services[]" value="${service.sub_services_id}" id="service_${service.sub_services_id}" ${service.selected ? 'checked' : ''}>
                                             <label class="form-check-label" for="service_${service.sub_services_id}">${service.sub_service}</label>
                                             <input type="number" class="form-control" name="edit_panel_service_prices[${service.sub_services_id}]" value="${service.sub_service_price}" placeholder="Enter Price">
                                          </div>`;
-            
+
                         if (Object.keys(service.extra_services).length > 0) {
                             Object.values(service.extra_services).forEach(extraService => {
                                 servicesHtml += `<div class="form-check ms-md-5">
@@ -932,15 +959,15 @@ $(document).ready(function () {
                             });
                         }
                     });
-            
+
                     $("#edit_services_container").html(servicesHtml);
                 },
                 error: function (response) {
                     $("#edit_services_container").html("Error: " + response);
                 }
             });
-            
-            
+
+
         });
 
 
@@ -1095,6 +1122,7 @@ $(document).ready(function () {
     }
     panel_management();
 
+    // For Employee Page
     function employee_management() {
         // For insert employees and validation
         function formSubmitting() {
@@ -1147,14 +1175,6 @@ $(document).ready(function () {
                                 updateFeedback(element, "");
                             }
                             break;
-                        case "emp_contact":
-                            if (!element[0].checkValidity()) {
-                                updateFeedback(element, "Please enter a valid contact number starting with 03 and having 11 digits.");
-                                isValidForm = false;
-                            } else {
-                                updateFeedback(element, "");
-                            }
-                            break;
                         case "emp_nic":
                             if (!element[0].checkValidity()) {
                                 updateFeedback(element, "Please enter a valid NIC number with exactly 13 digits.");
@@ -1191,6 +1211,7 @@ $(document).ready(function () {
                         type: "POST",
                         data: formData,
                         success: function (res) {
+                            console.log(res);
                             $("#add_employe").modal("hide");
                             alert_box('Employee Added Successfully', 'Referral Management');
                             $("#insert_employee_form")[0].reset();
@@ -1226,13 +1247,6 @@ $(document).ready(function () {
                     case "emp_emai":
                         if (element.val().trim() === "") {
                             updateFeedback(element, "Employee email is required.");
-                        } else {
-                            updateFeedback(element, "");
-                        }
-                        break;
-                    case "emp_contact":
-                        if (!element[0].checkValidity()) {
-                            updateFeedback(element, "Please enter a valid contact number starting with 03 and having 11 digits.");
                         } else {
                             updateFeedback(element, "");
                         }
@@ -1347,14 +1361,6 @@ $(document).ready(function () {
                                 updateFeedback(element, "");
                             }
                             break;
-                        case "edit_emp_contact":
-                            if (!element[0].checkValidity()) {
-                                updateFeedback(element, "Please enter a valid contact number starting with 03 and having 11 digits.");
-                                isValidForm = false;
-                            } else {
-                                updateFeedback(element, "");
-                            }
-                            break;
                         case "edit_emp_nic":
                             if (!element[0].checkValidity()) {
                                 updateFeedback(element, "Please enter a valid NIC number with exactly 13 digits.");
@@ -1430,13 +1436,6 @@ $(document).ready(function () {
                             updateFeedback(element, "");
                         }
                         break;
-                    case "edit_emp_contact":
-                        if (!element[0].checkValidity()) {
-                            updateFeedback(element, "Please enter a valid contact number starting with 03 and having 11 digits.");
-                        } else {
-                            updateFeedback(element, "");
-                        }
-                        break;
                     case "edit_emp_nic":
                         if (!element[0].checkValidity()) {
                             updateFeedback(element, "Please enter a valid NIC number with exactly 13 digits.");
@@ -1503,6 +1502,346 @@ $(document).ready(function () {
         fetch_employees()
     }
     employee_management();
+
+    // For User Page
+    function employee_user_management() {
+        $("#emp_selection").on("change", function () {
+            let id = $(this).val();
+            if (id) {
+                $.ajax({
+                    url: "fetch_employee_user.php",
+                    type: "POST",
+                    data: { id: id },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data) {
+                            $("#emp_user_id").val(data.emp_id);
+                            $("#emp_user_name").val(data.emp_name);
+                            // For hidden name input
+                            $("#emp_user_name_hidden").val(data.emp_name);
+                            $("#emp_user_father_name").val(data.emp_father_name);
+                            // For hidden father name input
+                            $("#emp_user_father_name_hidden").val(data.emp_father_name);
+                            $("#emp_user_email").val(data.emp_email);
+                            $("#emp_user_contact").val(data.emp_contact);
+                            $("#emp_user_nic").val(data.emp_nic);
+                            // For hidden nic input
+                            $("#emp_user_nic_hidden").val(data.emp_nic);
+                            $("#emp_user_dob").val(data.emp_dob);
+                            // For hidden dob input
+                            $("#emp_user_dob_hidden").val(data.emp_dob);
+                            $("#emp_user_designation").val(data.emp_designation);
+                            $("#add_user").modal("show");
+                            $("#insert_employee_user_form").addClass("d-block").removeClass("d-none");
+                        } else {
+                            $("#insert_employee_user_form").addClass("d-none").removeClass("d-block");
+                        }
+                    },
+                    error: function () {
+                        console.log("Error fetching employee data");
+                    }
+                });
+            } else {
+                $("#insert_employee_user_form").addClass("d-none").removeClass("d-block");
+            }
+        });
+        function addformSubmitting() {
+            $('#insert_employee_user_form').on("submit", function (e) {
+                e.preventDefault();
+
+                // Validate form fields
+                if (validateForm()) {
+                    // Serialize form data
+                    var formData = $(this).serialize();
+
+                    // Submit form via AJAX
+                    $.ajax({
+                        url: 'insert_employee_user.php',
+                        type: 'POST',
+                        data: formData,
+                        success: function (response) {
+                            console.log(response);
+                            alert_box("Employee User Added Successfully", "User Management");
+                            $("#add_user").modal("hide");
+                            $('#insert_employee_user_form')[0].reset();
+                            window.location.href = "user_management.php";
+                        },
+                        error: function (xhr, status, error) {
+                            console.error(xhr.responseText); // Log error message
+                            alert('An error occurred while adding the employee user. Please try again.');
+                        }
+                    });
+                }
+            });
+
+            // Function to validate form fields
+            function validateForm() {
+                var isValid = true;
+
+                // Reset all validation messages
+                $('.form-control').removeClass('is-invalid');
+                $('.invalid-feedback').hide();
+
+                // Validate each field
+                if ($('#emp_user_name').val().trim() === '') {
+                    $('#emp_user_name').addClass('is-invalid');
+                    $('#emp_user_name').siblings('.invalid-feedback').show();
+                    isValid = false;
+                }
+
+                if ($('#emp_user_father_name').val().trim() === '') {
+                    $('#emp_user_father_name').addClass('is-invalid');
+                    $('#emp_user_father_name').siblings('.invalid-feedback').show();
+                    isValid = false;
+                }
+
+                if ($('#emp_user_email').val().trim() === '') {
+                    $('#emp_user_email').addClass('is-invalid');
+                    $('#emp_user_email').siblings('.invalid-feedback').show();
+                    isValid = false;
+                }
+
+                if ($('#emp_user_password').val().trim() === '') {
+                    $('#emp_user_password').addClass('is-invalid');
+                    $('#emp_user_password').siblings('.invalid-feedback').show();
+                    isValid = false;
+                }
+
+                if (!/^03\d{9}$/.test($('#emp_user_contact').val().trim())) {
+                    $('#emp_user_contact').addClass('is-invalid');
+                    $('#emp_user_contact').siblings('.invalid-feedback').show();
+                    isValid = false;
+                }
+
+                if (!/^\d{13}$/.test($('#emp_user_nic').val().trim())) {
+                    $('#emp_user_nic').addClass('is-invalid');
+                    $('#emp_user_nic').siblings('.invalid-feedback').show();
+                    isValid = false;
+                }
+
+                if ($('#emp_user_dob').val().trim() === '' || !$('#emp_user_dob')[0].checkValidity()) {
+                    $('#emp_user_dob').addClass('is-invalid');
+                    $('#emp_user_dob').siblings('.invalid-feedback').show();
+                    isValid = false;
+                }
+
+                return isValid;
+            }
+        }
+        addformSubmitting();
+        $(document).on("click", ".view-user", function () {
+            $("#viewUser").modal("show");
+            var id = $(this).data("id");
+            var name = $(this).data("name");
+            var f_name = $(this).data("f_name");
+            var email = $(this).data("email");
+            var password = $(this).data("password");
+            var contact = $(this).data("contact");
+            var nic = $(this).data("nic");
+            var dob = $(this).data("dob");
+            var pages = $(this).data("pages");
+            var status = $(this).data("status");
+
+            $("#emp_id").html(id);
+            $("#emp_name").html(name);
+            $("#emp_f_name").html(f_name);
+            $("#emp_email").html(email);
+            $("#emp_password").val(password);
+            $("#emp_contact").html(contact);
+            $("#emp_nic").html(nic);
+            $("#emp_dob").html(dob);
+            $("#emp_status").html(status);
+
+            // Clear previous list of pages
+            $("#emp_pages").empty();
+
+            // Add each page to the list
+            pages.forEach(function (page) {
+                $("#emp_pages").append("<li>" + page + "</li>");
+            });
+        });
+        // For Fetch Reffral Details in Modal
+        $(document).on("click", ".edit-user", function () {
+            $("#editUser").modal("show");
+            var id = $(this).data("id");
+            var name = $(this).data("name");
+            var f_name = $(this).data("f_name");
+            var email = $(this).data("email");
+            var password = $(this).data("password");
+            var contact = $(this).data("contact");
+            var nic = $(this).data("nic");
+            var dob = $(this).data("dob");
+            var pages = $(this).data("pages");
+
+            $("#edit_emp_user_id").val(id);
+            $("#edit_emp_user_name").val(name);
+            $("#edit_emp_user_father_name").val(f_name);
+            $("#edit_emp_user_email").val(email);
+            $("#edit_emp_user_password").val(password);
+            $("#edit_emp_user_contact").val(contact);
+            $("#edit_emp_user_nic").val(nic);
+            $("#edit_emp_user_dob").val(dob);
+            // Uncheck all checkboxes
+            $(".form-check-input").prop("checked", false);
+
+            // Check the checkboxes based on the user's pages
+            pages.forEach(function (page) {
+                $("input.form-check-input[value='" + page + "']").prop("checked", true);
+            });
+        });
+        function editFormSubmitting() {
+            $("#edit_user_form").on("submit", function (e) {
+                e.preventDefault();
+
+                var isValidForm = true;
+
+                // Validate each field
+                $('#edit_user_form input, #edit_user_form select').each(function () {
+                    var element = $(this);
+                    var id = element.attr('id');
+                    var value = element.val().trim();
+
+                    switch (id) {
+                        case "edit_emp_user_name":
+                        case "edit_emp_user_father_name":
+                        case "edit_emp_user_email":
+                            if (value === "") {
+                                updateFeedback(element, "This field is required.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        case "edit_emp_user_contact":
+                            if (!element[0].checkValidity()) {
+                                updateFeedback(element, "Please enter a valid contact number starting with 03 and having 11 digits.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        case "edit_emp_user_nic":
+                            if (!element[0].checkValidity()) {
+                                updateFeedback(element, "Please enter a valid NIC number with exactly 13 digits.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        case "edit_emp_user_dob":
+                            if (!element[0].checkValidity()) {
+                                updateFeedback(element, "Please select a date of birth from previous years only.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        // Add more cases for additional fields as needed
+                    }
+                });
+                // If form is valid, submit via AJAX
+                if (isValidForm) {
+                    var formData = $(this).serializeArray();
+                
+                    // Get all checked checkboxes
+                    var checkedBoxes = $("input[name='edit_pages_access[]']:checked");
+                
+                    // If no checkboxes are selected, add a dummy value to indicate no changes
+                    if (checkedBoxes.length === 0) {
+                        formData.push({ name: "edit_pages_access[]", value: "no_change" });
+                    }
+                
+                    $.ajax({
+                        url: "update_employee_user.php",
+                        type: "POST",
+                        data: $.param(formData),
+                        success: function (res) {
+                            console.log(res);
+                            fetch_employees();
+                            $("#editUser").modal("hide");
+                            alert_box("Employee User Updated Successfully", 'User Management');
+                            $("#edit_user_form")[0].reset();
+                        },
+                        error: function (xhr, status, error, res) {
+                            alert('Error submitting form: ' + error + res);
+                        }
+                    });
+                }
+                
+            });
+
+            // Update feedback messages on input change
+            $("#edit_user_form input, #edit_user_form select").on("change input", function () {
+                var element = $(this);
+                var id = element.attr("id");
+
+                switch (id) {
+                    case "edit_emp_user_name":
+                        updateFeedback(element, element.val().trim() === "" ? "Employee name is required." : "");
+                        break;
+                    case "edit_emp_user_father_name":
+                        updateFeedback(element, element.val().trim() === "" ? "Father name is required." : "");
+                        break;
+                    case "edit_emp_user_email":
+                        updateFeedback(element, element.val().trim() === "" ? "Employee email is required." : "");
+                        break;
+                    case "edit_emp_user_contact":
+                        updateFeedback(element, !element[0].checkValidity() ? "Please enter a valid contact number starting with 03 and having 11 digits." : "");
+                        break;
+                    case "edit_emp_user_nic":
+                        updateFeedback(element, !element[0].checkValidity() ? "Please enter a valid NIC number with exactly 13 digits." : "");
+                        break;
+                    case "edit_emp_user_dob":
+                        updateFeedback(element, !element[0].checkValidity() ? "Please select a date of birth from previous years only." : "");
+                        break;
+                    // Add more cases for additional fields as needed
+                }
+            });
+
+            function updateFeedback(element, message) {
+                if (message) {
+                    element.addClass("is-invalid");
+                    element.siblings(".invalid-feedback").text(message).show();
+                } else {
+                    element.removeClass("is-invalid");
+                    element.siblings(".invalid-feedback").text("").hide();
+                }
+            }
+        }
+        editFormSubmitting();
+        // For Delete Reffral
+        $(document).on('click', '.delete-user', function () {
+            const emp_id = $(this).data('id');
+            const confirmation = confirm('Are you sure you want to delete this Employee User?');
+            if (confirmation) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'delete_employee_user.php',
+                    data: { id: emp_id },
+                    success: function (response) {
+                        fetch_employees();
+                        alert_box("Employee User Deleted Successfully", "User Management")
+                    },
+                    error: function () {
+                        alert('Failed to Delete Employee User');
+                    }
+                });
+            }
+        });
+        function fetch_employees() {
+            $.ajax({
+                url: "fetch_user_employee.php",
+                type: "POST",
+                success: function (res) {
+                    $("#userTable").html(res)
+                }
+            })
+        }
+        fetch_employees()
+    }
+    employee_user_management();
+
+    // For Alert Message
     function alert_box(message, heading) {
         toastr.options.progressBar = true;
         toastr.options.timeOut = 3000;

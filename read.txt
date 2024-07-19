@@ -1,6 +1,13 @@
-continue on adding employee full work insert update delete fetch
-and panel full work
-
-continue on edit panel modal lazmiiii
-
 small screens par tamam tables kay button ki alignment set karni ha
+
+sare insert update aur sare funtions m jin m response a raha h db sy un m console.log add karna ha
+
+login page par koi aur user login nhi horaha 
+
+Patient management add or edit user walay modal m add karwany ha
+
+
+// for get date time according to pakistan
+date_default_timezone_set('Asia/Karachi');
+$currentDateTime = date('Y-m-d h:i:s');
+

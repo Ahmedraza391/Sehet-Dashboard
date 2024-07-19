@@ -4,9 +4,9 @@ session_start();
 include("connection.php");
 include("./Components/top.php");
 ?>
-<title>Admin - Login</title>
+<title>Employee User - Login</title>
 <?php
-$file = "admin_login";
+$file = "emp_login";
 include("./Components/login_navbar.php");
 ?>
 <div class="container p-md-5 top_header_margin_div">
@@ -22,32 +22,32 @@ include("./Components/login_navbar.php");
                         </div>
                         <form class="row g-3 needs-validation" novalidate method="POST">
                             <div class="col-12">
-                                <label for="yourUsername" class="form-label">Username</label>
+                                <label for="user_email" class="form-label">Email</label>
                                 <div class="input-group has-validation">
-                                    <input type="text" name="txtusername" value="<?php if (isset($_COOKIE['admin_username'])) {
-                                                                                        echo htmlspecialchars($_COOKIE['admin_username']);
-                                                                                    } ?>" class="form-control" id="yourUsername" required>
-                                    <div class="invalid-feedback">Please enter your username.</div>
+                                    <input type="email" name="txtemail" value="<?php if (isset($_COOKIE['emp_user_email'])) {
+                                                                                        echo htmlspecialchars($_COOKIE['emp_user_email']);
+                                                                                    } ?>" class="form-control" id="user_email" required>
+                                    <div class="invalid-feedback">Please enter your Email!</div>
                                 </div>
                             </div>
                             <?php
                             $value = "";
-                            if (isset($_COOKIE['admin_password'])) {
-                                $value = $_COOKIE['admin_password'];
+                            if (isset($_COOKIE['emp_user_password'])) {
+                                $value = $_COOKIE['emp_user_password'];
                             }
                             ?>
                             <div class="col-12 mb-3 password-wrapper">
-                                <label for="password" class="form-label">Admin Password</label>
+                                <label for="password" class="form-label">Password</label>
                                 <input type="password" name="txtpassword" value="<?php echo htmlspecialchars($value); ?>" class="form-control password" required>
                                 <i class="bi bi-eye-slash togglePassword" style="transform: translateY(0%)!important;"></i>
                                 <div class="invalid-feedback">Please, Enter password!</div>
                             </div>
                             <div class="col-12">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember_me" id="rememberMe" <?php
+                                    <input class="form-check-input" type="checkbox" name="remember_me" id="rememberMe"<?php
                                                                                                                         if (
-                                                                                                                            isset($_COOKIE['admin_username']) && $_COOKIE['admin_username'] !== '' &&
-                                                                                                                            isset($_COOKIE['admin_password']) && $_COOKIE['admin_password'] !== ''
+                                                                                                                            isset($_COOKIE['emp_user_email']) && $_COOKIE['emp_user_email'] !== '' &&
+                                                                                                                            isset($_COOKIE['emp_user_password']) && $_COOKIE['emp_user_password'] !== ''
                                                                                                                         ) {
                                                                                                                             echo 'checked';
                                                                                                                         }
@@ -61,35 +61,33 @@ include("./Components/login_navbar.php");
                         </form>
                         <?php
                         if (isset($_POST['btn-login'])) {
-                            $username = $_POST['txtusername'];
+                            $user_email = $_POST['txtemail'];
                             $password = $_POST['txtpassword'];
 
                             // Fetch user data from database
-                            $check_user_have = mysqli_query($connection, "SELECT * FROM tbl_admin WHERE admin_username='$username'");
+                            $check_user_have = mysqli_query($connection, "SELECT * FROM tbl_employee_users WHERE user_email='$user_email'");
                             $count = mysqli_num_rows($check_user_have);
 
                             if ($count > 0) {
                                 $fetch_user = mysqli_fetch_assoc($check_user_have);
-                                $stored_password = $fetch_user['admin_password'];
-
-                                // Check password (plain text comparison)
+                                $stored_password = $fetch_user['user_password'];
                                 if ($password == $stored_password) {
-                                    $_SESSION['admin'] = $fetch_user;
+                                    $_SESSION['employee_user'] = $fetch_user;
 
                                     if (isset($_POST['remember_me'])) {
-                                        setcookie('admin_username', $username, time() + (86400 * 30), "/", "", true, true); // Secure flag and HttpOnly flag
-                                        setcookie('admin_password', $stored_password, time() + (86400 * 30), "/", "", true, true); // Secure flag and HttpOnly flag
+                                        setcookie('emp_user_email', $user_email, time() + (86400 * 30), "/", "", true, true); // Secure flag and HttpOnly flag
+                                        setcookie('emp_user_password', $stored_password, time() + (86400 * 30), "/", "", true, true); // Secure flag and HttpOnly flag
                                     } else {
-                                        setcookie('admin_username', "", time() - 3600, "/", "", true, true); // Secure flag and HttpOnly flag
-                                        setcookie('admin_password', "", time() - 3600, "/", "", true, true); // Secure flag and HttpOnly flag
+                                        setcookie('emp_user_email', "", time() - 3600, "/", "", true, true); // Secure flag and HttpOnly flag
+                                        setcookie('emp_user_password', "", time() - 3600, "/", "", true, true); // Secure flag and HttpOnly flag
                                     }
 
-                                    echo "<script>alert('Admin Login Successfully');window.location.href = 'index.php';</script>";
+                                    echo "<script>alert('Employee User Login Successfully');window.location.href='index.php'</script>";
                                 } else {
-                                    echo "<script>alert('Incorrect Username Or Password');window.location.href = 'admin_login.php';</script>";
+                                    echo "<script>alert('Incorrect Email Or Password');window.location.href = 'employee_user_login.php';</script>";
                                 }
                             } else {
-                                echo "<script>alert('Incorrect Username Or Password');window.location.href = 'admin_login.php';</script>";
+                                echo "<script>alert('Incorrect Email Or Password');window.location.href = 'employee_user_login.php';</script>";
                             }
                         }
                         ?>

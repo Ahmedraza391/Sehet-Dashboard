@@ -1,136 +1,146 @@
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
+  <div class="d-flex align-items-center justify-content-between">
+    <a href="index.php" class="logo d-flex align-items-center">
+      <img src="./assets/img/Sehet.pk-Logo-00.50924e11ffd6fed66494.png" alt="">
+      <span class="d-none d-lg-block">Sehet Panel</span>
+    </a>
+    <i class="bi bi-list toggle-sidebar-btn"></i>
+  </div><!-- End Logo -->
 
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
-        <img src="./assets/img/Sehet.pk-Logo-00.50924e11ffd6fed66494.png" alt="">
-        <span class="d-none d-lg-block">Sehet Panel</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
+  <nav class="header-nav ms-auto">
+    <ul class="d-flex align-items-center">
 
-    <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="POST" action="#">
-        <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-      </form>
-    </div><!-- End Search Bar -->
+      <li class="nav-item  me-5">
+        <i class="ri-nurse-line"></i> 
+        <a href="patient_management.php" class="fs-6 mini-nav <?php if($page == "patients"){echo "active";} ?>">Patients</a>
+      </li>
 
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
+      <li class="nav-item dropdown">
 
-        <li class="nav-item d-block d-lg-none">
-          <a class="nav-link nav-icon search-bar-toggle " href="#">
-            <i class="bi bi-search"></i>
-          </a>
-        </li><!-- End Search Icon-->
+        <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+          <i class="bi bi-bell"></i>
+          <span class="badge bg-primary badge-number">4</span>
+        </a><!-- End Notification Icon -->
 
-        <li class="nav-item dropdown">
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+          <li class="dropdown-header">
+            You have 4 new notifications
+            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
 
-          <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-            <i class="bi bi-bell"></i>
-            <span class="badge bg-primary badge-number">4</span>
-          </a><!-- End Notification Icon -->
+          <li class="notification-item">
+            <i class="bi bi-exclamation-circle text-warning"></i>
+            <div>
+              <h4>Lorem Ipsum</h4>
+              <p>Quae dolorem earum veritatis oditseno</p>
+              <p>30 min. ago</p>
+            </div>
+          </li>
 
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-            <li class="dropdown-header">
-              You have 4 new notifications
-              <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
 
-            <li class="notification-item">
-              <i class="bi bi-exclamation-circle text-warning"></i>
-              <div>
-                <h4>Lorem Ipsum</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>30 min. ago</p>
-              </div>
-            </li>
+          <li class="notification-item">
+            <i class="bi bi-x-circle text-danger"></i>
+            <div>
+              <h4>Atque rerum nesciunt</h4>
+              <p>Quae dolorem earum veritatis oditseno</p>
+              <p>1 hr. ago</p>
+            </div>
+          </li>
 
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
 
-            <li class="notification-item">
-              <i class="bi bi-x-circle text-danger"></i>
-              <div>
-                <h4>Atque rerum nesciunt</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>1 hr. ago</p>
-              </div>
-            </li>
+          <li class="notification-item">
+            <i class="bi bi-check-circle text-success"></i>
+            <div>
+              <h4>Sit rerum fuga</h4>
+              <p>Quae dolorem earum veritatis oditseno</p>
+              <p>2 hrs. ago</p>
+            </div>
+          </li>
 
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
 
-            <li class="notification-item">
-              <i class="bi bi-check-circle text-success"></i>
-              <div>
-                <h4>Sit rerum fuga</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>2 hrs. ago</p>
-              </div>
-            </li>
+          <li class="notification-item">
+            <i class="bi bi-info-circle text-primary"></i>
+            <div>
+              <h4>Dicta reprehenderit</h4>
+              <p>Quae dolorem earum veritatis oditseno</p>
+              <p>4 hrs. ago</p>
+            </div>
+          </li>
 
-            <li>
-              <hr class="dropdown-divider">
-            </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li class="dropdown-footer">
+            <a href="#">Show all notifications</a>
+          </li>
 
-            <li class="notification-item">
-              <i class="bi bi-info-circle text-primary"></i>
-              <div>
-                <h4>Dicta reprehenderit</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>4 hrs. ago</p>
-              </div>
-            </li>
+        </ul><!-- End Notification Dropdown Items -->
 
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li class="dropdown-footer">
-              <a href="#">Show all notifications</a>
-            </li>
+      </li><!-- End Notification Nav -->
 
-          </ul><!-- End Notification Dropdown Items -->
+      <li class="nav-item dropdown pe-3">
+        <?php
+        if (isset($_SESSION['admin'])) {
+          $image = $_SESSION['admin']['admin_image'];
+          echo "<a class='nav-link nav-profile d-flex align-items-center pe-0' href='#' data-bs-toggle='dropdown'>
+                <img src='$image' alt='Profile' class='rounded-circle'>
+                <span class='d-none d-md-block dropdown-toggle ps-2'></span>
+              </a>";
+        }
+        if (isset($_SESSION['employee_user'])) {
+          echo "<a class='nav-link nav-profile d-flex align-items-center pe-0' href='#' data-bs-toggle='dropdown'>
+                <i class='ri-user-3-line fs-4 rounded'></i>
+                <span class='d-none d-md-block dropdown-toggle ps-2'></span>
+              </a>";
+        }
+        ?>
+        <!-- End Profile Iamge Icon -->
 
-        </li><!-- End Notification Nav -->
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+          <?php
+          $anchor = '';
+          if (isset($_SESSION['admin'])) {
+            $anchor = "admin_profile.php";
+          }
+          if (isset($_SESSION['employee_user'])) {
+            $anchor = "employee_user_profile.php";
+          }
+          ?>
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="<?php echo $anchor; ?>">
+              <i class="bi bi-person"></i>
+              <span>My Profile</span>
+            </a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
 
-        <li class="nav-item dropdown pe-3">
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="logout.php">
+              <i class="bi bi-box-arrow-right"></i>
+              <span>Sign Out</span>
+            </a>
+          </li>
 
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">Sehet</span>
-          </a><!-- End Profile Iamge Icon -->
+        </ul><!-- End Profile Dropdown Items -->
+      </li><!-- End Profile Nav -->
 
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+    </ul>
+  </nav><!-- End Icons Navigation -->
 
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="admin_profile.php">
-                <i class="bi bi-person"></i>
-                <span>My Profile</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="admin_logout.php">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Sign Out</span>
-              </a>
-            </li>
-
-          </ul><!-- End Profile Dropdown Items -->
-        </li><!-- End Profile Nav -->
-
-      </ul>
-    </nav><!-- End Icons Navigation -->
-
-  </header><!-- End Header -->
+</header><!-- End Header -->
