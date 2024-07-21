@@ -10,13 +10,13 @@ $(document).ready(function () {
     //     });
     // }
     // for_disabled_right_click();
-    
+
     // For Show / Hide Password Functionality
     document.querySelectorAll('.togglePassword').forEach(function (toggle) {
         toggle.addEventListener('click', function () {
             var passwordInput = this.previousElementSibling; // Get the password input element
             var passwordIcon = this;
-    
+
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
                 passwordIcon.classList.remove('bi-eye-slash');
@@ -29,8 +29,8 @@ $(document).ready(function () {
         });
     });
     // For disabled Spinner button
-    document.querySelectorAll('.no-spinner').forEach(function(input) {
-        input.addEventListener('keydown', function(event) {
+    document.querySelectorAll('.no-spinner').forEach(function (input) {
+        input.addEventListener('keydown', function (event) {
             if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
                 event.preventDefault();
             }
@@ -1742,15 +1742,15 @@ $(document).ready(function () {
                 // If form is valid, submit via AJAX
                 if (isValidForm) {
                     var formData = $(this).serializeArray();
-                
+
                     // Get all checked checkboxes
                     var checkedBoxes = $("input[name='edit_pages_access[]']:checked");
-                
+
                     // If no checkboxes are selected, add a dummy value to indicate no changes
                     if (checkedBoxes.length === 0) {
                         formData.push({ name: "edit_pages_access[]", value: "no_change" });
                     }
-                
+
                     $.ajax({
                         url: "update_employee_user.php",
                         type: "POST",
@@ -1767,7 +1767,7 @@ $(document).ready(function () {
                         }
                     });
                 }
-                
+
             });
 
             // Update feedback messages on input change
@@ -1841,6 +1841,182 @@ $(document).ready(function () {
     }
     employee_user_management();
 
+    function patient_management() {
+        // For Fetch Province in insert  Panel Modal
+        $("#patient_province").on("change", function () {
+            let province = $(this).val();
+            $.ajax({
+                url: "patient_fetch_city_option.php",
+                type: "POST",
+                data: { id: province },
+                success: function (res) {
+                    $("#patient_city").html(res);
+                    let city = $("#patient_city").val();
+                    $.ajax({
+                        url: "patient_fetch_area_option.php",
+                        type: "POST",
+                        data: { id: city },
+                        success: function (res) {
+                            $("#patient_area").html(res);
+                        }
+                    });
+                }
+            });
+        });
+        // For Fetch City in insert  Panel Modal 
+        $("#patient_city").on("change", function () {
+            let city = $(this).val();
+            $.ajax({
+                url: "patient_fetch_area_option.php",
+                type: "POST",
+                data: { id: city },
+                success: function (res) {
+                    $("#patient_area").html(res);
+                    // Automatically select the first area in the list
+                    let firstAreaOption = $("#patient_area option:first").val();
+                    $("#patient_area").val(firstAreaOption).change(); // Trigger change event if needed
+                }
+            });
+        });
+        $("#insert_patient_form").on("submit", function (e) {
+            e.preventDefault();
+            let formData = $(this).serialize();
+            $.ajax({
+                url: "insert_patient.php",
+                type: "POST",
+                data: formData,
+                success: function (res) {
+                    $("#add_patient").modal("hide");
+                    fetch_patients();
+                    alert_box("Patient Inserted Successfully", "Patient Management");
+                }
+            })
+        });
+        $(document).on("click", ".view-patient", function () {
+            // Show modal
+            $('#viewPatient').modal('show');
+            var registration_date = $(this).data('registration_date');
+            var mr_no = $(this).data('mr_no');
+            var change_person = $(this).data('changes_person');
+            var name = $(this).data('name');
+            var attendent_name = $(this).data('attendent_name');
+            var email = $(this).data('email');
+            var contact = $(this).data('contact');
+            var whatsapp = $(this).data('whatsapp');
+            var age = $(this).data('age');
+            var gender = $(this).data('gender');
+            var ad_date = $(this).data('ad_date');
+            var dis_date = $(this).data('dis_date');
+            var total_days = $(this).data('total_days');
+            var province_id = $(this).data('province_id');
+            var city_id = $(this).data('city_id');
+            var area_id = $(this).data('area_id');
+            var refferal_id = $(this).data('refferal_id');
+            var panel_id = $(this).data('panel_id');
+            var employee_id = $(this).data('employee_id');
+            var p_status = $(this).data('p_status');
+            var patient_rate = $(this).data('patient_rate');
+            var staff_rate = $(this).data('staff_rate');
+            var service_id = $(this).data('service_id');
+            var recovery = $(this).data('recovery');
+            var running_bill = $(this).data('running_bill');
+
+            // Populate modal fields
+            $('#view_patient_registration_date').text(registration_date);
+            $('#view_patient_mr_no').text(mr_no);
+            $('#view_patient_name').text(name);
+            $('#view_patient_email').text(email);
+            $('#view_patient_attendent_name').text(attendent_name);
+            $('#view_patient_contact').text(contact);
+            $('#view_patient_whatsapp').text(whatsapp);
+            $('#view_patient_age').text(age);
+            $('#view_patient_gender').text(gender);
+            $('#view_patient_ad_date').text(ad_date);
+            $('#view_patient_dis_date').text(dis_date);
+            $('#view_patient_total_days').text(total_days);
+            $('#view_patient_status').text(p_status);
+            // For fetch Province
+            $.ajax({
+                url: "patient_fetch_province.php",
+                type: "POST",
+                data: { id: province_id },
+                success: function (res) {
+                    $("#view_patient_province").text(res);
+                }
+            });
+            // For fetch City
+            $.ajax({
+                url: "patient_fetch_city.php",
+                type: "POST",
+                data: { id: city_id },
+                success: function (res) {
+                    $("#view_patient_city").text(res);
+                }
+            });
+            // For fetch Area
+            $.ajax({
+                url: "patient_fetch_area.php",
+                type: "POST",
+                data: { id: area_id },
+                success: function (res) {
+                    $("#view_patient_area").text(res);
+                }
+            });
+            // For fetch Refferal
+            $.ajax({
+                url: "patient_fetch_refferal.php",
+                type: "POST",
+                data: { id: refferal_id },
+                success: function (res) {
+                    $("#view_patient_refferal_id").text(res);
+                }
+            });
+            // For fetch Panel
+            $.ajax({
+                url: "patient_fetch_panel.php",
+                type: "POST",
+                data: { id: panel_id },
+                success: function (res) {
+                    $("#view_patient_panel_id").text(res);
+                }
+            });
+            // For fetch Employee
+            $.ajax({
+                url: "patient_fetch_employee.php",
+                type: "POST",
+                data: { id: employee_id },
+                success: function (res) {
+                    $("#view_patient_employee_id").text(res);
+                }
+            });
+            // For fetch Services
+            $.ajax({
+                url: "patient_fetch_service.php",
+                type: "POST",
+                data: { id: service_id },
+                success: function (res) {
+                    $("#view_patient_service_id").text(res);
+                }
+            });
+            $('#view_patient_payment_status').text(p_status);
+            $('#view_patient_patient_rate').text(patient_rate);
+            $('#view_patient_staff_rate').text(staff_rate);
+            $('#view_patient_recovery').text(recovery);
+            $('#view_patient_running_bill').text(running_bill);
+            $('#view_patient_changes_person').text(change_person);
+        });
+        function fetch_patients() {
+            $.ajax({
+                url: "fetch_patients.php",
+                type: "POST",
+                success: function (res) {
+                    $("#patientTable").html(res)
+                }
+            })
+        }
+        fetch_patients();
+    }
+    patient_management();
     // For Alert Message
     function alert_box(message, heading) {
         toastr.options.progressBar = true;

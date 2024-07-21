@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 19, 2024 at 06:44 PM
+-- Generation Time: Jul 21, 2024 at 11:21 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -125,7 +125,7 @@ INSERT INTO `tbl_city` (`id`, `city`, `province_id`) VALUES
 --
 
 CREATE TABLE `tbl_employees` (
-  `emp_id` int(11) NOT NULL,
+  `emp_id` bigint(20) NOT NULL,
   `emp_name` varchar(200) NOT NULL,
   `emp_father_name` varchar(100) NOT NULL,
   `emp_email` varchar(100) NOT NULL,
@@ -142,7 +142,7 @@ CREATE TABLE `tbl_employees` (
 --
 
 INSERT INTO `tbl_employees` (`emp_id`, `emp_name`, `emp_father_name`, `emp_email`, `emp_contact`, `emp_nic`, `emp_dob`, `emp_designation`, `emp_status`, `registration_status`) VALUES
-(1, 'Muhammad Minhal', 'Muhammad Qasim', 'minhal@gmail.com', '03269243547', '4230111018277', '2006-03-31', 'admin', 'activate', 'registered'),
+(1, 'Muhammad Minhal', 'Muhammad Qasim', 'minhal@gmail.com', '03269243547', '4230111018277', '2006-03-31', 'nursing_staff', 'activate', 'registered'),
 (2, 'Ahmed Raza Jutt', 'Muhammad Razzaq', 'ahmed@gmail.com', '03269243547', '4230111018277', '2006-03-31', 'admin', 'activate', 'registered'),
 (3, 'Yasir Nawaz', 'Farooq Nawaz', 'nawaz@gmail.com', '03269243547', '4230111018277', '2003-07-17', 'admin', 'activate', 'registered'),
 (4, 'Bilal Abbas', 'Mushtaq Ahmed ', 'bilal@gamil.com', '03129987654', '4230111018223', '1998-06-15', 'admin', 'activate', 'registered'),
@@ -174,7 +174,7 @@ CREATE TABLE `tbl_employee_users` (
 --
 
 INSERT INTO `tbl_employee_users` (`user_id`, `user_name`, `user_father_name`, `user_email`, `user_password`, `user_contact`, `user_nic`, `user_dob`, `user_status`, `pages_access`, `registration_status`) VALUES
-(1, 'Ahmed Raza ', 'Abdul Razzaq', 'ahmed@gmail.com', 'ahmed123', '03269243532', '4230111018277', '2006-04-04', 'activate', 'service_management,address_management,reffrel_management,panel_management,employee_management,user_management', 'registered'),
+(1, 'Ahmed Raza ', 'Abdul Razzaq', 'ahmed@gmail.com', 'ahmed123', '03269243532', '4230111018277', '2006-04-04', 'activate', 'service_management,address_management,reffrel_management,panel_management,employee_management,user_management,patient_management', 'registered'),
 (2, 'Muhammad Minhal Khan', 'Muhammad Qasim', 'minhal@gmail.com', 'minhal123', '03269243547', '4230111018277', '2006-03-31', 'activate', 'service_management,address_management,user_management', 'registered'),
 (3, 'Yasir Nawaz', 'Farooq Nawaz', 'nawaz@gmail.com', 'nawaz12345', '03269243547', '4230111018277', '2003-07-17', 'activate', 'service_management,address_management,reffrel_management,panel_management,employee_management,user_management', 'registered'),
 (5, 'Bilal Abbas', 'Mushtaq Ahmed ', 'bilal@gamil.com', 'bilal123', '03129987654', '4230111018223', '1998-06-15', 'activate', '', 'registered');
@@ -306,6 +306,53 @@ INSERT INTO `tbl_panel_services` (`id`, `panel_id`, `sub_services_id`, `extra_se
 (102, 11, 2, 4, '0', '600'),
 (103, 2, 1, NULL, '1499', '0'),
 (104, 2, 2, NULL, '800', '0');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_patients`
+--
+
+CREATE TABLE `tbl_patients` (
+  `patient_id` int(11) NOT NULL,
+  `mr_no` varchar(50) NOT NULL,
+  `registration_date` varchar(50) NOT NULL,
+  `patient_name` varchar(200) NOT NULL,
+  `attendent_name` varchar(100) NOT NULL,
+  `patient_age` varchar(50) NOT NULL,
+  `patient_gender` varchar(20) NOT NULL,
+  `patient_contact` varchar(50) NOT NULL,
+  `patient_whatsapp` varchar(50) NOT NULL,
+  `patient_email` varchar(50) NOT NULL,
+  `patient_status` varchar(50) NOT NULL,
+  `patient_address` text NOT NULL,
+  `patient_admit_date` varchar(50) NOT NULL,
+  `patient_discharge_date` varchar(50) NOT NULL,
+  `patient_total_days` varchar(50) NOT NULL DEFAULT '0',
+  `province_id` int(11) NOT NULL,
+  `city_id` int(11) NOT NULL,
+  `area_id` int(11) NOT NULL,
+  `refferal_id` int(11) NOT NULL,
+  `panel_id` int(11) NOT NULL,
+  `employee_id` int(11) NOT NULL,
+  `payment_status` varchar(50) NOT NULL,
+  `patient_rate` varchar(100) NOT NULL,
+  `staff_rate` varchar(100) NOT NULL,
+  `service_id` int(11) NOT NULL,
+  `recovery` varchar(300) NOT NULL,
+  `running_bill` varchar(200) NOT NULL,
+  `note` text NOT NULL,
+  `changes_person` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_patients`
+--
+
+INSERT INTO `tbl_patients` (`patient_id`, `mr_no`, `registration_date`, `patient_name`, `attendent_name`, `patient_age`, `patient_gender`, `patient_contact`, `patient_whatsapp`, `patient_email`, `patient_status`, `patient_address`, `patient_admit_date`, `patient_discharge_date`, `patient_total_days`, `province_id`, `city_id`, `area_id`, `refferal_id`, `panel_id`, `employee_id`, `payment_status`, `patient_rate`, `staff_rate`, `service_id`, `recovery`, `running_bill`, `note`, `changes_person`) VALUES
+(1, '2024-07-001', '2024-07-21 23:05:23', 'Muhammad Minhal', 'Self', '19', 'male', '03091024628', '03091024628', 'minhal@gmail.com', 'Admitted', 'House No 54 Karsaz, Karachi', '2024-07-21', '', '0', 5, 8, 13, 1, 2, 1, 'r_from_panel', '1500', '1300', 1, '', '', 'This is Amazing!', ''),
+(2, '2024-07-002', '2024-07-21 23:12:13', 'Muhammad Raza', 'Ahmed Raza', '17', 'male', '03091024628', '03091024628', 'raza@gmail.com', 'Discharged', '437 new iqbalabad drigh road karachi', '2024-07-16', '2024-07-21', '5', 2, 1, 3, 1, 7, 1, 'r_from_panel', '1500', '100', 1, '', '', 'Very Well Notes', 'Admin'),
+(3, '2024-07-003', '2024-07-21 23:15:34', 'Wahab Khan', 'Self', '19', 'male', '03091024222', '03091024222', 'wahab@gmail.com', 'Discharged', 'House No 33 Karsaz Karachi', '2024-07-01', '2024-07-30', '29', 2, 10, 16, 2, 3, 1, 'zakat_donation', '4000', '1300', 2, '', '', '', 'Ahmed Raza ');
 
 -- --------------------------------------------------------
 
@@ -467,6 +514,12 @@ ALTER TABLE `tbl_panel_services`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_patients`
+--
+ALTER TABLE `tbl_patients`
+  ADD PRIMARY KEY (`patient_id`);
+
+--
 -- Indexes for table `tbl_province`
 --
 ALTER TABLE `tbl_province`
@@ -519,12 +572,6 @@ ALTER TABLE `tbl_city`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `tbl_employees`
---
-ALTER TABLE `tbl_employees`
-  MODIFY `emp_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
 -- AUTO_INCREMENT for table `tbl_employee_users`
 --
 ALTER TABLE `tbl_employee_users`
@@ -547,6 +594,12 @@ ALTER TABLE `tbl_panel`
 --
 ALTER TABLE `tbl_panel_services`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+
+--
+-- AUTO_INCREMENT for table `tbl_patients`
+--
+ALTER TABLE `tbl_patients`
+  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_province`

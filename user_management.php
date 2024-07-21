@@ -82,7 +82,7 @@ $page = "emp_user_register";
                     </div>
                     <!-- View Modal -->
                     <div class="modal fade" id="viewUser" tabindex="-1" aria-labelledby="viewUserLabel" aria-hidden="true" data-bs-backdrop="static">
-                        <div class="modal-dialog modal-lg">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h3 class="modal-title" id="viewUserLabel">Employee</h3>
@@ -218,6 +218,12 @@ $page = "emp_user_register";
                                                     User Management
                                                 </label>
                                             </div>
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="checkbox" name="edit_pages_access[]" value="patient_management" id="edit_patient_page">
+                                                <label class="form-check-label" for="edit_patient_page">
+                                                    Patient Management
+                                                </label>
+                                            </div>
                                         </div>
                                         <div class="button">
                                             <button type="submit" name="update_employee" id="update_user" class="btn btn-primary">Save Changes</button>
@@ -319,6 +325,12 @@ $page = "emp_user_register";
                                                         <input class="form-check-input" type="checkbox" name="pages_access[]" value="employee_management" id="user_page">
                                                         <label class="form-check-label" for="user_page">
                                                             User Management
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" name="pages_access[]" value="patient_management" id="patient_page">
+                                                        <label class="form-check-label" for="patient_page">
+                                                            Patient Management
                                                         </label>
                                                     </div>
                                                 </div>
