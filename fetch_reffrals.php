@@ -11,10 +11,10 @@ if (mysqli_num_rows($result) > 0) {
             $output .= "<td class='text-center'>{$data['id']}</td>";
             $output .= "<td class='text-left'>{$data['name']}</td>";
             $output .= "<td class='text-center'>";
-                if($data['status']=="show"){
-                    $output .= "<a href='refferal_set_hide_status.php?id=$data[id]' class='btn btn-danger btn-sm'>Hide</a>";
+                if($data['status']=="activate"){
+                    $output .= "<a href='refferal_set_deactivate_status.php?id=$data[id]' class='btn btn-danger btn-sm'>Deactivate</a>";
                 }else{
-                    $output .= "<a href='refferal_set_show_status.php?id=$data[id]' class='btn btn-primary btn-sm'>Show</a>";
+                    $output .= "<a href='refferal_set_activate_status.php?id=$data[id]' class='btn btn-primary btn-sm'>Activate</a>";
                 }
             $output .= "</td>";
             $output .= "<td class='text-center'>";
@@ -29,7 +29,7 @@ if (mysqli_num_rows($result) > 0) {
         $output .= "</tr>";
     }
 } else {
-    $output .= "<tr><td colspan='4'>Area Not Found</td></tr>";
+    $output .= "<tr><td colspan='4'>Refferal Not Found</td></tr>";
 }
 
 echo $output;

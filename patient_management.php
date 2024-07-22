@@ -110,22 +110,160 @@ $page = "patients";
                     </div>
 
                     <!-- Edit Modal -->
-                    <div class="modal fade" id="editServiceModal" tabindex="-1" aria-labelledby="editServiceModalLabel" aria-hidden="true" data-bs-backdrop="static">
-                        <div class="modal-dialog modal-lg">
+                    <div class="modal fade" id="edit_patient" tabindex="-1" aria-labelledby="edit_patientLabel" aria-hidden="true" data-bs-backdrop="static">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="editServiceModalLabel">Edit Service</h5>
+                                    <h5 class="modal-title" id="edit_patientLabel">Edit Patient</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="editserviceForm">
-                                        <input type="hidden" id="edit_ServiceId">
+                                    <form id="edit_patient_form">
+                                        <?php
+                                        $changes = "";
+                                        if (isset($_SESSION['admin'])) {
+                                            $changes = "Admin";
+                                        }
+                                        if (isset($_SESSION['employee_user'])) {
+                                            $changes = $_SESSION['employee_user']['user_name'];
+                                        }
+                                        ?>
+                                        <!-- Form Fields Here -->
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" placeholder="" id="edit_ServiceName" required>
-                                            <label for="editServiceName">Service</label>
+                                            <input type="text" class="form-control" value="<?php echo $changes; ?>" disabled placeholder="">
+                                            <input type="hidden" value="<?php echo $changes; ?>" id="edit_changes_person" name="edit_changes_person">
+                                            <label for="edit_changes_person">Changes Person</label>
                                         </div>
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <input type="hidden" name="edit_patient_id" id="edit_patient_id">
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="edit_patient_name" name="edit_patient_name" placeholder="" required>
+                                            <label for="edit_patient_name">Patient Name</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="edit_attendent_name" name="edit_attendent_name" placeholder="" required>
+                                            <label for="edit_attendent_name">Attendent Name</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="edit_patient_email" name="edit_patient_email" placeholder="" required>
+                                            <label for="edit_patient_email">Patient Email</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="edit_patient_contact" name="edit_patient_contact" placeholder="" required>
+                                            <label for="edit_patient_contact">Patient Contact #</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="edit_patient_whatsapp" name="edit_patient_whatsapp" placeholder="" required>
+                                            <label for="edit_patient_whatsapp">Patient Whatsapp #</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <textarea class="form-control" name="edit_patient_address" placeholder="" id="edit_patient_address"></textarea>
+                                            <label for="edit_patient_address">Patient Address</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control no-spinner" id="edit_patient_age" name="edit_patient_age" placeholder="" required>
+                                            <label for="edit_patient_age">Patient Age</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="edit_patient_gender" name="edit_patient_gender" required>
+                                                <option selected value="" hidden>Select Gender</option>
+                                                <option value="male">Male</option>
+                                                <option value="female">Female</option>
+                                            </select>
+                                            <label for="edit_patient_gender">Gender</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="edit_patient_status" name="edit_patient_status">
+                                                <option selected value="" hidden>Patient Status</option>
+                                                <option value="Admitted">Admitted</option>
+                                                <option value="Discharged">Discharge</option>
+                                            </select>
+                                            <label for="edit_patient_status">Patient Status</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="date" class="form-control" id="edit_patient_admit_date" name="edit_patient_admit_date" placeholder="" required>
+                                            <label for="edit_patient_admit_date">Admit Date</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="date" class="form-control" id="edit_patient_discharge_date" name="edit_patient_discharge_date" placeholder="">
+                                            <label for="edit_patient_discharge_date">Discharge Date</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="edit_patient_province" name="edit_patient_province" required>
+                                                <option selected value="" hidden>Select Province</option>
+                                            </select>
+                                            <label for="edit_patient_province">Province</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="edit_patient_city" name="edit_patient_city" required>
+                                                <option selected value="" hidden>Select City</option>
+                                            </select>
+                                            <label for="edit_patient_city">Cities</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="edit_patient_area" name="edit_patient_area" required>
+                                                <option selected value="" hidden>Select Area</option>
+                                            </select>
+                                            <label for="edit_patient_area">Areas</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="edit_patient_refferal" name="edit_patient_refferal" required>
+                                                <option selected value="" hidden>Select Refferal</option>
+                                            </select>
+                                            <label for="edit_patient_refferal">Refferals</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="edit_patient_panel" name="edit_patient_panel" required>
+                                                <option selected value="" hidden>Select Panel</option>
+                                            </select>
+                                            <label for="edit_patient_panel">Panels</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="edit_employee_staff" name="edit_employee_staff" required>
+                                                <option selected value="" hidden>Select Staff</option>
+                                            </select>
+                                            <label for="edit_employee_staff">Staff</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="edit_patient_service" name="edit_patient_service" required>
+                                                <option selected value="" hidden>Select Service</option>
+                                            </select>
+                                            <label for="edit_patient_service">Service</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <select class="form-select" id="edit_payment_status" name="edit_payment_status" required>
+                                                <option value="" hidden>Payment Status</option>
+                                                <option value="r_from_patient">Recovery From Patient</option>
+                                                <option value="r_from_panel">Recovery From Panel</option>
+                                                <option value="zakat_donation">Zakat Donations</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                            <label for="edit_payment_status">Payment Status</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="edit_patient_rate" name="edit_patient_rate" placeholder="" required>
+                                            <label for="edit_patient_rate">Patient Rate</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="edit_staff_rate" name="edit_staff_rate" placeholder="" required>
+                                            <label for="edit_staff_rate">Staff Rate</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="edit_recovery" name="edit_recovery" placeholder="">
+                                            <label for="edit_recovery">Recovery</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="edit_running_bill" name="edit_running_bill" placeholder="">
+                                            <label for="edit_running_bill">Running Bill</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <textarea class="form-control" name="edit_note" placeholder="" id="edit_note"></textarea>
+                                            <label for="edit_note">Note Something</label>
+                                        </div>
+                                        <div class="button">
+                                            <button type="submit" name="btn_update_patient" class="btn btn-primary">Update Patient</button>
+                                        </div>
                                     </form>
+
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
@@ -148,15 +286,6 @@ $page = "patients";
                                     <div class="modal-body">
                                         <div class="patient_form">
                                             <form id="insert_patient_form">
-                                                <?php
-                                                $changes = "";
-                                                if (isset($_SESSION['admin'])) {
-                                                    $changes = "Admin";
-                                                }
-                                                if (isset($_SESSION['employee_user'])) {
-                                                    $changes = $_SESSION['employee_user']['user_name'];
-                                                }
-                                                ?>
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" value="<?php echo $changes; ?>" disabled placeholder="">
                                                     <input type="hidden" value="<?php echo $changes; ?>" id="changes_person" name="changes_person">
@@ -201,8 +330,8 @@ $page = "patients";
                                                 <div class="form-floating mb-3">
                                                     <select class="form-select" id="patient_status" name="patient_status">
                                                         <option selected value="" hidden>Patient Status</option>
-                                                        <option value="admitted">Admitted</option>
-                                                        <option value="discharge">Discharge</option>
+                                                        <option value="Admitted">Admitted</option>
+                                                        <option value="Discharge">Discharge</option>
                                                     </select>
                                                     <label for="patient_status">Patient Status</label>
                                                 </div>
@@ -242,7 +371,7 @@ $page = "patients";
                                                     <select class="form-select" id="patient_refferal" name="patient_refferal" required>
                                                         <option selected value="" hidden>Select Refferal</option>
                                                         <?php
-                                                        $query = mysqli_query($connection, "SELECT * FROM tbl_refferals");
+                                                        $query = mysqli_query($connection, "SELECT * FROM tbl_refferals WHERE status ='activate'");
                                                         foreach ($query as $refferal) {
                                                             echo "<option value='{$refferal['id']}'>{$refferal['name']}</option>";
                                                         }
@@ -254,7 +383,7 @@ $page = "patients";
                                                     <select class="form-select" id="patient_panel" name="patient_panel" required>
                                                         <option selected value="" hidden>Select Panel</option>
                                                         <?php
-                                                        $query = mysqli_query($connection, "SELECT * FROM tbl_panel");
+                                                        $query = mysqli_query($connection, "SELECT * FROM tbl_panel WHERE status ='activate'");
                                                         foreach ($query as $refferal) {
                                                             echo "<option value='{$refferal['id']}'>{$refferal['company']}</option>";
                                                         }

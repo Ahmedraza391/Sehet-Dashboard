@@ -18,4 +18,9 @@ changes person add karna ha services m , refferals m, panel m,addresses m ,aur i
 
 employee id manually karni ha table m bhi 
 
-CONTINUE ON Patient EDIT DATA
+
+insert and edit walay page par employee ki designation ma != admin wali funtionality hatany ha jab employees aur users ka kam pora ho jai
+
+
+
+kal phly check karna ha phir delete patient wala kam karna ha

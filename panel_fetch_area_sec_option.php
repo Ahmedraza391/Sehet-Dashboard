@@ -1,6 +1,6 @@
 <?php
 include("connection.php");
-$query = mysqli_query($connection,"SELECT * FROM tbl_area");
+$query = mysqli_query($connection,"SELECT * FROM tbl_area WHERE city_id = '$_POST[c_id]'");
 $id = $_POST['id'];
 $option ="";
 foreach($query as $data ){

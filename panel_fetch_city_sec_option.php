@@ -1,6 +1,6 @@
 <?php
 include("connection.php");
-$query = mysqli_query($connection,"SELECT * FROM tbl_city");
+$query = mysqli_query($connection,"SELECT * FROM tbl_city WHERE province_id = '$_POST[p_id]'");
 $id = $_POST['id'];
 $option ="";
 foreach($query as $data ){

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2024 at 11:21 PM
+-- Generation Time: Jul 22, 2024 at 11:32 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -351,7 +351,7 @@ CREATE TABLE `tbl_patients` (
 
 INSERT INTO `tbl_patients` (`patient_id`, `mr_no`, `registration_date`, `patient_name`, `attendent_name`, `patient_age`, `patient_gender`, `patient_contact`, `patient_whatsapp`, `patient_email`, `patient_status`, `patient_address`, `patient_admit_date`, `patient_discharge_date`, `patient_total_days`, `province_id`, `city_id`, `area_id`, `refferal_id`, `panel_id`, `employee_id`, `payment_status`, `patient_rate`, `staff_rate`, `service_id`, `recovery`, `running_bill`, `note`, `changes_person`) VALUES
 (1, '2024-07-001', '2024-07-21 23:05:23', 'Muhammad Minhal', 'Self', '19', 'male', '03091024628', '03091024628', 'minhal@gmail.com', 'Admitted', 'House No 54 Karsaz, Karachi', '2024-07-21', '', '0', 5, 8, 13, 1, 2, 1, 'r_from_panel', '1500', '1300', 1, '', '', 'This is Amazing!', ''),
-(2, '2024-07-002', '2024-07-21 23:12:13', 'Muhammad Raza', 'Ahmed Raza', '17', 'male', '03091024628', '03091024628', 'raza@gmail.com', 'Discharged', '437 new iqbalabad drigh road karachi', '2024-07-16', '2024-07-21', '5', 2, 1, 3, 1, 7, 1, 'r_from_panel', '1500', '100', 1, '', '', 'Very Well Notes', 'Admin'),
+(2, '2024-07-002', '2024-07-21 23:12:13', 'Muhammad Raza Jutt', 'Shakeel Ahmed', '19', 'female', '03091024600', '03091024600', 'muhammad@gmail.com', 'Discharged', '437 new iqbalabad Drigh Road Karachi', '2024-07-16', '2024-07-25', '9', 6, 9, 15, 2, 3, 1, 'zakat_donation', '1800', '1200', 2, 'recovery', 'bill', 'Very Well Notezzz', 'Admin'),
 (3, '2024-07-003', '2024-07-21 23:15:34', 'Wahab Khan', 'Self', '19', 'male', '03091024222', '03091024222', 'wahab@gmail.com', 'Discharged', 'House No 33 Karsaz Karachi', '2024-07-01', '2024-07-30', '29', 2, 10, 16, 2, 3, 1, 'zakat_donation', '4000', '1300', 2, '', '', '', 'Ahmed Raza ');
 
 -- --------------------------------------------------------
@@ -387,7 +387,7 @@ CREATE TABLE `tbl_refferals` (
   `company` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `financial_share` int(11) NOT NULL,
-  `status` varchar(50) NOT NULL DEFAULT 'show'
+  `status` varchar(50) NOT NULL DEFAULT 'activate'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -395,10 +395,8 @@ CREATE TABLE `tbl_refferals` (
 --
 
 INSERT INTO `tbl_refferals` (`id`, `name`, `company`, `email`, `financial_share`, `status`) VALUES
-(1, 'Ahmed Raza', 'Shan Food ', 'shanfood@gmail.com', 45, 'hide'),
-(2, 'Farooq Khan Ustad', 'Getz Pharma', 'getz@gmail.com', 22, 'show'),
-(3, 'Adnan Khan', 'Sui Gas Pvt Ltd.', 'adnanKhan@gmail.com', 30, 'hide'),
-(6, 'Muhammad Istiyaq', 'PCB', 'raza@gmail.com', 23, 'show');
+(1, 'Muhammad Raza', 'Shan Foods', 'shanfoods@gmail.com', 45, 'activate'),
+(2, 'Abdullah Khalid', 'Ibex Pvt Ltd.', 'ibex@gmail.com', 32, 'activate');
 
 -- --------------------------------------------------------
 
@@ -611,7 +609,7 @@ ALTER TABLE `tbl_province`
 -- AUTO_INCREMENT for table `tbl_refferals`
 --
 ALTER TABLE `tbl_refferals`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_services`
