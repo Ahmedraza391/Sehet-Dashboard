@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 22, 2024 at 11:32 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Jul 26, 2024 at 06:32 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -59,7 +59,7 @@ CREATE TABLE `tbl_admin` (
 --
 
 INSERT INTO `tbl_admin` (`id`, `admin_name`, `admin_username`, `admin_password`, `admin_image`) VALUES
-(2, 'Yousuf Khan', 'sehet admin', 'sehet123', './assets/img/admin/6699948c7fbf46.28606562.png');
+(2, 'Yousuf Admin', 'sehet_admin', 'sehet123', './assets/img/admin/6699948c7fbf46.28606562.png');
 
 -- --------------------------------------------------------
 
@@ -125,59 +125,29 @@ INSERT INTO `tbl_city` (`id`, `city`, `province_id`) VALUES
 --
 
 CREATE TABLE `tbl_employees` (
-  `emp_id` bigint(20) NOT NULL,
+  `id` int(11) NOT NULL,
+  `emp_id` varchar(20) NOT NULL,
   `emp_name` varchar(200) NOT NULL,
   `emp_father_name` varchar(100) NOT NULL,
   `emp_email` varchar(100) NOT NULL,
-  `emp_contact` varchar(20) NOT NULL,
+  `emp_contact` varchar(50) NOT NULL,
   `emp_nic` varchar(20) NOT NULL,
   `emp_dob` varchar(100) NOT NULL,
   `emp_designation` varchar(200) NOT NULL,
   `emp_status` varchar(50) NOT NULL DEFAULT 'deactivate',
-  `registration_status` varchar(255) NOT NULL DEFAULT 'unregistered'
+  `changes_person` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_employees`
 --
 
-INSERT INTO `tbl_employees` (`emp_id`, `emp_name`, `emp_father_name`, `emp_email`, `emp_contact`, `emp_nic`, `emp_dob`, `emp_designation`, `emp_status`, `registration_status`) VALUES
-(1, 'Muhammad Minhal', 'Muhammad Qasim', 'minhal@gmail.com', '03269243547', '4230111018277', '2006-03-31', 'nursing_staff', 'activate', 'registered'),
-(2, 'Ahmed Raza Jutt', 'Muhammad Razzaq', 'ahmed@gmail.com', '03269243547', '4230111018277', '2006-03-31', 'admin', 'activate', 'registered'),
-(3, 'Yasir Nawaz', 'Farooq Nawaz', 'nawaz@gmail.com', '03269243547', '4230111018277', '2003-07-17', 'admin', 'activate', 'registered'),
-(4, 'Bilal Abbas', 'Mushtaq Ahmed ', 'bilal@gamil.com', '03129987654', '4230111018223', '1998-06-15', 'admin', 'activate', 'registered'),
-(5, 'Hassan', 'Nadeem', 'hassan@gmail.com', '03269243547', '4230111018277', '2003-06-13', 'admin', 'activate', 'registered'),
-(6, 'Muhammad Taha', 'Muhammad Qasim', 'taha@gmail.com', '03212543935', '4230111018277', '1999-09-01', 'admin', 'activate', 'unregistered');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_employee_users`
---
-
-CREATE TABLE `tbl_employee_users` (
-  `user_id` int(11) NOT NULL,
-  `user_name` varchar(250) NOT NULL,
-  `user_father_name` varchar(255) NOT NULL,
-  `user_email` varchar(200) NOT NULL,
-  `user_password` varchar(250) NOT NULL,
-  `user_contact` varchar(50) NOT NULL,
-  `user_nic` varchar(50) NOT NULL,
-  `user_dob` varchar(50) NOT NULL,
-  `user_status` varchar(50) NOT NULL DEFAULT 'activate',
-  `pages_access` varchar(300) NOT NULL,
-  `registration_status` varchar(255) NOT NULL DEFAULT 'registered'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_employee_users`
---
-
-INSERT INTO `tbl_employee_users` (`user_id`, `user_name`, `user_father_name`, `user_email`, `user_password`, `user_contact`, `user_nic`, `user_dob`, `user_status`, `pages_access`, `registration_status`) VALUES
-(1, 'Ahmed Raza ', 'Abdul Razzaq', 'ahmed@gmail.com', 'ahmed123', '03269243532', '4230111018277', '2006-04-04', 'activate', 'service_management,address_management,reffrel_management,panel_management,employee_management,user_management,patient_management', 'registered'),
-(2, 'Muhammad Minhal Khan', 'Muhammad Qasim', 'minhal@gmail.com', 'minhal123', '03269243547', '4230111018277', '2006-03-31', 'activate', 'service_management,address_management,user_management', 'registered'),
-(3, 'Yasir Nawaz', 'Farooq Nawaz', 'nawaz@gmail.com', 'nawaz12345', '03269243547', '4230111018277', '2003-07-17', 'activate', 'service_management,address_management,reffrel_management,panel_management,employee_management,user_management', 'registered'),
-(5, 'Bilal Abbas', 'Mushtaq Ahmed ', 'bilal@gamil.com', 'bilal123', '03129987654', '4230111018223', '1998-06-15', 'activate', '', 'registered');
+INSERT INTO `tbl_employees` (`id`, `emp_id`, `emp_name`, `emp_father_name`, `emp_email`, `emp_contact`, `emp_nic`, `emp_dob`, `emp_designation`, `emp_status`, `changes_person`) VALUES
+(1, '1124-544', 'Ahmed Raza Jutt', 'Muhammad Razzaq', 'ahmed@gmail.com', '03129987650', '4230111018277', '2006-04-03', 'nursing_staff', 'activate', ''),
+(2, '1234-567', 'Muhammad Minhal', 'Muhammad Qasim', 'minhal@gmail.com', '03269243543', '4230111018111', '2008-12-17', 'nursing_staff', 'activate', ''),
+(3, '2222-564', 'Muhammad Raza', 'Muhammad Razzaq', 'raza@gmail.com', '03269243547', '4230111238111', '2000-07-06', 'physiotherapist', 'activate', ''),
+(4, '4521-235', 'Ayub Khan', 'Muhammd Ayub', 'ayub@gmail.com', '03129987654', '4230111018223', '2001-06-12', 'nursing_staff', 'activate', ''),
+(5, '4556-785', 'Yasir ', 'Nawaz', 'yasir122@gmail.com', '03269244586', '4230111078945', '2002-06-06', 'nursing_staff', 'activate', '');
 
 -- --------------------------------------------------------
 
@@ -228,15 +198,8 @@ CREATE TABLE `tbl_panel` (
 --
 
 INSERT INTO `tbl_panel` (`id`, `company`, `email`, `focal_person`, `company_contact`, `focal_person_contact`, `province_id`, `city_id`, `area_id`, `status`, `services`) VALUES
-(2, 'NDure', 'ndure@gmail.com', 'Wahab Khan', '03331234567231', '03331234567', 2, 1, 3, 'activate', '1,2,3,4'),
-(3, 'Service Shoes', 'serviceshoes@gmail.com', 'Ahmed Raza', '03242342342', '03242342342', 3, 2, 5, 'activate', '1,2'),
-(4, 'POI Comps', 'poi@gmail.com', 'Wahab Khan', '03331234567', '03331234567', 5, 7, 11, 'activate', '1,2,8'),
-(5, 'Bata Shoes', 'batashoes@gmail.com', 'Muhammad Ikram', '03071234567', '03071234567', 6, 6, 10, 'activate', '1,2'),
-(6, 'ABC Comapny', 'abc@gmail.com', 'Muhammad Ikram', '03242342342', '03242342342', 3, 3, 1, 'activate', '2'),
-(7, 'Ibex ', 'ibex@gmail.com', 'Muhammad Minhal', '03123445677', '03123445677', 5, 8, 14, 'activate', '2'),
-(8, 'ZE Comps', 'comps@gmail.com', 'Muhammad Fayaz', '03269243547', '03269243547', 3, 2, 5, 'activate', '1,3,4,5,6,8,14'),
-(9, 'Aj KL', 'ajkl@gmail.com', 'Muhammad Raza', '03269243511', '03269243511', 5, 7, 11, 'activate', '1'),
-(10, 'Infinix Private Ltd.', 'infinix@gmail.com', 'Kamran Afzal', '03441234554', '03441234554', 5, 8, 13, 'activate', '1,2,3,4,8,11');
+(1, 'Shan Foods Pvt Ltd.', 'shanfoods@gamil.com', 'Yaseen Khan', '03269243547', '03269243547', 3, 3, 1, 'activate', '1,2,9'),
+(2, 'NDure', 'ndure@gmail.com', 'Abdul Sttar', '03331234567', '03331234567', 3, 3, 1, 'activate', '1,2,10,12');
 
 -- --------------------------------------------------------
 
@@ -258,54 +221,16 @@ CREATE TABLE `tbl_panel_services` (
 --
 
 INSERT INTO `tbl_panel_services` (`id`, `panel_id`, `sub_services_id`, `extra_services_id`, `sub_service_price`, `extra_service_price`) VALUES
-(9, 4, 1, NULL, '1798', NULL),
-(10, 4, 2, NULL, '1000', NULL),
-(11, 4, 2, 3, '1000', '0'),
-(12, 4, 2, 4, '1000', NULL),
-(13, 4, 8, NULL, '2000', NULL),
-(14, 4, 8, 1, '2000', NULL),
-(15, 4, 8, 2, '2000', NULL),
-(16, 5, 1, NULL, '1300', NULL),
-(17, 5, 2, NULL, '2000', NULL),
-(18, 5, 2, 3, '2000', NULL),
-(19, 5, 2, 4, '2000', NULL),
-(20, 6, 2, NULL, '1020', NULL),
-(21, 6, 2, 3, '1020', NULL),
-(22, 6, 2, 4, '1020', NULL),
-(38, 7, 2, NULL, '1500', '0'),
-(39, 3, 1, NULL, '1000', '0'),
-(40, 3, 2, NULL, '3000', '0'),
-(41, 10, 1, NULL, '1200', NULL),
-(42, 10, 2, NULL, '3000', NULL),
-(43, 10, 2, 3, '3000', '1500'),
-(44, 10, 2, 4, '3000', '1500'),
-(45, 10, 3, NULL, '2500', NULL),
-(46, 10, 4, NULL, '3000', NULL),
-(47, 10, 8, NULL, '5000', NULL),
-(48, 10, 8, 1, '5000', '2600'),
-(49, 10, 8, 2, '5000', '2394'),
-(50, 10, 11, NULL, '595', NULL),
-(70, 8, 2, NULL, '1198', '0'),
-(71, 8, 2, 3, '0', '1500'),
-(72, 8, 2, 4, '0', '1500'),
-(73, 8, 3, NULL, '3000', '0'),
-(74, 8, 4, NULL, '2000', '0'),
-(75, 8, 5, NULL, '1000', '0'),
-(76, 8, 6, NULL, '1198', '0'),
-(77, 8, 8, NULL, '0', '0'),
-(78, 8, 8, 1, '0', '750'),
-(79, 8, 8, 2, '0', '748'),
-(80, 8, 14, NULL, '3000', '0'),
-(91, 9, 1, NULL, '2700', '0'),
-(92, 9, 2, NULL, '0', '0'),
-(93, 9, 2, 3, '0', '1200'),
-(94, 9, 2, 4, '0', '299'),
-(95, 9, 13, NULL, '1200', '0'),
-(100, 11, 1, NULL, '1300', '0'),
-(101, 11, 2, NULL, '1400', '0'),
-(102, 11, 2, 4, '0', '600'),
-(103, 2, 1, NULL, '1499', '0'),
-(104, 2, 2, NULL, '800', '0');
+(1, 1, 1, NULL, '1200', NULL),
+(2, 1, 2, NULL, '3000', NULL),
+(3, 1, 2, 3, '3000', '500'),
+(4, 1, 2, 4, '3000', '500'),
+(5, 1, 9, NULL, '5000', NULL),
+(12, 2, 1, NULL, '500', '0'),
+(13, 2, 2, NULL, '1500', '0'),
+(14, 2, 2, 3, '0', '600'),
+(15, 2, 2, 4, '0', '700'),
+(16, 2, 12, NULL, '2000', '0');
 
 -- --------------------------------------------------------
 
@@ -350,9 +275,9 @@ CREATE TABLE `tbl_patients` (
 --
 
 INSERT INTO `tbl_patients` (`patient_id`, `mr_no`, `registration_date`, `patient_name`, `attendent_name`, `patient_age`, `patient_gender`, `patient_contact`, `patient_whatsapp`, `patient_email`, `patient_status`, `patient_address`, `patient_admit_date`, `patient_discharge_date`, `patient_total_days`, `province_id`, `city_id`, `area_id`, `refferal_id`, `panel_id`, `employee_id`, `payment_status`, `patient_rate`, `staff_rate`, `service_id`, `recovery`, `running_bill`, `note`, `changes_person`) VALUES
-(1, '2024-07-001', '2024-07-21 23:05:23', 'Muhammad Minhal', 'Self', '19', 'male', '03091024628', '03091024628', 'minhal@gmail.com', 'Admitted', 'House No 54 Karsaz, Karachi', '2024-07-21', '', '0', 5, 8, 13, 1, 2, 1, 'r_from_panel', '1500', '1300', 1, '', '', 'This is Amazing!', ''),
-(2, '2024-07-002', '2024-07-21 23:12:13', 'Muhammad Raza Jutt', 'Shakeel Ahmed', '19', 'female', '03091024600', '03091024600', 'muhammad@gmail.com', 'Discharged', '437 new iqbalabad Drigh Road Karachi', '2024-07-16', '2024-07-25', '9', 6, 9, 15, 2, 3, 1, 'zakat_donation', '1800', '1200', 2, 'recovery', 'bill', 'Very Well Notezzz', 'Admin'),
-(3, '2024-07-003', '2024-07-21 23:15:34', 'Wahab Khan', 'Self', '19', 'male', '03091024222', '03091024222', 'wahab@gmail.com', 'Discharged', 'House No 33 Karsaz Karachi', '2024-07-01', '2024-07-30', '29', 2, 10, 16, 2, 3, 1, 'zakat_donation', '4000', '1300', 2, '', '', '', 'Ahmed Raza ');
+(2, '2024-07-002', '2024-07-21 23:12:13', 'Muhammad Raza Jutt', 'Shakeel Ahmed', '19', 'female', '03091024600', '03091024600', 'muhammad@gmail.com', 'Discharged', '437 new iqbalabad Drigh Road Karachi', '2024-07-16', '2024-07-25', '9', 6, 9, 15, 2, 3, 1, 'Other', '1800', '1200', 2, 'recovery', 'bill', 'Very Well Notezzz', 'Admin'),
+(3, '2024-07-003', '2024-07-21 23:15:34', 'Riaz Khan', 'Self', '19', 'male', '03091024111', '03091024111', 'riaz@gmail.com', 'Discharged', 'House No 33 Shar-e-faisal, Karachi', '2024-07-01', '2024-07-23', '22', 3, 2, 5, 1, 2, 1, 'r_from_patient', '2000', '1200', 1, 'recovery', 'Running Bill', 'Note Something in Note Field', 'Ahmed Raza '),
+(4, '2024-07-003', '2024-07-24 04:24:43', 'Farooq Khan', 'Self', '35', 'male', '03091024628', '03091024628', 'farooq@gmail.com', 'Discharged', '437 new iqbalabad drigh road karachi', '2024-07-01', '2024-07-19', '18', 2, 10, 16, 1, 2, 1124, 'Other', '1500', '1300', 1, '', '', 'This is notes', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -387,16 +312,17 @@ CREATE TABLE `tbl_refferals` (
   `company` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `financial_share` int(11) NOT NULL,
-  `status` varchar(50) NOT NULL DEFAULT 'activate'
+  `status` varchar(50) NOT NULL DEFAULT 'activate',
+  `changes_person` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_refferals`
 --
 
-INSERT INTO `tbl_refferals` (`id`, `name`, `company`, `email`, `financial_share`, `status`) VALUES
-(1, 'Muhammad Raza', 'Shan Foods', 'shanfoods@gmail.com', 45, 'activate'),
-(2, 'Abdullah Khalid', 'Ibex Pvt Ltd.', 'ibex@gmail.com', 32, 'activate');
+INSERT INTO `tbl_refferals` (`id`, `name`, `company`, `email`, `financial_share`, `status`, `changes_person`) VALUES
+(1, 'Ahmed Raza', 'Ibex', 'Ahmed@gamil.com', 12, 'activate', ''),
+(2, 'Abdullah Khalid', 'ABC Company', 'abdullah@gmail.com', 40, 'activate', '');
 
 -- --------------------------------------------------------
 
@@ -453,6 +379,34 @@ INSERT INTO `tbl_sub_services` (`id`, `sub_service`, `sub_service_price`, `servi
 (13, 'Injections', 0, 1, 'available'),
 (14, 'Portable UltraSound - Enchardiography', 1400, 2, 'available');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_users`
+--
+
+CREATE TABLE `tbl_users` (
+  `user_id` int(11) NOT NULL,
+  `user_name` varchar(250) NOT NULL,
+  `user_father_name` varchar(255) NOT NULL,
+  `user_email` varchar(200) NOT NULL,
+  `user_password` varchar(250) NOT NULL,
+  `user_contact` varchar(50) NOT NULL,
+  `user_nic` varchar(50) NOT NULL,
+  `user_dob` varchar(50) NOT NULL,
+  `user_status` varchar(50) NOT NULL DEFAULT 'activate',
+  `pages_access` varchar(300) NOT NULL,
+  `registration_status` varchar(255) NOT NULL DEFAULT 'registered'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_users`
+--
+
+INSERT INTO `tbl_users` (`user_id`, `user_name`, `user_father_name`, `user_email`, `user_password`, `user_contact`, `user_nic`, `user_dob`, `user_status`, `pages_access`, `registration_status`) VALUES
+(1, 'Ahmed Raza', 'Muhammad Razzaq', 'ahmed@gmail.com', 'ahmed123', '03269243547', '4230112345678', '2006-04-03', 'activate', 'service_management,address_management,reffrel_management,employee_management,patient_management', 'registered'),
+(2, 'Muhammad Minhal Khan', 'Muhammad Qasim Khan', 'minhal11@gmail.com', 'minhal12345', '03269248547', '4230112345678', '2005-06-14', 'activate', 'service_management,address_management,reffrel_management,panel_management', 'registered');
+
 --
 -- Indexes for dumped tables
 --
@@ -485,13 +439,8 @@ ALTER TABLE `tbl_city`
 -- Indexes for table `tbl_employees`
 --
 ALTER TABLE `tbl_employees`
-  ADD PRIMARY KEY (`emp_id`);
-
---
--- Indexes for table `tbl_employee_users`
---
-ALTER TABLE `tbl_employee_users`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `emp_id` (`emp_id`);
 
 --
 -- Indexes for table `tbl_extra_services`
@@ -542,6 +491,12 @@ ALTER TABLE `tbl_sub_services`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_users`
+--
+ALTER TABLE `tbl_users`
+  ADD PRIMARY KEY (`user_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -570,10 +525,10 @@ ALTER TABLE `tbl_city`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT for table `tbl_employee_users`
+-- AUTO_INCREMENT for table `tbl_employees`
 --
-ALTER TABLE `tbl_employee_users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+ALTER TABLE `tbl_employees`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_extra_services`
@@ -585,19 +540,19 @@ ALTER TABLE `tbl_extra_services`
 -- AUTO_INCREMENT for table `tbl_panel`
 --
 ALTER TABLE `tbl_panel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_panel_services`
 --
 ALTER TABLE `tbl_panel_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `tbl_patients`
 --
 ALTER TABLE `tbl_patients`
-  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_province`
@@ -622,6 +577,12 @@ ALTER TABLE `tbl_services`
 --
 ALTER TABLE `tbl_sub_services`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `tbl_users`
+--
+ALTER TABLE `tbl_users`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
