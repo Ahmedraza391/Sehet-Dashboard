@@ -10,7 +10,7 @@ $this_page = "address_management";
 
 if (isset($_SESSION['employee_user'])) {
     $id = $_SESSION['employee_user']['user_id'];
-    $query = mysqli_query($connection,"SELECT * FROM tbl_employee_users WHERE user_id ='$id'");
+    $query = mysqli_query($connection,"SELECT * FROM tbl_users WHERE user_id ='$id'");
     $fetch_qurey = mysqli_fetch_assoc($query);
     $pages = explode(",", $fetch_qurey['pages_access']);    
 
@@ -41,12 +41,12 @@ $page = "address";
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-                <div class="card p-md-3">
+                <div class="card p-3">
                     <div class="heading my-2 text-center">
                         <h1 class="fs-3 fw-bold">Province</h1>
                     </div>
                     <div class="province_table overflow_table">
-                        <table class="table rounded table-bordered">
+                        <table class="table rounded table-bordered mb-3">
                             <thead>
                                 <th>Id</th>
                                 <th>Province</th>
@@ -123,11 +123,11 @@ $page = "address";
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-                <div class="card p-md-3">
+                <div class="card p-3">
                     <div class="heading my-2 text-center">
                         <h1 class="fs-3 fw-bold">Cities</h1>
                     </div>
-                    <div class="city_table overflow_table">
+                    <div class="city_table overflow_table mb-3">
                         <table class="table rounded table-bordered">
                             <thead>
                                 <th>Id</th>
@@ -222,11 +222,11 @@ $page = "address";
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-                <div class="card p-md-3">
+                <div class="card p-3">
                     <div class="heading my-2 text-center">
                         <h1 class="fs-3 fw-bold">City Areas</h1>
                     </div>
-                    <div class="city_area_table overflow_table">
+                    <div class="city_area_table overflow_table mb-3">
                         <table class="table rounded table-bordered">
                             <thead>
                                 <th>Id</th>

@@ -1,18 +1,17 @@
 <?php
 session_start();
 include("connection.php");
-if ((isset($_SESSION['employee_user'])) || (isset($_SESSION['admin'])) ) {
-
-}else{
-  echo "<script>window.location.href='admin_login.php'</script>";
+if ((isset($_SESSION['employee_user'])) || (isset($_SESSION['admin']))) {
+} else {
+    echo "<script>window.location.href='admin_login.php'</script>";
 }
 $this_page = "employee_management";
 
 if (isset($_SESSION['employee_user'])) {
     $id = $_SESSION['employee_user']['user_id'];
-    $query = mysqli_query($connection,"SELECT * FROM tbl_employee_users WHERE user_id ='$id'");
+    $query = mysqli_query($connection, "SELECT * FROM tbl_users WHERE user_id ='$id'");
     $fetch_qurey = mysqli_fetch_assoc($query);
-    $pages = explode(",", $fetch_qurey['pages_access']);    
+    $pages = explode(",", $fetch_qurey['pages_access']);
 
     if (in_array($this_page, $pages)) {
     } else {
@@ -41,14 +40,14 @@ $page = "emp_register";
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-                <div class="card p-md-3">
+                <div class="card p-3">
                     <div class="heading my-2 text-center">
                         <h1 class="fs-3 fw-bold">Employees</h1>
                     </div>
-                    <div class="employee_table overflow_table">
+                    <div class="employee_table overflow_table mb-3">
                         <table class="table rounded table-bordered">
                             <thead>
-                                <th class="text-center">Id</th>
+                                <th class="text-center">Employee Id</th>
                                 <th class="text-left">Employee Name</th>
                                 <th class="text-left">Employee Email</th>
                                 <th class="text-left">Employee Contact</th>
@@ -116,60 +115,54 @@ $page = "emp_register";
                                 </div>
                                 <div class="modal-body">
                                     <form id="edit_employee_form">
-                                        <input type="hidden" name="emp_id" id="edit_emp_id">
+                                        <input type="hidden" name="tbl_id" id="tbl_id">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="edit_emp_name" name="edit_emp_name" placeholder="" required>
+                                            <input type="text" class="form-control" id="edit_emp_id" disabled>
+                                            <label for="edit_emp_id">Employee Id</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
+                                            <input type="text" class="form-control" id="edit_emp_name" name="edit_emp_name" required>
                                             <label for="edit_emp_name">Employee Name</label>
-                                            <div class="invalid-feedback emp_name_feedback">Please enter the employee name.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="edit_emp_father_name" name="edit_emp_father_name" placeholder="" required>
+                                            <input type="text" class="form-control" id="edit_emp_father_name" name="edit_emp_father_name" required>
                                             <label for="edit_emp_father_name">Employee Father Name</label>
-                                            <div class="invalid-feedback emp_father_name_feedback">Please enter the father name.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="email" class="form-control" id="edit_emp_email" name="edit_emp_email" placeholder="" title="Please enter a valid email address." required>
+                                            <input type="email" class="form-control" id="edit_emp_email" name="edit_emp_email" required>
                                             <label for="edit_emp_email">Employee Email</label>
-                                            <div class="invalid-feedback emp_emai_feedback">Please enter a valid email address.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="number" class="form-control no-spinner" id="edit_emp_contact" name="edit_emp_contact" placeholder="" required>
+                                            <input type="number" class="form-control no-spinner" id="edit_emp_contact" name="edit_emp_contact" required>
                                             <label for="edit_emp_contact">Employee Contact #</label>
-                                            <div class="invalid-feedback emp_contact_feedback">Contact Field Required.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="edit_emp_nic" name="edit_emp_nic" placeholder="" pattern="\d{13}" required>
+                                            <input type="text" class="form-control" id="edit_emp_nic" name="edit_emp_nic" pattern="\d{13}" required>
                                             <label for="edit_emp_nic">Employee N.I.C #</label>
-                                            <div class="invalid-feedback emp_nic_feedback">Please enter a valid NIC number with exactly 13 digits.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="date" class="form-control" id="edit_emp_dob" name="edit_emp_dob" placeholder="" max="<?php echo date('Y-m-d', strtotime('-1 day')); ?>" required>
+                                            <input type="date" class="form-control" id="edit_emp_dob" name="edit_emp_dob" max="<?php echo date('Y-m-d', strtotime('-1 day')); ?>" required>
                                             <label for="edit_emp_dob">Employee Date Of Birth</label>
-                                            <div class="invalid-feedback emp_dob_feedback">Please select a date of birth from previous years only.</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <select class="form-select" id="edit_emp_designation" name="edit_emp_designation" aria-label="Floating label select example" required>
+                                            <select class="form-select" id="edit_emp_designation" name="edit_emp_designation" required>
                                                 <option value="" hidden>Select Designation</option>
                                                 <option value="nursing_staff">Nursing Staff</option>
                                                 <option value="doctor">Doctor</option>
                                                 <option value="physiotherapist">Physiotherapist</option>
                                                 <option value="phlebotomist">Phlebotomist</option>
-                                                <option value="admin">Admin</option>
                                             </select>
-                                            <label for="edit_emp_designation">Designations</label>
-                                            <div class="invalid-feedback emp_designation_feedback">Please select a designation.</div>
+                                            <label for="edit_emp_designation">Designation</label>
                                         </div>
                                         <div class="button">
-                                            <button type="submit" name="btn_employee" id="update_employee" class="btn btn-primary">Save Changes</button>
+                                            <button type="submit" class="btn btn-primary">Save Changes</button>
                                         </div>
                                     </form>
-
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
-                            <!-- continue on designation editing -->
                         </div>
                     </div>
                     <!-- Add Employee Modal -->
@@ -188,6 +181,11 @@ $page = "emp_register";
                                         <div class="employees_form">
                                             <form id="insert_employee_form">
                                                 <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control" placeholder="" id="emp_id" name="emp_id" required>
+                                                    <label for="emp_id">Employee Id</label>
+                                                    <div class="invalid-feedback emp_id_feedback">Please enter the employee Id in the format 1234-567.</div>
+                                                </div>
+                                                <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" id="emp_name" name="emp_name" placeholder="" required>
                                                     <label for="emp_name">Employee Name</label>
                                                     <div class="invalid-feedback emp_name_feedback">Please enter the employee name.</div>
@@ -198,9 +196,9 @@ $page = "emp_register";
                                                     <div class="invalid-feedback emp_father_name_feedback">Please enter the father name.</div>
                                                 </div>
                                                 <div class="form-floating mb-3">
-                                                    <input type="email" class="form-control" id="emp_emai" name="emp_emai" placeholder="" title="Please enter a valid email address." required>
-                                                    <label for="emp_emai">Employee Email</label>
-                                                    <div class="invalid-feedback emp_emai_feedback">Please enter a valid email address.</div>
+                                                    <input type="email" class="form-control" id="emp_email" name="emp_email" placeholder="" title="Please enter a valid email address." required>
+                                                    <label for="emp_email">Employee Email</label>
+                                                    <div class="invalid-feedback emp_email_feedback">Please enter a valid email address.</div>
                                                 </div>
                                                 <div class="form-floating mb-3">
                                                     <input type="number" class="form-control no-spinner" id="emp_contact" name="emp_contact" placeholder="" required>
@@ -219,12 +217,11 @@ $page = "emp_register";
                                                 </div>
                                                 <div class="form-floating mb-3">
                                                     <select class="form-select" id="emp_designation" name="emp_designation" aria-label="Floating label select example" required>
-                                                        <option value="" hidden selected>Select Designation</option>
+                                                        <option value="" hidden>Select Designation</option>
                                                         <option value="nursing_staff">Nursing Staff</option>
                                                         <option value="doctor">Doctor</option>
                                                         <option value="physiotherapist">Physiotherapist</option>
                                                         <option value="phlebotomist">Phlebotomist</option>
-                                                        <option value="admin">Admin</option>
                                                     </select>
                                                     <label for="emp_designation">Designations</label>
                                                     <div class="invalid-feedback emp_designation_feedback">Please select a designation.</div>
@@ -233,6 +230,7 @@ $page = "emp_register";
                                                     <button type="submit" name="btn_employee" id="insert_employee" class="btn btn-primary">Add Employee</button>
                                                 </div>
                                             </form>
+
                                         </div>
                                     </div>
                                     <div class="modal-footer">

@@ -12,7 +12,7 @@
           <a class="nav-link mini-nav <?php if($file == 'admin_login'){echo 'active';} ?>" title="Admin Login" href="./admin_login.php">Admin Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link mini-nav <?php if($file == 'emp_login'){echo 'active';} ?>" title="Employee Login" href="./employee_user_login.php">Employee User Login</a>
+          <a class="nav-link mini-nav <?php if($file == 'emp_login'){echo 'active';} ?>" title="Employee Login" href="./user_login.php">Employee User Login</a>
         </li>
       </ul>
     </div>

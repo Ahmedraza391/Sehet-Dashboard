@@ -117,7 +117,7 @@
             $anchor = "admin_profile.php";
           }
           if (isset($_SESSION['employee_user'])) {
-            $anchor = "employee_user_profile.php";
+            $anchor = "user_profile.php";
           }
           ?>
           <li>

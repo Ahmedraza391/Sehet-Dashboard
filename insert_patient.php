@@ -25,7 +25,8 @@ $recovery = mysqli_real_escape_string($connection, $_POST['recovery']);
 $running_bill = mysqli_real_escape_string($connection, $_POST['running_bill']);
 $note = mysqli_real_escape_string($connection, $_POST['note']);
 $changes_person = mysqli_real_escape_string($connection, $_POST['changes_person']);
-$registration_date = date("Y-m-d H:i:s");
+date_default_timezone_set('Asia/Karachi');
+$registration_date = date("Y-m-d h:i:s");
 
 // Calculate total days and patient status
 if (!empty($d_date)) {

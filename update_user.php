@@ -12,12 +12,12 @@ $dob = $_POST['edit_emp_user_dob'];
 $pages_access = implode(',', $_POST['edit_pages_access']);
 
 // Update database (example SQL)
-$sql = "UPDATE tbl_employee_users SET user_name=?, user_father_name=?, user_email=?, user_password=?, user_contact=?, user_nic=?, user_dob=?, pages_access=? WHERE user_id=?";
+$sql = "UPDATE tbl_users SET user_name=?, user_father_name=?, user_email=?, user_password=?, user_contact=?, user_nic=?, user_dob=?, pages_access=? WHERE user_id=?";
 $stmt = $connection->prepare($sql);
 $stmt->bind_param("ssssssssi", $name, $father_name, $email, $password, $contact, $nic, $dob, $pages_access, $emp_id);
 
 if ($stmt->execute()) {
-    echo json_encode(["status" => "success", "message" => "Employee updated successfully."]);
+    echo json_encode(["status" => "success", "message" => "User updated successfully."]);
 } else {
     echo json_encode(["status" => "error", "message" => "Error updating record: " . $stmt->error]);
 }

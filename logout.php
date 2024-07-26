@@ -6,7 +6,7 @@ if(isset($_SESSION['admin'])){
     $path = "admin_login.php";
 }
 if(isset($_SESSION['employee_user'])){
-    $path = "employee_user_login.php";
+    $path = "user_login.php";
 }
 // Destroy the session
 session_destroy();

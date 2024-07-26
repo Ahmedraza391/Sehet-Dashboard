@@ -28,7 +28,7 @@
       <li class="nav-item">
         <a class="nav-link <?php if($page=="reffrals"){echo "active";} ?> text-primary" href="./refferals_management.php">
           <i class='bx bxs-add-to-queue text-primary'></i> 
-          <span>Reffrals</span>
+          <span>Referrals</span>
         </a>
       </li>
     

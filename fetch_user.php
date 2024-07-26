@@ -2,7 +2,7 @@
 include("connection.php");
 
 // SQL query to fetch employees
-$sql = "SELECT * FROM tbl_employee_users";
+$sql = "SELECT * FROM tbl_users";
 $result = $connection->query($sql);
 
 if ($result->num_rows > 0) {
@@ -15,9 +15,9 @@ if ($result->num_rows > 0) {
             echo "<td class='text-left'>" . htmlspecialchars($row["user_contact"]) . "</td>";
             echo "<td class='text-center'>";
                 if($row["user_status"] == "deactivate"){
-                    echo "<a href='activate_user_employee.php?id=" . urlencode($row['user_id']) . "' class='btn btn-primary btn-sm'>Activate</a>";
+                    echo "<a href='activate_user.php?id=" . urlencode($row['user_id']) . "' class='btn btn-primary btn-sm'>Activate</a>";
                 } else {
-                    echo "<a href='deactivate_user_employee.php?id=" . urlencode($row['user_id']) . "' class='btn btn-danger btn-sm'>Deactivate</a>";
+                    echo "<a href='deactivate_user.php?id=" . urlencode($row['user_id']) . "' class='btn btn-danger btn-sm'>Deactivate</a>";
                 }
             echo "</td>";
             $pages = explode(",", $row['pages_access']);
@@ -30,7 +30,7 @@ if ($result->num_rows > 0) {
         echo "</tr>";
     }
 } else {
-    echo "<tr><td colspan='8' class='text-center'>No Employee Users found</td></tr>";
+    echo "<tr><td colspan='8' class='text-center'>No Users found</td></tr>";
 }
 
 $connection->close();

@@ -3,8 +3,51 @@ session_start();
 if (!isset($_SESSION['employee_user'])) {
     echo "<script>window.location.href='admin_login.php'</script>";
 }
+include("connection.php");
+if (isset($_SESSION['employee_user'])) {
+    $id = $_SESSION['employee_user']['user_id'];
+}
+$fetch_image_query = mysqli_query($connection, "SELECT * FROM tbl_users WHERE user_id = '$id'");
+if (mysqli_num_rows($fetch_image_query) > 0) {
+    $fetch_data = mysqli_fetch_assoc($fetch_image_query);
+}
+if (isset($_POST['btn_update_data'])) {
+    // Retrieve form data and sanitize input
+    $name = mysqli_real_escape_string($connection, $_POST['user_name']);
+    $f_name = mysqli_real_escape_string($connection, $_POST['user_f_name']);
+    $email = mysqli_real_escape_string($connection, $_POST['user_email']);
+    $password = mysqli_real_escape_string($connection, $_POST['user_password']);
+    $contact = mysqli_real_escape_string($connection, $_POST['user_contact']);
+    $dob = mysqli_real_escape_string($connection, $_POST['user_dob']);
+    $id = mysqli_real_escape_string($connection, $fetch_data['user_id']);
+
+    // Update query
+    $update_data_query = "UPDATE tbl_users SET user_name='$name', user_father_name='$f_name', user_email='$email', user_password='$password', user_contact='$contact', user_dob='$dob' WHERE user_id='$id'";
+    $run_update_query = mysqli_query($connection, $update_data_query);
+
+    // Remove old cookies
+    setcookie('emp_user_email', "", time() - 3600, "/");
+    setcookie('emp_user_password', "", time() - 3600, "/");
+
+    if ($run_update_query) {
+        // Set new cookies after removing old ones
+        setcookie('emp_user_email', $email, time() + (86400 * 30), "/");
+        setcookie('emp_user_password', $password, time() + (86400 * 30), "/");
+
+        // Use JavaScript to redirect and display a message
+        echo "<script>
+        alert('Profile Updated Successfully');
+        window.location.href = 'user_profile.php';
+    </script>";
+    } else {
+        // Use JavaScript to redirect and display a message
+        echo "<script>
+        alert('Error in Profile Updating');
+        window.location.href = 'user_profile.php';
+    </script>";
+    }
+}
 ?>
-<?php include("connection.php") ?>
 <?php include("./Components/top.php") ?>
 <title>Admin - Profile</title>
 <?php include("./Components/navbar.php") ?>
@@ -28,23 +71,8 @@ if (!isset($_SESSION['employee_user'])) {
 
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                        <?php
-                        if (isset($_SESSION['employee_user'])) {
-                            $id = $_SESSION['employee_user']['user_id'];
-                        }
-                        $fetch_image_query = mysqli_query($connection, "SELECT * FROM tbl_employee_users WHERE user_id = '$id'");
-                        if (mysqli_num_rows($fetch_image_query) > 0) {
-                            $fetch_data = mysqli_fetch_assoc($fetch_image_query);
-                        }
-                        ?>
                         <i class="ri-user-3-line fs-1 rounded-circle border p-3"></i>
                         <h2><?php echo $fetch_data['user_name']; ?></h2>
-                        <!-- <div class="social-links mt-2">
-                            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-                        </div> -->
                     </div>
                 </div>
 
@@ -140,26 +168,6 @@ if (!isset($_SESSION['employee_user'])) {
                                         <button type="submit" name="btn_update_data" class="btn btn-primary btn-sm">Update Profile</button>
                                     </div>
                                 </form>
-                                <?php
-                                // update profile
-                                if (isset($_POST['btn_update_data'])) {
-                                    $name = $_POST['user_name'];
-                                    $f_name = $_POST['user_f_name'];
-                                    $email = $_POST['user_email'];
-                                    $password = $_POST['user_password'];
-                                    $contact = $_POST['user_contact'];
-                                    $dob = $_POST['user_dob'];
-                                    $update_data_query = "UPDATE tbl_employee_users SET user_name='$name',user_father_name='$f_name',user_email='$email',user_password='$password',user_contact='$contact',user_dob='$dob' WHERE user_id = '$id'";
-                                    $run_update_query = mysqli_query($connection, $update_data_query);
-                                    if ($run_update_query) {
-                                        setcookie('emp_user_email', $email, time() + (86400 * 30), "/", "", true, true);
-                                        setcookie('emp_user_password', $password, time() + (86400 * 30), "/", "", true, true);
-                                        echo "<script>alert('Profile Updated Successfully');window.location.href = 'employee_user_profile.php'</script>";
-                                    } else {
-                                        echo "<script>alert('Error in Profile Updating');window.location.href = 'employee_user_profile.php'</script>";
-                                    }
-                                }
-                                ?>
                             </div>
                         </div>
                     </div>

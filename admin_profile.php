@@ -3,8 +3,35 @@ session_start();
 if (!isset($_SESSION['admin'])) {
     echo "<script>window.location.href='admin_login.php'</script>";
 }
+include("connection.php");
+if(isset($_SESSION['admin'])){
+    $id = $_SESSION['admin']['id'];
+}
+$fetch_image_query = mysqli_query($connection, "SELECT * FROM tbl_admin WHERE id = '$id'");
+if (mysqli_num_rows($fetch_image_query) > 0) {
+    $fetch_data = mysqli_fetch_assoc($fetch_image_query);
+}
+// update profile
+if(isset($_POST['btn_update_data'])){
+    $name = $_POST['admin_name'];
+    $username = $_POST['admin_username'];
+    $password = $_POST['admin_password'];
+
+    $update_data_query = "UPDATE tbl_admin SET admin_name='$name',admin_username='$username',admin_password='$password' WHERE id = '$id'";
+    $run_update_query = mysqli_query($connection,$update_data_query);
+    // Remove old cookies
+    setcookie('admin_username', "", time() - 3600, "/");
+    setcookie('admin_password', "", time() - 3600, "/");
+    if($run_update_query){
+        // Set new cookies after removing old ones
+        setcookie('admin_username', $username, time() + (86400 * 30), "/");
+        setcookie('admin_password', $password, time() + (86400 * 30), "/");
+        echo "<script>alert('Profile Updated Successfully');window.location.href = 'admin_profile.php'</script>";
+    }else{
+        echo "<script>alert('Error in Profile Updating');window.location.href = 'admin_profile.php'</script>";
+    }
+}
 ?>
-<?php include("connection.php") ?>
 <?php include("./Components/top.php") ?>
 <title>Admin - Profile</title>
 <?php include("./Components/navbar.php") ?>
@@ -28,23 +55,8 @@ if (!isset($_SESSION['admin'])) {
 
                 <div class="card">
                     <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                        <?php
-                        if(isset($_SESSION['admin'])){
-                            $id = $_SESSION['admin']['id'];
-                        }
-                        $fetch_image_query = mysqli_query($connection, "SELECT * FROM tbl_admin WHERE id = '$id'");
-                        if (mysqli_num_rows($fetch_image_query) > 0) {
-                            $fetch_data = mysqli_fetch_assoc($fetch_image_query);
-                        }
-                        ?>
                         <img src="<?php echo $fetch_data['admin_image']; ?>" alt="Profile" class="rounded-circle">
                         <h2><?php echo $fetch_data['admin_name']; ?></h2>
-                        <!-- <div class="social-links mt-2">
-                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-              </div> -->
                     </div>
                 </div>
 
@@ -172,27 +184,6 @@ if (!isset($_SESSION['admin'])) {
                                         <button type="submit" name="btn_update_data" class="btn btn-primary btn-sm">Update Profile</button>
                                     </div>
                                 </form>
-                                <?php 
-                                    // update profile
-                                    if(isset($_POST['btn_update_data'])){
-                                        $name = $_POST['admin_name'];
-                                        $username = $_POST['admin_username'];
-                                        $password = $_POST['admin_password'];
-                                        
-                                        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-                                        $update_data_query = "UPDATE tbl_admin SET admin_name='$name',admin_username='$username',admin_password='$password' WHERE id = '$id'";
-                                        $run_update_query = mysqli_query($connection,$update_data_query);
-                                        if($run_update_query){
-                                            $_SESSION['original_password'] = $password;
-                                            // setcookie('cook_username', $username, time() + (86400 * 30));
-                                            setcookie('cook_password', $hashed_password, time() + (86400 * 30));
-                                            echo "<script>alert('Profile Updated Successfully');window.location.href = 'admin_profile.php'</script>";
-                                        }else{
-                                            echo "<script>alert('Error in Profile Updating');window.location.href = 'admin_profile.php'</script>";
-                                        }
-                                    }
-                                ?>
                             </div>
                         </div>
                     </div>

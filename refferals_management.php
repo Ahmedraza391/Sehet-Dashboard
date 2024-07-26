@@ -10,7 +10,7 @@ $this_page = "reffrel_management";
 
 if (isset($_SESSION['employee_user'])) {
     $id = $_SESSION['employee_user']['user_id'];
-    $query = mysqli_query($connection,"SELECT * FROM tbl_employee_users WHERE user_id ='$id'");
+    $query = mysqli_query($connection,"SELECT * FROM tbl_users WHERE user_id ='$id'");
     $fetch_qurey = mysqli_fetch_assoc($query);
     $pages = explode(",", $fetch_qurey['pages_access']);    
 
@@ -41,11 +41,11 @@ $page = "reffrals";
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-                <div class="card p-md-3">
+                <div class="card p-3">
                     <div class="heading my-2 text-center">
                         <h1 class="fs-3 fw-bold">Refferals</h1>
                     </div>
-                    <div class="reffral_table overflow_table">
+                    <div class="reffral_table overflow_table mb-3">
                         <table class="table rounded table-bordered">
                             <thead>
                                 <th class="text-center">Id</th>
@@ -64,11 +64,11 @@ $page = "reffrals";
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h3 class="modal-title" id="viewReffralLabel">Refferal</h3>
+                                    <h3 class="modal-title" id="viewReffralLabel">View Refferals</h3>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                   <div class="card p-md-3">
+                                   <div class="card p-3">
                                     <div class="d-flex align-items-center justify-content-start">
                                         <h6 class="">ID : #<span class="fs-6" id="ref_id"></span></h6>
                                     </div>
@@ -90,7 +90,7 @@ $page = "reffrals";
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="editReffralsLabel">Edit Refferal</h5>
+                                    <h5 class="modal-title" id="editReffralsLabel">Edit Refferals   </h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">

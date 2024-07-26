@@ -65,7 +65,7 @@ include("./Components/login_navbar.php");
                             $password = $_POST['txtpassword'];
 
                             // Fetch user data from database
-                            $check_user_have = mysqli_query($connection, "SELECT * FROM tbl_employee_users WHERE user_email='$user_email'");
+                            $check_user_have = mysqli_query($connection, "SELECT * FROM tbl_users WHERE user_email='$user_email'");
                             $count = mysqli_num_rows($check_user_have);
 
                             if ($count > 0) {
@@ -75,8 +75,8 @@ include("./Components/login_navbar.php");
                                     $_SESSION['employee_user'] = $fetch_user;
 
                                     if (isset($_POST['remember_me'])) {
-                                        setcookie('emp_user_email', $user_email, time() + (86400 * 30), "/", "", true, true); // Secure flag and HttpOnly flag
-                                        setcookie('emp_user_password', $stored_password, time() + (86400 * 30), "/", "", true, true); // Secure flag and HttpOnly flag
+                                        setcookie('emp_user_email', $user_email, time() + (86400 * 30), "/", "", true, true);
+                                        setcookie('emp_user_password', $stored_password, time() + (86400 * 30), "/", "", true, true);
                                     } else {
                                         setcookie('emp_user_email', "", time() - 3600, "/", "", true, true); // Secure flag and HttpOnly flag
                                         setcookie('emp_user_password', "", time() - 3600, "/", "", true, true); // Secure flag and HttpOnly flag
@@ -84,10 +84,10 @@ include("./Components/login_navbar.php");
 
                                     echo "<script>alert('Employee User Login Successfully');window.location.href='index.php'</script>";
                                 } else {
-                                    echo "<script>alert('Incorrect Email Or Password');window.location.href = 'employee_user_login.php';</script>";
+                                    echo "<script>alert('Incorrect Email Or Password');window.location.href = 'user_login.php';</script>";
                                 }
                             } else {
-                                echo "<script>alert('Incorrect Email Or Password');window.location.href = 'employee_user_login.php';</script>";
+                                echo "<script>alert('Incorrect Email Or Password');window.location.href = 'user_login.php';</script>";
                             }
                         }
                         ?>

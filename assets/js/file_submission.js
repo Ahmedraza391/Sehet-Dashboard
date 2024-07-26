@@ -50,7 +50,8 @@ $(document).ready(function () {
                     type: "POST",
                     url: "insert_service.php",
                     data: { service: service },
-                    success: function (res) {
+                    success: function (response) {
+                        console.log(response);
                         $('#add_service').modal('hide');
                         $("#insert_service_form").trigger("reset");
                         alert_box("Service Added Successfully", "Services");
@@ -79,6 +80,7 @@ $(document).ready(function () {
                     url: 'update_service.php',
                     data: { id: serviceId, service: serviceName },
                     success: function (response) {
+                        console.log(response);
                         alert_box("Service Updated Successfully", "Services");
                         $('#editServiceModal').modal('hide');
                         $("#editserviceForm").trigger("reset");
@@ -100,6 +102,7 @@ $(document).ready(function () {
                         url: 'delete_service.php',
                         data: { id: serviceId },
                         success: function (response) {
+                            console.log(response);
                             alert_box("Service Deleted Successfully", "Services")
                             fetchServices();
                         },
@@ -115,6 +118,7 @@ $(document).ready(function () {
                     type: 'GET',
                     url: 'fetch_services.php',
                     success: function (response) {
+                        console.log(response);
                         $('#serviceTable').html(response);
                     },
                     error: function () {
@@ -136,7 +140,8 @@ $(document).ready(function () {
                     type: "POST",
                     url: "insert_sub_services.php",
                     data: formdata,
-                    success: function (res) {
+                    success: function (response) {
+                        console.log(response);
                         $("#add_sub_service").modal("hide");
                         $("#insert_sub_service_form").trigger("reset");
                         alert_box("Sub-Service Added Successfully", "Services");
@@ -174,6 +179,7 @@ $(document).ready(function () {
                     url: 'update_sub_services.php',
                     data: edit_form_data,
                     success: function (response) {
+                        console.log(response);
                         $('#editSubServicesModal').modal('hide');
                         alert_box("Service Updated Successfully", "Services");
                         fetchSubServices();
@@ -194,6 +200,7 @@ $(document).ready(function () {
                         url: 'delete_sub_service.php',
                         data: { id: sub_service_id },
                         success: function (response) {
+                            console.log(response);
                             fetchSubServices();
                             alert_box("Service Deleted Successfully", "Services")
                         },
@@ -209,6 +216,7 @@ $(document).ready(function () {
                     type: 'GET',
                     url: 'fetch_sub_services.php',
                     success: function (response) {
+                        console.log(response);
                         $('#subServiceTable').html(response);
                     },
                     error: function () {
@@ -236,7 +244,8 @@ $(document).ready(function () {
                     type: "POST",
                     url: "insert_extra_services.php",
                     data: formdata,
-                    success: function (res) {
+                    success: function (response) {
+                        console.log(response);
                         submitButton.prop("disabled", false);
                         fetchExtraServices();
                         $("#add_extra_service").modal("hide");
@@ -263,6 +272,7 @@ $(document).ready(function () {
                     url: "extraservice_option.php",
                     data: { id: subserviceId },
                     success: function (response) {
+                        console.log(response);
                         $("#edit_sub_service_id").html(response);
                     }
                 })
@@ -277,6 +287,7 @@ $(document).ready(function () {
                     url: 'update_extra_services.php',
                     data: edit_form_data,
                     success: function (response) {
+                        console.log(response);
                         $('#editextraServicesModal').modal('hide');
                         alert_box("Extra-Service Updated Successfully", "Services");
                         fetchExtraServices();
@@ -296,6 +307,7 @@ $(document).ready(function () {
                         url: 'delete_extra_service.php',
                         data: { id: extra_service_id },
                         success: function (response) {
+                            console.log(response);
                             fetchExtraServices();
                             alert_box("Extra-Service Deleted Successfully", "Services")
                         },
@@ -311,6 +323,7 @@ $(document).ready(function () {
                     type: 'GET',
                     url: 'fetch_extra_services.php',
                     success: function (response) {
+                        console.log(response);
                         $('#extraServiceTable').html(response);
                     },
                     error: function () {
@@ -342,7 +355,8 @@ $(document).ready(function () {
                     type: "POST",
                     url: "insert_province.php",
                     data: { province: Province },
-                    success: function (res) {
+                    success: function (response) {
+                        console.log(response);
                         $('#add_province').modal('hide');
                         $("#insert_province_form").trigger("reset");
                         alert_box("Province Added Successfully", "Address Management");
@@ -375,6 +389,7 @@ $(document).ready(function () {
                     url: 'update_province.php',
                     data: { id: province_id, province: province_name },
                     success: function (response) {
+                        console.log(response);
                         alert_box("Province Updated Successfully", "Address Management");
                         $('#edit_province_modal').modal('hide');
                         fetch_province();
@@ -395,6 +410,7 @@ $(document).ready(function () {
                         url: 'delete_province.php',
                         data: { id: province_id },
                         success: function (response) {
+                            console.log(response);
                             alert_box("Province Deleted Successfully", "Address Management")
                             fetch_province();
                         },
@@ -410,6 +426,7 @@ $(document).ready(function () {
                     type: 'GET',
                     url: 'fetch_province.php',
                     success: function (response) {
+                        console.log(response);
                         $('#provinceTable').html(response);
                     },
                     error: function () {
@@ -430,7 +447,8 @@ $(document).ready(function () {
                     type: "POST",
                     url: "insert_city.php",
                     data: formdata,
-                    success: function (res) {
+                    success: function (response) {
+                        console.log(response);
                         $("#add_city").modal("hide");
                         $("#insert_city_form").trigger("reset");
                         alert_box("City Added Successfully", "Address Management");
@@ -452,6 +470,7 @@ $(document).ready(function () {
                     url: "province_option.php",
                     data: { id: province_id },
                     success: function (response) {
+                        console.log(response);
                         $("#province_menu").html(response);
                     }
                 })
@@ -465,6 +484,7 @@ $(document).ready(function () {
                     url: 'update_city.php',
                     data: edit_form_data,
                     success: function (response) {
+                        console.log(response);
                         $('#edit_city_modal').modal('hide');
                         $("#editcityForm").trigger("reset");
                         alert_box("City Updated Successfully", "Address Management");
@@ -485,6 +505,7 @@ $(document).ready(function () {
                         url: 'delete_city.php',
                         data: { id: city_id },
                         success: function (response) {
+                            console.log(response);
                             fetchcity();
                             alert_box("City Deleted Successfully", "Address Management")
                         },
@@ -500,6 +521,7 @@ $(document).ready(function () {
                     type: 'GET',
                     url: 'fetch_city.php',
                     success: function (response) {
+                        console.log(response);
                         $('#cityTable').html(response);
                     },
                     error: function () {
@@ -520,7 +542,8 @@ $(document).ready(function () {
                     type: "POST",
                     url: "insert_city_area.php",
                     data: formdata,
-                    success: function (res) {
+                    success: function (response) {
+                        console.log(response);
                         $("#add_city_area").modal("hide");
                         $("#insert_capital_area_form").trigger("reset");
                         alert_box("Area Added Successfully", "Address Management");
@@ -530,7 +553,6 @@ $(document).ready(function () {
                     }
                 })
             })
-
             // For Edit Capital Area
             $(document).on('click', '.edit-capital-area', function () {
                 let capitalAreaId = $(this).data("id");
@@ -543,6 +565,7 @@ $(document).ready(function () {
                     url: "capital_area_option.php",
                     data: { id: city_id },
                     success: function (response) {
+                        console.log(response);
                         $("#city_menu").html(response);
                     }
                 })
@@ -556,6 +579,7 @@ $(document).ready(function () {
                     url: 'update_capital_area.php',
                     data: edit_form_data,
                     success: function (response) {
+                        console.log(response);
                         $('#editCapitalAreaModal').modal('hide');
                         alert_box("Area Updated Successfully", "Addresses Management");
                         fetch_city_area();
@@ -575,6 +599,7 @@ $(document).ready(function () {
                         url: 'delete_capital_area.php',
                         data: { id: capital_area_id },
                         success: function (response) {
+                            console.log(response);
                             fetch_city_area();
                             alert_box("Capital-Area Deleted Successfully", "Addresses Management")
                         },
@@ -589,6 +614,7 @@ $(document).ready(function () {
                     type: 'GET',
                     url: 'fetch_capital_area.php',
                     success: function (response) {
+                        console.log(response);
                         $('#cityareaTable').html(response);
                     },
                     error: function () {
@@ -623,7 +649,8 @@ $(document).ready(function () {
                 url: "add_refferals.php",
                 type: "POST",
                 data: formData,
-                success: function (res) {
+                success: function (response) {
+                    console.log(response);
                     $("#reffral_modal").modal("hide");
                     alert_box('Reffral Added Successfully', 'Reffral Management');
                     $("#reffral_form")[0].reset();
@@ -658,7 +685,8 @@ $(document).ready(function () {
                 url: "update_refferal.php",
                 type: "POST",
                 data: formData,
-                success: function (res) {
+                success: function (response) {
+                    console.log(response);
                     $("#editReffrals").modal("hide");
                     alert_box("Refferal Updated Successfully", "Reffral Management");
                     fetch_reffrals();
@@ -675,6 +703,7 @@ $(document).ready(function () {
                     url: 'delete_refferal.php',
                     data: { id: id },
                     success: function (response) {
+                        console.log(response);
                         fetch_reffrals();
                         alert_box("Reffral Deleted Successfully", "Reffral Management")
                     },
@@ -704,8 +733,9 @@ $(document).ready(function () {
             $.ajax({
                 url: "fetch_reffrals.php",
                 type: "POST",
-                success: function (res) {
-                    $("#reffralTable").html(res)
+                success: function (response) {
+                    console.log(response);
+                    $("#reffralTable").html(response)
                 }
             })
         }
@@ -724,15 +754,17 @@ $(document).ready(function () {
                 url: "panel_fetch_city_option.php",
                 type: "POST",
                 data: { id: province },
-                success: function (res) {
-                    $("#city_id").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#city_id").html(response);
                     let city = $("#city_id").val();
                     $.ajax({
                         url: "panel_fetch_area_option.php",
                         type: "POST",
                         data: { id: city },
-                        success: function (res) {
-                            $("#area_id").html(res);
+                        success: function (response) {
+                            console.log(response);
+                            $("#area_id").html(response);
                         }
                     });
                 }
@@ -745,8 +777,9 @@ $(document).ready(function () {
                 url: "panel_fetch_area_option.php",
                 type: "POST",
                 data: { id: city },
-                success: function (res) {
-                    $("#area_id").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#area_id").html(response);
 
                     // Automatically select the first area in the list
                     let firstAreaOption = $("#area_id option:first").val();
@@ -761,15 +794,17 @@ $(document).ready(function () {
                 url: "panel_fetch_edit_city_option.php",
                 type: "POST",
                 data: { id: province },
-                success: function (res) {
-                    $("#edit_city_id").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#edit_city_id").html(response);
                     let city = $("#edit_city_id").val();
                     $.ajax({
                         url: "panel_fetch_edit_area_option.php",
                         type: "POST",
                         data: { id: city },
-                        success: function (res) {
-                            $("#edit_area_id").html(res);
+                        success: function (response) {
+                            console.log(response);
+                            $("#edit_area_id").html(response);
                         }
                     });
                 }
@@ -782,8 +817,9 @@ $(document).ready(function () {
                 url: "panel_fetch_edit_area_option.php",
                 type: "POST",
                 data: { id: city },
-                success: function (res) {
-                    $("#edit_area_id").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#edit_area_id").html(response);
 
                     // Automatically select the first area in the list
                     let firstAreaOption = $("#edit_area_id option:first").val();
@@ -873,14 +909,15 @@ $(document).ready(function () {
                 url: "insert_panel.php",
                 type: "POST",
                 data: formData,
-                success: function (res) {
-                    if (res === "Panel Inserted Successfully") {
+                success: function (response) {
+                    console.log(response);
+                    if (response === "Panel Inserted Successfully") {
                         $("#panel_modal").modal("hide");
                         fetch_panel();
                         alert_box("Panel Inserted Successfully", "Panel Management");
                         $("#panel_form")[0].reset();
                     } else {
-                        alert("Unexpected response: " + res);
+                        alert("Unexpected response: " + response);
                     }
                 },
                 error: function (xhr, status, error) {
@@ -905,8 +942,9 @@ $(document).ready(function () {
                 url: "panel_fetch_province_option.php",
                 type: "POST",
                 data: { id: $(this).data('province_id') },
-                success: function (res) {
-                    $("#edit_province").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#edit_province").html(response);
                 },
                 error: function (res) {
                     $("#edit_province").html("Error: " + res);
@@ -919,8 +957,9 @@ $(document).ready(function () {
                     id: $(this).data('city_id'),
                     p_id: $(this).data('province_id')
                 },
-                success: function (res) {
-                    $("#edit_city_id").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#edit_city_id").html(response);
                 },
                 error: function (res) {
                     $("#edit_city_id").html("Error: " + res);
@@ -933,19 +972,20 @@ $(document).ready(function () {
                     id: $(this).data('area_id'),
                     c_id: $(this).data('city_id')
                 },
-                success: function (res) {
-                    $("#edit_area_id").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#edit_area_id").html(response);
                 },
                 error: function (res) {
                     $("#edit_area_id").html("Error: " + res);
                 }
             });
-
             $.ajax({
                 url: "panel_fetch_services.php",
                 type: "POST",
                 data: { panel_id: panel_id },
                 success: function (response) {
+                    console.log(response);
                     let services = JSON.parse(response);
                     let servicesHtml = '';
 
@@ -973,8 +1013,6 @@ $(document).ready(function () {
                     $("#edit_services_container").html("Error: " + response);
                 }
             });
-
-
         });
         // For update panel
         $("#edit_panel_form").on("submit", function (e) {
@@ -987,7 +1025,8 @@ $(document).ready(function () {
                 url: "update_panel.php",
                 type: "POST",
                 data: formdata,
-                success: function (res) {
+                success: function (response) {
+                    console.log(response);
                     fetch_panel();
                     $("#editPanel").modal("hide");
                     alert_box("Panel Updated Successfully", "Panel Management");
@@ -1006,7 +1045,8 @@ $(document).ready(function () {
                     url: "delete_panel.php",
                     type: "POST",
                     data: { id: del_id },
-                    success: function (res) {
+                    success: function (response) {
+                        console.log(response);
                         fetch_panel();
                     },
                     error: function (xhr, status, error) {
@@ -1047,8 +1087,9 @@ $(document).ready(function () {
                 url: "panel_fetch_province.php",
                 type: "POST",
                 data: { id: province_id },
-                success: function (res) {
-                    $("#view_panel_province").text(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#view_panel_province").text(response);
                 },
                 error: function (res) {
                     console.error("Error fetching province: " + res);
@@ -1060,8 +1101,9 @@ $(document).ready(function () {
                 url: "panel_fetch_city.php",
                 type: "POST",
                 data: { id: city_id },
-                success: function (res) {
-                    $("#view_panel_city").text(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#view_panel_city").text(response);
                 },
                 error: function (res) {
                     console.error("Error fetching city: " + res);
@@ -1073,8 +1115,9 @@ $(document).ready(function () {
                 url: "panel_fetch_area.php",
                 type: "POST",
                 data: { id: area_id },
-                success: function (res) {
-                    $("#view_panel_area").text(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#view_panel_area").text(response);
                 },
                 error: function (res) {
                     console.error("Error fetching area: " + res);
@@ -1118,8 +1161,9 @@ $(document).ready(function () {
             $.ajax({
                 url: "fetch_panel.php",
                 type: "POST",
-                success: function (res) {
-                    $("#panelTable").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#panelTable").html(response);
                 }
             })
         }
@@ -1143,6 +1187,15 @@ $(document).ready(function () {
                 }
             }
 
+            // Auto-format Employee ID
+            function formatEmpId(value) {
+                value = value.replace(/\D/g, ''); // Remove non-numeric characters
+                if (value.length > 4) {
+                    value = value.slice(0, 4) + '-' + value.slice(4, 7);
+                }
+                return value;
+            }
+
             // Form submission handling
             $("#insert_employee_form").on("submit", function (e) {
                 e.preventDefault();
@@ -1156,6 +1209,15 @@ $(document).ready(function () {
                     var value = element.val().trim();
 
                     switch (id) {
+                        case "emp_id":
+                            var empIdPattern = /^\d{4}-\d{3}$/;
+                            if (!empIdPattern.test(value)) {
+                                updateFeedback(element, "Please enter the employee Id in the format 1234-567.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
                         case "emp_name":
                             if (value === "") {
                                 updateFeedback(element, "Employee name is required.");
@@ -1172,9 +1234,17 @@ $(document).ready(function () {
                                 updateFeedback(element, "");
                             }
                             break;
-                        case "emp_emai":
+                        case "emp_email":
                             if (value === "") {
                                 updateFeedback(element, "Employee email is required.");
+                                isValidForm = false;
+                            } else {
+                                updateFeedback(element, "");
+                            }
+                            break;
+                        case "emp_contact":
+                            if (value === "") {
+                                updateFeedback(element, "Contact Field Required.");
                                 isValidForm = false;
                             } else {
                                 updateFeedback(element, "");
@@ -1215,8 +1285,8 @@ $(document).ready(function () {
                         url: "employee_insert_registration.php",
                         type: "POST",
                         data: formData,
-                        success: function (res) {
-                            console.log(res);
+                        success: function (response) {
+                            console.log(response);
                             $("#add_employe").modal("hide");
                             alert_box('Employee Added Successfully', 'Referral Management');
                             $("#insert_employee_form")[0].reset();
@@ -1229,12 +1299,27 @@ $(document).ready(function () {
                 }
             });
 
+            // Auto-format Employee ID on input
+            $("#emp_id").on("input", function () {
+                var element = $(this);
+                var value = element.val();
+                element.val(formatEmpId(value));
+            });
+
             // Update feedback messages on input change
             $("#insert_employee_form input, #insert_employee_form select").on("change input", function () {
                 var element = $(this);
                 var id = element.attr("id");
 
                 switch (id) {
+                    case "emp_id":
+                        var empIdPattern = /^\d{4}-\d{3}$/;
+                        if (!empIdPattern.test(element.val().trim())) {
+                            updateFeedback(element, "Please enter the employee Id in the format 1234-567.");
+                        } else {
+                            updateFeedback(element, "");
+                        }
+                        break;
                     case "emp_name":
                         if (element.val().trim() === "") {
                             updateFeedback(element, "Employee name is required.");
@@ -1249,9 +1334,16 @@ $(document).ready(function () {
                             updateFeedback(element, "");
                         }
                         break;
-                    case "emp_emai":
+                    case "emp_email":
                         if (element.val().trim() === "") {
                             updateFeedback(element, "Employee email is required.");
+                        } else {
+                            updateFeedback(element, "");
+                        }
+                        break;
+                    case "emp_contact":
+                        if (element.val().trim() === "") {
+                            updateFeedback(element, "Contact Field Required.");
                         } else {
                             updateFeedback(element, "");
                         }
@@ -1281,10 +1373,11 @@ $(document).ready(function () {
             });
         }
         formSubmitting();
+
         // For View Employees Details
         $(document).on("click", ".view-employee", function () {
             $("#viewEmployee").modal("show");
-            var id = $(this).data("id");
+            var emp_id = $(this).data("emp_id");
             var name = $(this).data("name");
             var f_name = $(this).data("f_name");
             var email = $(this).data("email");
@@ -1298,7 +1391,7 @@ $(document).ready(function () {
                 $("#emp_designation").html(designation);
             }
             var status = $(this).data("status");
-            $("#emp_id").html(id);
+            $("#emp_id").html(emp_id);
             $("#emp_name").html(name);
             $("#emp_f_name").html(f_name);
             $("#emp_email").html(email);
@@ -1310,32 +1403,31 @@ $(document).ready(function () {
         // For Fetch Reffral Details in Modal
         $(document).on("click", ".edit-employee", function () {
             $("#editEmployee").modal("show");
-            var id = $(this).data("id");
-            var name = $(this).data("name");
-            var f_name = $(this).data("f_name");
-            var email = $(this).data("email");
-            var contact = $(this).data("contact");
-            var nic = $(this).data("nic");
-            var dob = $(this).data("dob");
-            var designation = $(this).data("designation");
-            $("#edit_emp_id").val(id);
-            $("#edit_emp_name").val(name);
-            $("#edit_emp_father_name").val(f_name);
-            $("#edit_emp_email").val(email);
-            $("#edit_emp_contact").val(contact);
-            $("#edit_emp_nic").val(nic);
-            $("#edit_emp_dob").val(dob);
-            // Set the selected designation
-            $("#edit_emp_designation").val(designation).change();
+            var data = $(this).data();
+            $("#tbl_id").val(data.id);
+            $("#edit_emp_id").val(data.emp_id);
+            $("#edit_emp_name").val(data.name);
+            $("#edit_emp_father_name").val(data.f_name);
+            $("#edit_emp_email").val(data.email);
+            $("#edit_emp_contact").val(data.contact);
+            $("#edit_emp_nic").val(data.nic);
+            $("#edit_emp_dob").val(data.dob);
+            $("#edit_emp_designation").val(data.designation).change();
         });
         function editFormSubmitting() {
-            // Form submission handling for edit_employee_form
+            function updateFeedback(element, message) {
+                if (message) {
+                    element.addClass("is-invalid");
+                    element.siblings(".invalid-feedback").text(message).show();
+                } else {
+                    element.removeClass("is-invalid");
+                    element.siblings(".invalid-feedback").text("").hide();
+                }
+            }
             $("#edit_employee_form").on("submit", function (e) {
                 e.preventDefault();
-
                 var isValidForm = true;
 
-                // Validate each field
                 $('#edit_employee_form input, #edit_employee_form select').each(function () {
                     var element = $(this);
                     var id = element.attr('id');
@@ -1390,22 +1482,21 @@ $(document).ready(function () {
                                 updateFeedback(element, "");
                             }
                             break;
-                        // Add more cases for additional fields as needed
                     }
                 });
 
-                // If form is valid, submit via AJAX
                 if (isValidForm) {
                     var formData = $(this).serialize();
                     $.ajax({
                         url: "update_employee.php",
                         type: "POST",
                         data: formData,
-                        success: function (res) {
-                            $("#editEmployee").modal("hide");
-                            alert_box(res, 'Employees Management');
-                            $("#edit_employee_form")[0].reset();
+                        success: function (response) {
+                            console.log(response);
                             fetch_employees();
+                            $("#editEmployee").modal("hide");
+                            alert_box("Employee Updated Successfully", "Employee Management")
+                            $("#edit_employee_form")[0].reset();
                         },
                         error: function (xhr, status, error) {
                             alert('Error submitting form: ' + error);
@@ -1413,67 +1504,6 @@ $(document).ready(function () {
                     });
                 }
             });
-
-            // Update feedback messages on input change
-            $("#edit_employee_form input, #edit_employee_form select").on("change input", function () {
-                var element = $(this);
-                var id = element.attr("id");
-
-                switch (id) {
-                    case "edit_emp_name":
-                        if (element.val().trim() === "") {
-                            updateFeedback(element, "Employee name is required.");
-                        } else {
-                            updateFeedback(element, "");
-                        }
-                        break;
-                    case "edit_emp_father_name":
-                        if (element.val().trim() === "") {
-                            updateFeedback(element, "Father name is required.");
-                        } else {
-                            updateFeedback(element, "");
-                        }
-                        break;
-                    case "edit_emp_email":
-                        if (element.val().trim() === "") {
-                            updateFeedback(element, "Employee email is required.");
-                        } else {
-                            updateFeedback(element, "");
-                        }
-                        break;
-                    case "edit_emp_nic":
-                        if (!element[0].checkValidity()) {
-                            updateFeedback(element, "Please enter a valid NIC number with exactly 13 digits.");
-                        } else {
-                            updateFeedback(element, "");
-                        }
-                        break;
-                    case "edit_emp_dob":
-                        if (!element[0].checkValidity()) {
-                            updateFeedback(element, "Please select a date of birth from previous years only.");
-                        } else {
-                            updateFeedback(element, "");
-                        }
-                        break;
-                    case "edit_emp_designation":
-                        if (element.val() === "") {
-                            updateFeedback(element, "Please select a designation.");
-                        } else {
-                            updateFeedback(element, "");
-                        }
-                        break;
-                }
-            });
-
-            function updateFeedback(element, message) {
-                if (message) {
-                    element.addClass("is-invalid");
-                    element.siblings(".invalid-feedback").text(message).show();
-                } else {
-                    element.removeClass("is-invalid");
-                    element.siblings(".invalid-feedback").text("").hide();
-                }
-            }
         }
         editFormSubmitting();
         // For Delete Reffral
@@ -1486,6 +1516,7 @@ $(document).ready(function () {
                     url: 'delete_employee.php',
                     data: { id: emp_id },
                     success: function (response) {
+                        console.log(response);
                         fetch_employees();
                         alert_box("Employee Deleted Successfully", "Employee Management")
                     },
@@ -1499,8 +1530,9 @@ $(document).ready(function () {
             $.ajax({
                 url: "fetch_employee.php",
                 type: "POST",
-                success: function (res) {
-                    $("#employeeTable").html(res)
+                success: function (response) {
+                    console.log(response);
+                    $("#employeeTable").html(response)
                 }
             })
         }
@@ -1509,49 +1541,9 @@ $(document).ready(function () {
     employee_management();
 
     // For User Page
-    function employee_user_management() {
-        $("#emp_selection").on("change", function () {
-            let id = $(this).val();
-            if (id) {
-                $.ajax({
-                    url: "fetch_employee_user.php",
-                    type: "POST",
-                    data: { id: id },
-                    dataType: "json",
-                    success: function (data) {
-                        if (data) {
-                            $("#emp_user_id").val(data.emp_id);
-                            $("#emp_user_name").val(data.emp_name);
-                            // For hidden name input
-                            $("#emp_user_name_hidden").val(data.emp_name);
-                            $("#emp_user_father_name").val(data.emp_father_name);
-                            // For hidden father name input
-                            $("#emp_user_father_name_hidden").val(data.emp_father_name);
-                            $("#emp_user_email").val(data.emp_email);
-                            $("#emp_user_contact").val(data.emp_contact);
-                            $("#emp_user_nic").val(data.emp_nic);
-                            // For hidden nic input
-                            $("#emp_user_nic_hidden").val(data.emp_nic);
-                            $("#emp_user_dob").val(data.emp_dob);
-                            // For hidden dob input
-                            $("#emp_user_dob_hidden").val(data.emp_dob);
-                            $("#emp_user_designation").val(data.emp_designation);
-                            $("#add_user").modal("show");
-                            $("#insert_employee_user_form").addClass("d-block").removeClass("d-none");
-                        } else {
-                            $("#insert_employee_user_form").addClass("d-none").removeClass("d-block");
-                        }
-                    },
-                    error: function () {
-                        console.log("Error fetching employee data");
-                    }
-                });
-            } else {
-                $("#insert_employee_user_form").addClass("d-none").removeClass("d-block");
-            }
-        });
+    function user_management() {
         function addformSubmitting() {
-            $('#insert_employee_user_form').on("submit", function (e) {
+            $('#insert_user_form').on("submit", function (e) {
                 e.preventDefault();
 
                 // Validate form fields
@@ -1561,19 +1553,19 @@ $(document).ready(function () {
 
                     // Submit form via AJAX
                     $.ajax({
-                        url: 'insert_employee_user.php',
+                        url: 'insert_user.php',
                         type: 'POST',
                         data: formData,
                         success: function (response) {
                             console.log(response);
-                            alert_box("Employee User Added Successfully", "User Management");
+                            fetch_users();
+                            alert_box("User Added Successfully", "User Management");
                             $("#add_user").modal("hide");
-                            $('#insert_employee_user_form')[0].reset();
-                            window.location.href = "user_management.php";
+                            $('#insert_user_form')[0].reset();
                         },
                         error: function (xhr, status, error) {
                             console.error(xhr.responseText); // Log error message
-                            alert('An error occurred while adding the employee user. Please try again.');
+                            alert('An error occurred while adding the user. Please try again.');
                         }
                     });
                 }
@@ -1609,12 +1601,6 @@ $(document).ready(function () {
                 if ($('#emp_user_password').val().trim() === '') {
                     $('#emp_user_password').addClass('is-invalid');
                     $('#emp_user_password').siblings('.invalid-feedback').show();
-                    isValid = false;
-                }
-
-                if (!/^03\d{9}$/.test($('#emp_user_contact').val().trim())) {
-                    $('#emp_user_contact').addClass('is-invalid');
-                    $('#emp_user_contact').siblings('.invalid-feedback').show();
                     isValid = false;
                 }
 
@@ -1717,14 +1703,6 @@ $(document).ready(function () {
                                 updateFeedback(element, "");
                             }
                             break;
-                        case "edit_emp_user_contact":
-                            if (!element[0].checkValidity()) {
-                                updateFeedback(element, "Please enter a valid contact number starting with 03 and having 11 digits.");
-                                isValidForm = false;
-                            } else {
-                                updateFeedback(element, "");
-                            }
-                            break;
                         case "edit_emp_user_nic":
                             if (!element[0].checkValidity()) {
                                 updateFeedback(element, "Please enter a valid NIC number with exactly 13 digits.");
@@ -1757,14 +1735,14 @@ $(document).ready(function () {
                     }
 
                     $.ajax({
-                        url: "update_employee_user.php",
+                        url: "update_user.php",
                         type: "POST",
                         data: $.param(formData),
-                        success: function (res) {
-                            console.log(res);
-                            fetch_employees();
+                        success: function (response) {
+                            console.log(response);
+                            fetch_users();
                             $("#editUser").modal("hide");
-                            alert_box("Employee User Updated Successfully", 'User Management');
+                            alert_box("User Updated Successfully", 'User Management');
                             $("#edit_user_form")[0].reset();
                         },
                         error: function (xhr, status, error, res) {
@@ -1774,7 +1752,6 @@ $(document).ready(function () {
                 }
 
             });
-
             // Update feedback messages on input change
             $("#edit_user_form input, #edit_user_form select").on("change input", function () {
                 var element = $(this);
@@ -1790,9 +1767,6 @@ $(document).ready(function () {
                     case "edit_emp_user_email":
                         updateFeedback(element, element.val().trim() === "" ? "Employee email is required." : "");
                         break;
-                    case "edit_emp_user_contact":
-                        updateFeedback(element, !element[0].checkValidity() ? "Please enter a valid contact number starting with 03 and having 11 digits." : "");
-                        break;
                     case "edit_emp_user_nic":
                         updateFeedback(element, !element[0].checkValidity() ? "Please enter a valid NIC number with exactly 13 digits." : "");
                         break;
@@ -1802,7 +1776,6 @@ $(document).ready(function () {
                     // Add more cases for additional fields as needed
                 }
             });
-
             function updateFeedback(element, message) {
                 if (message) {
                     element.addClass("is-invalid");
@@ -1817,34 +1790,36 @@ $(document).ready(function () {
         // For Delete Reffral
         $(document).on('click', '.delete-user', function () {
             const emp_id = $(this).data('id');
-            const confirmation = confirm('Are you sure you want to delete this Employee User?');
+            const confirmation = confirm('Are you sure you want to delete this User?');
             if (confirmation) {
                 $.ajax({
                     type: 'POST',
-                    url: 'delete_employee_user.php',
+                    url: 'delete_user.php',
                     data: { id: emp_id },
                     success: function (response) {
-                        fetch_employees();
-                        alert_box("Employee User Deleted Successfully", "User Management")
+                        console.log(response);
+                        fetch_users();
+                        alert_box("User Deleted Successfully", "User Management");
                     },
                     error: function () {
-                        alert('Failed to Delete Employee User');
+                        alert('Failed to Delete User');
                     }
                 });
             }
         });
-        function fetch_employees() {
+        function fetch_users() {
             $.ajax({
-                url: "fetch_user_employee.php",
+                url: "fetch_user.php",
                 type: "POST",
-                success: function (res) {
-                    $("#userTable").html(res)
+                success: function (response) {
+                    console.log(response);
+                    $("#userTable").html(response);
                 }
             })
         }
-        fetch_employees()
+        fetch_users()
     }
-    employee_user_management();
+    user_management();
 
     function patient_management() {
         // For Fetch Province in insert  Panel Modal
@@ -1854,15 +1829,17 @@ $(document).ready(function () {
                 url: "patient_fetch_city_option.php",
                 type: "POST",
                 data: { id: province },
-                success: function (res) {
-                    $("#patient_city").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#patient_city").html(response);
                     let city = $("#patient_city").val();
                     $.ajax({
                         url: "patient_fetch_area_option.php",
                         type: "POST",
                         data: { id: city },
-                        success: function (res) {
-                            $("#patient_area").html(res);
+                        success: function (response) {
+                            console.log(response);
+                            $("#patient_area").html(response);
                         }
                     });
                 }
@@ -1875,8 +1852,9 @@ $(document).ready(function () {
                 url: "patient_fetch_area_option.php",
                 type: "POST",
                 data: { id: city },
-                success: function (res) {
-                    $("#patient_area").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#patient_area").html(response);
                     // Automatically select the first area in the list
                     let firstAreaOption = $("#patient_area option:first").val();
                     $("#patient_area").val(firstAreaOption).change(); // Trigger change event if needed
@@ -1890,15 +1868,17 @@ $(document).ready(function () {
                 url: "patient_fetch_edit_city_option.php",
                 type: "POST",
                 data: { id: province },
-                success: function (res) {
-                    $("#edit_patient_city").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#edit_patient_city").html(response);
                     let city = $("#edit_patient_city").val();
                     $.ajax({
                         url: "patient_fetch_edit_area_option.php",
                         type: "POST",
                         data: { id: city },
-                        success: function (res) {
-                            $("#edit_patient_area").html(res);
+                        success: function (response) {
+                            console.log(response);
+                            $("#edit_patient_area").html(response);
                         }
                     });
                 }
@@ -1911,8 +1891,9 @@ $(document).ready(function () {
                 url: "patient_fetch_edit_area_option.php",
                 type: "POST",
                 data: { id: city },
-                success: function (res) {
-                    $("#edit_patient_area").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#edit_patient_area").html(response);
 
                     // Automatically select the first area in the list
                     let firstAreaOption = $("#edit_patient_area option:first").val();
@@ -1927,7 +1908,8 @@ $(document).ready(function () {
                 url: "insert_patient.php",
                 type: "POST",
                 data: formData,
-                success: function (res) {
+                success: function (response) {
+                    console.log(response);
                     $("#add_patient").modal("hide");
                     fetch_patients();
                     alert_box("Patient Inserted Successfully", "Patient Management");
@@ -1984,8 +1966,9 @@ $(document).ready(function () {
                 url: "patient_fetch_province.php",
                 type: "POST",
                 data: { id: province_id },
-                success: function (res) {
-                    $("#view_patient_province").text(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#view_patient_province").text(response);
                 }
             });
             // For fetch City
@@ -1993,8 +1976,9 @@ $(document).ready(function () {
                 url: "patient_fetch_city.php",
                 type: "POST",
                 data: { id: city_id },
-                success: function (res) {
-                    $("#view_patient_city").text(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#view_patient_city").text(response);
                 }
             });
             // For fetch Area
@@ -2002,8 +1986,9 @@ $(document).ready(function () {
                 url: "patient_fetch_area.php",
                 type: "POST",
                 data: { id: area_id },
-                success: function (res) {
-                    $("#view_patient_area").text(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#view_patient_area").text(response);
                 }
             });
             // For fetch Refferal
@@ -2011,8 +1996,9 @@ $(document).ready(function () {
                 url: "patient_fetch_refferal.php",
                 type: "POST",
                 data: { id: refferal_id },
-                success: function (res) {
-                    $("#view_patient_refferal_id").text(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#view_patient_refferal_id").text(response);
                 }
             });
             // For fetch Panel
@@ -2020,8 +2006,9 @@ $(document).ready(function () {
                 url: "patient_fetch_panel.php",
                 type: "POST",
                 data: { id: panel_id },
-                success: function (res) {
-                    $("#view_patient_panel_id").text(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#view_patient_panel_id").text(response);
                 }
             });
             // For fetch Employee
@@ -2029,8 +2016,9 @@ $(document).ready(function () {
                 url: "patient_fetch_employee.php",
                 type: "POST",
                 data: { id: employee_id },
-                success: function (res) {
-                    $("#view_patient_employee_id").text(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#view_patient_employee_id").text(response);
                 }
             });
             // For fetch Services
@@ -2038,8 +2026,9 @@ $(document).ready(function () {
                 url: "patient_fetch_service.php",
                 type: "POST",
                 data: { id: service_id },
-                success: function (res) {
-                    $("#view_patient_service_id").text(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#view_patient_service_id").text(response);
                 }
             });
             $('#view_patient_payment_status').text(p_status);
@@ -2083,11 +2072,11 @@ $(document).ready(function () {
                 url: "patient_edit_fetch_province.php",
                 type: "POST",
                 data: { id: data.province_id },
-                success: function (res) {
-                    $("#edit_patient_province").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#edit_patient_province").html(response);
                 }
             });
-
             // For fetch City
             $.ajax({
                 url: "patient_edit_fetch_city.php",
@@ -2096,11 +2085,11 @@ $(document).ready(function () {
                     id: data.city_id,
                     p_id: data.province_id
                 },
-                success: function (res) {
-                    $("#edit_patient_city").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#edit_patient_city").html(response);
                 }
             });
-
             // For fetch Area
             $.ajax({
                 url: "patient_edit_fetch_area.php",
@@ -2109,57 +2098,58 @@ $(document).ready(function () {
                     id: data.area_id,
                     c_id: data.city_id
                 },
-                success: function (res) {
-                    $("#edit_patient_area").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#edit_patient_area").html(response);
                 }
             });
-
             // For fetch Refferal
             $.ajax({
                 url: "patient_edit_fetch_refferal.php",
                 type: "POST",
                 data: { id: data.refferal_id },
-                success: function (res) {
-                    $("#edit_patient_refferal").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#edit_patient_refferal").html(response);
                 }
             });
-
             // For fetch Panel
             $.ajax({
                 url: "patient_edit_fetch_panel.php",
                 type: "POST",
                 data: { id: data.panel_id },
-                success: function (res) {
-                    $("#edit_patient_panel").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#edit_patient_panel").html(response);
                 }
             });
-
             // For fetch Employee
             $.ajax({
                 url: "patient_edit_fetch_employee.php",
                 type: "POST",
                 data: { id: data.employee_id },
-                success: function (res) {
-                    $("#edit_employee_staff").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#edit_employee_staff").html(response);
                 }
             });
-
             // For fetch Services
             $.ajax({
                 url: "patient_edit_fetch_service.php",
                 type: "POST",
                 data: { id: data.service_id },
-                success: function (res) {
-                    $("#edit_patient_service").html(res);
+                success: function (response) {
+                    console.log(response);
+                    $("#edit_patient_service").html(response);
                 }
             });
         });
         $('#edit_patient_form').on('submit', function (e) {
             e.preventDefault(); // Prevent the default form submission
-    
+
             // Serialize the form data
             var formData = $(this).serialize();
-    
+
             // Send the data using AJAX
             $.ajax({
                 url: 'update_patients.php', // Server script to process data
@@ -2169,7 +2159,7 @@ $(document).ready(function () {
                     console.log(response);
                     $('#edit_patient').modal('hide');
                     fetch_patients();
-                    alert_box('Patient data updated successfully!','Patient Management');
+                    alert_box('Patient data updated successfully!', 'Patient Management');
                     $("#edit_patient_form").trigger("reset");
                 },
                 error: function (xhr, status, error) {
@@ -2178,13 +2168,31 @@ $(document).ready(function () {
                 }
             });
         });
-
+        $(document).on("click", ".delete-patient", function () {
+            let del_id = $(this).data('id');
+            const confirmation = confirm('Are you sure you want to delete this Patient?');
+            if (confirmation) {
+                $.ajax({
+                    url: "delete_patient.php",
+                    type: "POST",
+                    data: { id: del_id },
+                    success: function (response) {
+                        console.log(response)
+                        fetch_patients();
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Error: " + xhr.responseText);
+                    }
+                });
+            }
+        });
         function fetch_patients() {
             $.ajax({
                 url: "fetch_patients.php",
                 type: "POST",
-                success: function (res) {
-                    $("#patientTable").html(res)
+                success: function (response) {
+                    console.log(response);
+                    $("#patientTable").html(response)
                 }
             })
         }

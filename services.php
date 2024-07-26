@@ -13,7 +13,7 @@ $this_page = "service_management";
 
 if (isset($_SESSION['employee_user'])) {
     $id = $_SESSION['employee_user']['user_id'];
-    $query = mysqli_query($connection,"SELECT * FROM tbl_employee_users WHERE user_id ='$id'");
+    $query = mysqli_query($connection,"SELECT * FROM tbl_users WHERE user_id ='$id'");
     $fetch_qurey = mysqli_fetch_assoc($query);
     $pages = explode(",", $fetch_qurey['pages_access']);    
 
@@ -46,11 +46,11 @@ $page = "services";
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-                <div class="card p-md-3">
+                <div class="card p-3">
                     <div class="heading my-2 text-center">
                         <h1 class="fs-3 fw-bold">Services</h1>
                     </div>
-                    <div class="services_table overflow_table">
+                    <div class="services_table overflow_table mb-3">
                         <table class="table rounded table-bordered">
                             <thead>
                                 <th class="text-center">Id</th>
@@ -128,11 +128,11 @@ $page = "services";
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-                <div class="card p-md-3">
+                <div class="card p-3">
                     <div class="heading my-2 text-center">
                         <h1 class="fs-3 fw-bold">Sub Services</h1>
                     </div>
-                    <div class="services_table overflow_table my-2">
+                    <div class="services_table overflow_table mb-3">
                         <table class="table rounded table-bordered">
                             <thead>
                                 <th class="text-center">Id</th>
@@ -235,11 +235,11 @@ $page = "services";
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-10">
-                <div class="card p-md-3">
+                <div class="card p-3">
                     <div class="heading my-2 text-center">
                         <h1 class="fs-3 fw-bold">Extra Services</h1>
                     </div>
-                    <div class="extra_services_table overflow_table">
+                    <div class="extra_services_table overflow_table mb-3">
                         <table class="table rounded table-bordered">
                             <thead>
                                 <th class="text-center">Id</th>

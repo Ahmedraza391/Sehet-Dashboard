@@ -85,7 +85,7 @@ if (mysqli_num_rows($result) > 0) {
                     data-note='{$data['note']}'>Edit</button>";
             $output .= "</td>";
             $output .= "<td class='text-center'>";
-            $output .= "<button class='btn btn-danger delete-refferal btn-sm' data-id='{$data['patient_id']}'>Delete</button>";
+            $output .= "<button class='btn btn-danger delete-patient btn-sm' data-id='{$data['patient_id']}'>Delete</button>";
             $output .= "</td>";
         $output .= "</tr>";
     }
