@@ -55,7 +55,7 @@ $page = "patients";
                                 <th class="text-center">Status</th>
                                 <th class="text-center">View</th>
                                 <th class="text-center">Edit</th>
-                                <th class="text-center">Delete</th>
+                                <th class="text-center">Action</th>
                             </thead>
                             <tbody id="patientTable">
                             </tbody>
@@ -108,7 +108,6 @@ $page = "patients";
                             </div>
                         </div>
                     </div>
-
                     <!-- Edit Modal -->
                     <div class="modal fade" id="edit_patient" tabindex="-1" aria-labelledby="edit_patientLabel" aria-hidden="true" data-bs-backdrop="static">
                         <div class="modal-dialog modal-lg modal-dialog-scrollable">
@@ -118,21 +117,20 @@ $page = "patients";
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form id="edit_patient_form">
+                                    <form id="edit_patient_form" method="POST">
                                         <?php
                                         $changes = "";
                                         if (isset($_SESSION['admin'])) {
                                             $changes = "Admin";
-                                        }
-                                        if (isset($_SESSION['employee_user'])) {
+                                        }else if (isset($_SESSION['employee_user'])) {
                                             $changes = $_SESSION['employee_user']['user_name'];
                                         }
                                         ?>
                                         <!-- Form Fields Here -->
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" value="<?php echo $changes; ?>" disabled placeholder="">
-                                            <input type="hidden" value="<?php echo $changes; ?>" id="edit_changes_person" name="edit_changes_person">
-                                            <label for="edit_changes_person">Changes Person</label>
+                                            <input type="text" class="form-control" value="<?php echo $changes; ?>" id="_changes_person" disabled placeholder="">
+                                            <input type="text" hidden value="<?php echo $changes; ?>" id="edit_changes_person" name="edit_changes_person">
+                                            <label for="_changes_person">Changes Person</label>
                                         </div>
                                         <input type="hidden" name="edit_patient_id" id="edit_patient_id">
                                         <div class="form-floating mb-3">
@@ -172,11 +170,8 @@ $page = "patients";
                                             <label for="edit_patient_gender">Gender</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <select class="form-select" id="edit_patient_status" name="edit_patient_status">
-                                                <option selected value="" hidden>Patient Status</option>
-                                                <option value="Admitted">Admitted</option>
-                                                <option value="Discharged">Discharge</option>
-                                            </select>
+                                            <input type="text" class="form-control" id="edit_patient_status" name="edit_patient_status"
+                                            disabled>
                                             <label for="edit_patient_status">Patient Status</label>
                                         </div>
                                         <div class="form-floating mb-3">
@@ -263,7 +258,6 @@ $page = "patients";
                                             <button type="submit" name="btn_update_patient" class="btn btn-primary">Update Patient</button>
                                         </div>
                                     </form>
-
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
@@ -285,7 +279,7 @@ $page = "patients";
                                     </div>
                                     <div class="modal-body">
                                         <div class="patient_form">
-                                            <form id="insert_patient_form">
+                                            <form id="insert_patient_form" method="POST">
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control" value="<?php echo $changes; ?>" disabled placeholder="">
                                                     <input type="hidden" value="<?php echo $changes; ?>" id="changes_person" name="changes_person">
@@ -326,14 +320,6 @@ $page = "patients";
                                                         <option value="male">Female</option>
                                                     </select>
                                                     <label for="patient_gender">Gender</label>
-                                                </div>
-                                                <div class="form-floating mb-3">
-                                                    <select class="form-select" id="patient_status" name="patient_status">
-                                                        <option selected value="" hidden>Patient Status</option>
-                                                        <option value="Admitted">Admitted</option>
-                                                        <option value="Discharge">Discharge</option>
-                                                    </select>
-                                                    <label for="patient_status">Patient Status</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
                                                     <input type="date" class="form-control" id="patient_admit_date" name="patient_admit_date" placeholder="" required>
@@ -397,8 +383,8 @@ $page = "patients";
                                                         <?php
                                                         $query = mysqli_query($connection, "SELECT * FROM tbl_employees WHERE emp_designation !='admin' AND emp_status = 'activate'");
                                                         if (mysqli_num_rows($query) > 0) {
-                                                            foreach ($query as $refferal) {
-                                                                echo "<option value='{$refferal['emp_id']}'>{$refferal['emp_name']} ---- {$refferal['emp_designation']}</option>";
+                                                            foreach ($query as $staff) {
+                                                                echo "<option value='{$staff['emp_id']}'>{$staff['emp_name']} ---- {$staff['emp_designation']}</option>";
                                                             }
                                                         } else {
                                                             echo "<option>Staff Not Found</option>";
@@ -409,12 +395,12 @@ $page = "patients";
                                                 </div>
                                                 <div class="form-floating mb-3">
                                                     <select class="form-select" id="patient_service" name="patient_service" required>
-                                                        <option selected value="" hidden>Select Service</option>
+                                                        <option selected value="" hidden>Select Service Main Head</option>
                                                         <?php
-                                                        $query = mysqli_query($connection, "SELECT * FROM tbl_services WHERE status = 'available'");
+                                                        $query = mysqli_query($connection, "SELECT * FROM tbl_sub_services WHERE status = 'available'");
                                                         if (mysqli_num_rows($query) > 0) {
                                                             foreach ($query as $service) {
-                                                                echo "<option value='{$service['id']}'>{$service['service']}</option>";
+                                                                echo "<option value='{$service['id']}'>{$service['sub_service']}</option>";
                                                             }
                                                         } else {
                                                             echo "<option>Service Not Found</option>";

@@ -85,7 +85,11 @@ if (mysqli_num_rows($result) > 0) {
                     data-note='{$data['note']}'>Edit</button>";
             $output .= "</td>";
             $output .= "<td class='text-center'>";
-            $output .= "<button class='btn btn-danger delete-patient btn-sm' data-id='{$data['patient_id']}'>Delete</button>";
+            if($data['disabled_status']=="enabled"){
+                $output .= "<a href='patient_disabled.php?id={$data['patient_id']}' class='btn btn-danger btn-sm'>Disabled</a>";
+            }else{
+                $output .= "<a href='patient_enabled.php?id={$data['patient_id']}' class='btn btn-primary btn-sm'>Enabled</a>";
+            }
             $output .= "</td>";
         $output .= "</tr>";
     }

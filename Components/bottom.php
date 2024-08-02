@@ -13,6 +13,7 @@
 
 <!-- Template Main JS File -->
 <script src="./assets/js/main.js"></script>
+<!-- <script src="./assets/js/moment-timezone-with-data.min.js"></script> -->
 <script src="./assets/js/file_submission.js"></script>
 </body>
 

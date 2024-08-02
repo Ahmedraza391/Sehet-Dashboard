@@ -46,10 +46,11 @@ $(document).ready(function () {
             $("#insert_service_form").on("submit", function (e) {
                 e.preventDefault();
                 var service = $("#serivce").val();
+                var changes_person = $("#changes_person").val();
                 $.ajax({
                     type: "POST",
                     url: "insert_service.php",
-                    data: { service: service },
+                    data: { service: service,c_person : changes_person },
                     success: function (response) {
                         console.log(response);
                         $('#add_service').modal('hide');
@@ -74,11 +75,12 @@ $(document).ready(function () {
 
                 const serviceId = $('#edit_ServiceId').val();
                 const serviceName = $('#edit_ServiceName').val();
+                var changes_person = $("#changes_person").val();
 
                 $.ajax({
                     type: 'POST',
                     url: 'update_service.php',
-                    data: { id: serviceId, service: serviceName },
+                    data: { id: serviceId, service: serviceName,c_person:changes_person },
                     success: function (response) {
                         console.log(response);
                         alert_box("Service Updated Successfully", "Services");
@@ -90,27 +92,6 @@ $(document).ready(function () {
                         alert('Failed to update service');
                     }
                 });
-            });
-            // For Delete Services
-            $(document).on('click', '.delete-service', function () {
-                const serviceId = $(this).data('id');
-                const confirmation = confirm('Are you sure you want to delete this service?');
-
-                if (confirmation) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'delete_service.php',
-                        data: { id: serviceId },
-                        success: function (response) {
-                            console.log(response);
-                            alert_box("Service Deleted Successfully", "Services")
-                            fetchServices();
-                        },
-                        error: function () {
-                            alert('Failed to delete service');
-                        }
-                    });
-                }
             });
             // For Fetch Services
             function fetchServices() {
@@ -188,27 +169,6 @@ $(document).ready(function () {
                         alert('Failed to update service');
                     }
                 });
-            });
-            // For Delete Sub-Services
-            $(document).on('click', '.delete-sub-service', function () {
-                const sub_service_id = $(this).data('id');
-                const confirmation = confirm('Are you sure you want to delete this sub-service?');
-
-                if (confirmation) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'delete_sub_service.php',
-                        data: { id: sub_service_id },
-                        success: function (response) {
-                            console.log(response);
-                            fetchSubServices();
-                            alert_box("Service Deleted Successfully", "Services")
-                        },
-                        error: function () {
-                            alert('Failed to delete service');
-                        }
-                    });
-                }
             });
             // For Fetch Sub-Services
             function fetchSubServices() {
@@ -297,26 +257,6 @@ $(document).ready(function () {
                     }
                 });
             });
-            // For Delete Extra-Services
-            $(document).on('click', '.delete-extra-service', function () {
-                const extra_service_id = $(this).data('id');
-                const confirmation = confirm('Are you sure you want to delete this Extra-Service?');
-                if (confirmation) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'delete_extra_service.php',
-                        data: { id: extra_service_id },
-                        success: function (response) {
-                            console.log(response);
-                            fetchExtraServices();
-                            alert_box("Extra-Service Deleted Successfully", "Services")
-                        },
-                        error: function () {
-                            alert('Failed to Delete Extra-Service');
-                        }
-                    });
-                }
-            });
             // For Fetch Extra-Services
             function fetchExtraServices() {
                 $.ajax({
@@ -346,6 +286,7 @@ $(document).ready(function () {
             $("#insert_province_form").on("submit", function (e) {
                 e.preventDefault();
                 let Province = $("#province").val();
+                let change_person = $("#add_province_changes_person").val();
                 if (Province === "") {
                     alert("Province name cannot be empty");
                     return;
@@ -354,7 +295,7 @@ $(document).ready(function () {
                 $.ajax({
                     type: "POST",
                     url: "insert_province.php",
-                    data: { province: Province },
+                    data: { province: Province,c_person:change_person },
                     success: function (response) {
                         console.log(response);
                         $('#add_province').modal('hide');
@@ -383,11 +324,12 @@ $(document).ready(function () {
 
                 const province_id = $('#edit_province_Id').val();
                 const province_name = $('#edit_province').val();
+                const changes_person = $("#edit_province_changes_person").val();
 
                 $.ajax({
                     type: 'POST',
                     url: 'update_province.php',
-                    data: { id: province_id, province: province_name },
+                    data: { id: province_id, province: province_name,c_person : changes_person },
                     success: function (response) {
                         console.log(response);
                         alert_box("Province Updated Successfully", "Address Management");
@@ -398,27 +340,6 @@ $(document).ready(function () {
                         alert('Failed to Update Province');
                     }
                 });
-            });
-            // For Delete Province
-            $(document).on('click', '.delete-province', function () {
-                const province_id = $(this).data('id');
-                const confirmation = confirm('Are you sure you want to delete this Province?');
-
-                if (confirmation) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'delete_province.php',
-                        data: { id: province_id },
-                        success: function (response) {
-                            console.log(response);
-                            alert_box("Province Deleted Successfully", "Address Management")
-                            fetch_province();
-                        },
-                        error: function () {
-                            alert('Failed to Delete Province');
-                        }
-                    });
-                }
             });
             // For Fetch Province
             function fetch_province() {
@@ -495,26 +416,6 @@ $(document).ready(function () {
                     }
                 });
             });
-            // For Delete City
-            $(document).on('click', '.delete-city', function () {
-                const city_id = $(this).data('id');
-                const confirmation = confirm('Are you sure you want to delete this City?');
-                if (confirmation) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'delete_city.php',
-                        data: { id: city_id },
-                        success: function (response) {
-                            console.log(response);
-                            fetchcity();
-                            alert_box("City Deleted Successfully", "Address Management")
-                        },
-                        error: function () {
-                            alert('Failed to Delete City');
-                        }
-                    });
-                }
-            });
             // For Fetch City
             function fetchcity() {
                 $.ajax({
@@ -589,26 +490,6 @@ $(document).ready(function () {
                     }
                 });
             });
-            // For Delete Capital Area
-            $(document).on('click', '.delete-capital-area', function () {
-                const capital_area_id = $(this).data('id');
-                const confirmation = confirm('Are you sure you want to delete this Capital-Area?');
-                if (confirmation) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'delete_capital_area.php',
-                        data: { id: capital_area_id },
-                        success: function (response) {
-                            console.log(response);
-                            fetch_city_area();
-                            alert_box("Capital-Area Deleted Successfully", "Addresses Management")
-                        },
-                        error: function () {
-                            alert('Failed to delete Capital-Area');
-                        }
-                    });
-                }
-            });
             function fetch_city_area() {
                 $.ajax({
                     type: 'GET',
@@ -646,7 +527,7 @@ $(document).ready(function () {
             e.preventDefault();
             let formData = $(this).serialize();
             $.ajax({
-                url: "add_refferals.php",
+                url: "insert_refferals.php",
                 type: "POST",
                 data: formData,
                 success: function (response) {
@@ -1036,25 +917,6 @@ $(document).ready(function () {
                 }
             });
         });
-        // For Delete Panel
-        $(document).on("click", ".delete-panel", function () {
-            let del_id = $(this).data('id');
-            const confirmation = confirm('Are you sure you want to delete this Panel?');
-            if (confirmation) {
-                $.ajax({
-                    url: "delete_panel.php",
-                    type: "POST",
-                    data: { id: del_id },
-                    success: function (response) {
-                        console.log(response);
-                        fetch_panel();
-                    },
-                    error: function (xhr, status, error) {
-                        alert("Error: " + xhr.responseText);
-                    }
-                });
-            }
-        });
         // for view panel
         $(document).on("click", ".view-panel", function () {
             $("#viewpanel").modal("show"); // Show the modal
@@ -1282,7 +1144,7 @@ $(document).ready(function () {
                 if (isValidForm) {
                     var formData = $(this).serialize();
                     $.ajax({
-                        url: "employee_insert_registration.php",
+                        url: "insert_employee.php",
                         type: "POST",
                         data: formData,
                         success: function (response) {
@@ -1901,22 +1763,54 @@ $(document).ready(function () {
                 }
             });
         });
-        $("#insert_patient_form").on("submit", function (e) {
-            e.preventDefault();
-            let formData = $(this).serialize();
-            $.ajax({
-                url: "insert_patient.php",
-                type: "POST",
-                data: formData,
-                success: function (response) {
-                    console.log(response);
-                    $("#add_patient").modal("hide");
-                    fetch_patients();
-                    alert_box("Patient Inserted Successfully", "Patient Management");
-                    $("#insert_patient_form").trigger("reset");
+        function insertPatientForm(){
+            // Update minimum discharge date based on admit date
+            $('#patient_admit_date').on('change', function () {
+                var admitDate = $(this).val();
+                $('#patient_discharge_date').attr('min', admitDate);
+            });
+            // Form submission with validation
+            $('#insert_patient_form').on('submit', function (e) {
+                e.preventDefault();
+                var admitDate = new Date($('#patient_admit_date').val());
+                var dischargeDate = new Date($('#patient_discharge_date').val());
+                var isValid = true;
+                var errorMessage = '';
+    
+                if (dischargeDate < admitDate) {
+                    isValid = false;
+                    errorMessage += 'Discharge date cannot be earlier than admit date.\n';
                 }
-            })
-        });
+    
+                if (!isValid) {
+                    alert(errorMessage);
+                    return; // Exit the function if the form is invalid
+                }
+    
+                // Serialize the form data
+                var formData = $(this).serialize();
+    
+                // Send the data using AJAX
+                $.ajax({
+                    url: 'insert_patient.php', // Server script to process data
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        console.log(response);
+                        $('#add_patient').modal('hide');
+                        fetch_patients();
+                        alert_box('Patient Inserted Successfully', 'Patient Management');
+                        $('#insert_patient_form').trigger('reset');
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error response
+                        alert('An error occurred: ' + error);
+                    }
+                });
+            });
+
+        }
+        insertPatientForm();
         $(document).on("click", ".view-patient", function () {
             // Show modal
             $('#viewPatient').modal('show');
@@ -2057,6 +1951,7 @@ $(document).ready(function () {
             $('#edit_patient_age').val(data.age);
             $('#edit_patient_gender').val(data.gender);
             $('#edit_patient_admit_date').val(data.ad_date);
+            let gettingDate = $('#edit_patient_admit_date').val();
             $('#edit_patient_discharge_date').val(data.dis_date);
             $('#edit_patient_status').val(data.patient_status);
             $('#edit_payment_status').val(data.p_status);
@@ -2065,8 +1960,6 @@ $(document).ready(function () {
             $('#edit_recovery').val(data.recovery);
             $('#edit_running_bill').val(data.running_bill);
             $('#edit_note').val(data.note);
-            $('#edit_changes_person').val(data.changes_person);
-
             // For fetch Province
             $.ajax({
                 url: "patient_edit_fetch_province.php",
@@ -2143,49 +2036,58 @@ $(document).ready(function () {
                     $("#edit_patient_service").html(response);
                 }
             });
+            setupPatientEditForm(gettingDate);
         });
-        $('#edit_patient_form').on('submit', function (e) {
-            e.preventDefault(); // Prevent the default form submission
+        function setupPatientEditForm(getDate) {
 
-            // Serialize the form data
-            var formData = $(this).serialize();
-
-            // Send the data using AJAX
-            $.ajax({
-                url: 'update_patients.php', // Server script to process data
-                type: 'POST',
-                data: formData,
-                success: function (response) {
-                    console.log(response);
-                    $('#edit_patient').modal('hide');
-                    fetch_patients();
-                    alert_box('Patient data updated successfully!', 'Patient Management');
-                    $("#edit_patient_form").trigger("reset");
-                },
-                error: function (xhr, status, error) {
-                    // Handle error response
-                    alert('An error occurred: ' + error);
-                }
+            $('#edit_patient_discharge_date').attr('min', getDate);
+            $('#edit_patient_admit_date').on('change', function () {
+                var admitDate = $(this).val();
+                $('#edit_patient_discharge_date').attr('min', admitDate);
             });
-        });
-        $(document).on("click", ".delete-patient", function () {
-            let del_id = $(this).data('id');
-            const confirmation = confirm('Are you sure you want to delete this Patient?');
-            if (confirmation) {
+
+            // Form submission with validation
+            $('#edit_patient_form').on('submit', function (e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                var admitDate = new Date($('#edit_patient_admit_date').val());
+                var dischargeDate = new Date($('#edit_patient_discharge_date').val());
+                var isValid = true;
+                var errorMessage = '';
+
+                // Validate that discharge date is not before admit date
+                if (dischargeDate < admitDate) {
+                    isValid = false;
+                    errorMessage += 'Discharge date cannot be earlier than admit date.\n';
+                }
+
+                if (!isValid) {
+                    alert(errorMessage);
+                    return; // Exit the function if the form is invalid
+                }
+                alert($("#edit_changes_person").val());
+                // Serialize the form data
+                var formData = $(this).serialize();
+
+                // Send the data using AJAX
                 $.ajax({
-                    url: "delete_patient.php",
-                    type: "POST",
-                    data: { id: del_id },
+                    url: 'update_patients.php', // Server script to process data
+                    type: 'POST',
+                    data: formData,
                     success: function (response) {
-                        console.log(response)
+                        console.log(response);
+                        $('#edit_patient').modal('hide');
                         fetch_patients();
+                        alert_box('Patient data updated successfully!', 'Patient Management');
+                        $('#edit_patient_form').trigger('reset');
                     },
                     error: function (xhr, status, error) {
-                        alert("Error: " + xhr.responseText);
+                        // Handle error response
+                        alert('An error occurred: ' + error);
                     }
                 });
-            }
-        });
+            });
+        }
         function fetch_patients() {
             $.ajax({
                 url: "fetch_patients.php",

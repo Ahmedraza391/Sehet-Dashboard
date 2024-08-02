@@ -23,6 +23,12 @@ if (isset($_SESSION['employee_user'])) {
 <?php include("./Components/top.php") ?>
 <?php
 $page = "emp_register";
+$changes = "";
+if (isset($_SESSION['admin'])) {
+    $changes = "Admin";
+} else if (isset($_SESSION['employee_user'])) {
+    $changes = $_SESSION['employee_user']['user_name'];
+}
 ?>
 <title>Admin - Employee Registration</title>
 <?php include("./Components/navbar.php") ?>
@@ -105,6 +111,80 @@ $page = "emp_register";
                             </div>
                         </div>
                     </div>
+                    <!-- View History Modal -->
+                    <div class="modal fade" id="view_employees_history" tabindex="-1" aria-labelledby="view_employees_historyLabel" aria-hidden="true" data-bs-backdrop="static">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="view_employees_historyLabel">Employee History</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card p-3">
+                                        <!-- Table to display history data -->
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>S#</th>
+                                                    <th>Page Name</th>
+                                                    <th>SPK User</th>
+                                                    <th>Data Type</th>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $query = mysqli_query($connection, "SELECT * FROM tbl_history WHERE page_name='employees' ORDER BY id DESC");
+                                                $index = 1;
+                                                if(mysqli_num_rows($query)>0){
+                                                    foreach ($query as $history) {
+                                                        echo "<tr>";
+                                                        $page_name = "";
+                                                        if ($history['page_name'] == "employees") {
+                                                            $page_name = "Employee";
+                                                        }
+                                                        echo "<td>{$index}</td>";
+                                                        echo "<td>{$page_name}</td>";
+                                                        echo "<td>{$history['changes_person']}</td>";
+                                                        $type = "";
+                                                        if ($history['change_type'] == "add_employees") {
+                                                            $type = "Employee Added";
+                                                        } else if ($history['change_type'] == "edit_employees") {
+                                                            $type = "Employee Edited";
+                                                        } else if ($history['change_type'] == "available_employees") {
+                                                            $type = "Employee Available";
+                                                        } else if ($history['change_type'] == "unavailable_employees") {
+                                                            $type = "Employee Unavailable";
+                                                        } else if ($history['change_type'] == "enable_employees") {
+                                                            $type = "Employee Enable";
+                                                        } else if ($history['change_type'] == "disable_employees") {
+                                                            $type = "Employee Disable";
+                                                        } else if ($history['change_type'] == "activate_employees") {
+                                                            $type = "Employee Activate";
+                                                        } else if ($history['change_type'] == "deactivate_employees") {
+                                                            $type = "Employee Deactivate";
+                                                        }
+                                                        echo "<td>{$type}</td>";
+                                                        echo "<td>{$history['date']}</td>";
+                                                        echo "<td>{$history['time']}</td>";
+                                                        echo "</tr>";
+                                                        $index++;
+                                                    }
+                                                }else{
+                                                    echo "<tr><td colspan='6'>Manage Service Not Have Any History</td></tr>";
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Edit Modal -->
                     <div class="modal fade" id="editEmployee" tabindex="-1" aria-labelledby="editEmployeeLabel" aria-hidden="true" data-bs-backdrop="static">
                         <div class="modal-dialog modal-lg modal-dialog-scrollable">
@@ -154,6 +234,7 @@ $page = "emp_register";
                                             </select>
                                             <label for="edit_emp_designation">Designation</label>
                                         </div>
+                                        <input type="hidden" name="edit_employee_changes_person" id="edit_employee_changes_person" value="<?php echo $changes; ?>">
                                         <div class="button">
                                             <button type="submit" class="btn btn-primary">Save Changes</button>
                                         </div>
@@ -164,12 +245,22 @@ $page = "emp_register";
                                 </div>
                             </div>
                         </div>
+                    </div>         
+                    <div class="row">
+                        <div class="col-sm-12 mb-2 mb-sm-3 mb-md-0 col-md-4 d-md-flex align-items-center justify-content-start">
+                            <button type="button" class="btn btn-primary btn-sm text-center" data-bs-toggle="modal" data-bs-target="#add_employe">
+                                Add Employees
+                            </button>
+                        </div>
+                        <div class="col-md-4"></div>
+                        <div class="col-sm-12 mb-2 mb-sm-3 mb-md-0 col-md-4 d-md-flex align-items-center justify-content-end">
+                            <button type="button" class="btn btn-success btn-sm text-center" data-bs-toggle="modal" data-bs-target="#view_employees_history">
+                                View Employees History
+                            </button>
+                        </div>
                     </div>
                     <!-- Add Employee Modal -->
                     <div class="add_employee_modal">
-                        <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#add_employe">
-                            Add Employees
-                        </button>
                         <div class="modal fade" id="add_employe" tabindex="-1" data-bs-backdrop="static" aria-labelledby="add_employeLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-scrollable">
                                 <div class="modal-content">
@@ -226,6 +317,7 @@ $page = "emp_register";
                                                     <label for="emp_designation">Designations</label>
                                                     <div class="invalid-feedback emp_designation_feedback">Please select a designation.</div>
                                                 </div>
+                                                <input type="hidden" name="add_employee_changes_person" id="add_employee_changes_person" value="<?php echo $changes; ?>">
                                                 <div class="button">
                                                     <button type="submit" name="btn_employee" id="insert_employee" class="btn btn-primary">Add Employee</button>
                                                 </div>

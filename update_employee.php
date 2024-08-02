@@ -22,6 +22,10 @@ $query = "UPDATE tbl_employees SET
           WHERE id = '$id'";
 
 if (mysqli_query($connection, $query)) {
+    date_default_timezone_set('Asia/Karachi');
+    $date = date('Y-m-d');
+    $time = date('h:i:s');
+    $insert_history = mysqli_query($connection,"INSERT INTO tbl_history (page_name,changes_person,change_type,date,time)VALUES('employees','$_POST[edit_employee_changes_person]','edit_employees','$date','$time')");
     echo "Employee updated successfully.";
 } else {
     echo "Error updating employee: " . mysqli_error($connection);

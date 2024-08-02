@@ -1,10 +1,16 @@
 <?php
+session_start();
 include 'connection.php';
 
 $query = "SELECT * FROM tbl_refferals";
 $result = mysqli_query($connection, $query);
 $output = '';
-
+$changes = "";
+if (isset($_SESSION['admin'])) {
+    $changes = "Admin";
+} else if (isset($_SESSION['employee_user'])) {
+    $changes = $_SESSION['employee_user']['user_name'];
+}
 if (mysqli_num_rows($result) > 0) {
     while ($data = mysqli_fetch_assoc($result)) {
         $output .= "<tr>";
@@ -24,8 +30,12 @@ if (mysqli_num_rows($result) > 0) {
                 $output .= "<button class='btn btn-primary edit-refferal btn-sm' data-id='{$data['id']}' data-name='{$data['name']}' data-company='{$data['company']}' data-email='{$data['email']}' data-share='{$data['financial_share']}' data-status='{$data['status']}'>Edit</button>";
             $output .= "</td>";
             $output .= "<td class='text-center'>";
-            $output .= "<button class='btn btn-danger delete-refferal btn-sm' data-id='{$data['id']}' >Delete</button>";
-            $output .= "</td>";
+            if($data['disabled_status']=="enabled"){
+                $output .= "<a href='refferals_disabled.php?id={$data['id']} & c_person={$changes}' type='button' class='btn btn-danger btn-sm'>Disable</a>";
+            }else{
+                $output .= "<a href='refferals_enabled.php?id={$data['id']} & c_person={$changes}' type='button' class='btn btn-primary btn-sm'>Enable</a>";
+            }
+        $output .= "</td>";
         $output .= "</tr>";
     }
 } else {

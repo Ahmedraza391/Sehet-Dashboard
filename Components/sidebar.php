@@ -31,7 +31,6 @@
           <span>Referrals</span>
         </a>
       </li>
-    
 
       <li class="nav-item">
         <a class="nav-link <?php if($page=="panels"){echo "active";} ?> text-primary" href="./panel_management.php">

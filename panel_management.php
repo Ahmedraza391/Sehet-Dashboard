@@ -24,6 +24,12 @@ if (isset($_SESSION['employee_user'])) {
 <?php include("./Components/top.php") ?>
 <?php
 $page = "panels";
+$changes = "";
+if (isset($_SESSION['admin'])) {
+    $changes = "Admin";
+} else if (isset($_SESSION['employee_user'])) {
+    $changes = $_SESSION['employee_user']['user_name'];
+}
 ?>
 <title>Admin - Panel Management</title>
 <?php include("./Components/navbar.php") ?>
@@ -53,7 +59,7 @@ $page = "panels";
                                 <th class="text-center">Status</th>
                                 <th class="text-center">View</th>
                                 <th class="text-center">Edit</th>
-                                <th class="text-center">Delete</th>
+                                <th class="text-center">Action</th>
                             </thead>
                             <tbody id="panelTable">
                             </tbody>
@@ -93,6 +99,80 @@ $page = "panels";
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- View History Modal -->
+                    <div class="modal fade" id="view_panels_history" tabindex="-1" aria-labelledby="view_panels_historyLabel" aria-hidden="true" data-bs-backdrop="static">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="view_panels_historyLabel">Pamel History</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card p-3">
+                                        <!-- Table to display history data -->
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>S#</th>
+                                                    <th>Page Name</th>
+                                                    <th>SPK User</th>
+                                                    <th>Data Type</th>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $query = mysqli_query($connection, "SELECT * FROM tbl_history WHERE page_name='panels' ORDER BY id DESC");
+                                                $index = 1;
+                                                if(mysqli_num_rows($query)>0){
+                                                    foreach ($query as $history) {
+                                                        echo "<tr>";
+                                                        $page_name = "";
+                                                        if ($history['page_name'] == "panels") {
+                                                            $page_name = "Panel";
+                                                        }
+                                                        echo "<td>{$index}</td>";
+                                                        echo "<td>{$page_name}</td>";
+                                                        echo "<td>{$history['changes_person']}</td>";
+                                                        $type = "";
+                                                        if ($history['change_type'] == "add_panels") {
+                                                            $type = "Panel Added";
+                                                        } else if ($history['change_type'] == "edit_panels") {
+                                                            $type = "Panel Edited";
+                                                        } else if ($history['change_type'] == "available_panels") {
+                                                            $type = "Panel Available";
+                                                        } else if ($history['change_type'] == "unavailable_panels") {
+                                                            $type = "Panel Unavailable";
+                                                        } else if ($history['change_type'] == "enable_panels") {
+                                                            $type = "Panel Enable";
+                                                        } else if ($history['change_type'] == "disable_panels") {
+                                                            $type = "Panel Disable";
+                                                        } else if ($history['change_type'] == "activate_panels") {
+                                                            $type = "Panel Activate";
+                                                        } else if ($history['change_type'] == "deactivate_panels") {
+                                                            $type = "Panel Deactivate";
+                                                        }
+                                                        echo "<td>{$type}</td>";
+                                                        echo "<td>{$history['date']}</td>";
+                                                        echo "<td>{$history['time']}</td>";
+                                                        echo "</tr>";
+                                                        $index++;
+                                                    }
+                                                }else{
+                                                    echo "<tr><td colspan='6'>Manage Service Not Have Any History</td></tr>";
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>
@@ -150,6 +230,7 @@ $page = "panels";
                                         <div id="edit_extra_services_container">
                                             <!-- Extra Services checkboxes will be dynamically populated here -->
                                         </div>
+                                        <input type="hidden" name="edit_panel_changes_person" id="edit_panel_changes_person" value="<?php echo $changes; ?>">
                                         <button type="submit" class="btn btn-primary" name="btn_update">Save changes</button>
                                     </form>
                                 </div>
@@ -158,13 +239,22 @@ $page = "panels";
                                 </div>
                             </div>
                         </div>
+                    </div>         
+                    <div class="row">
+                        <div class="col-sm-12 mb-2 mb-sm-3 mb-md-0 col-md-4 d-md-flex align-items-center justify-content-start">
+                            <button type="button" class="btn btn-primary btn-sm text-center" data-bs-toggle="modal" data-bs-target="#panel_modal">
+                                Add Panels
+                            </button>
+                        </div>
+                        <div class="col-md-4"></div>
+                        <div class="col-sm-12 mb-2 mb-sm-3 mb-md-0 col-md-4 d-md-flex align-items-center justify-content-end">
+                            <button type="button" class="btn btn-success btn-sm text-center" data-bs-toggle="modal" data-bs-target="#view_panels_history">
+                                View Panels History
+                            </button>
+                        </div>
                     </div>
-
                     <!-- Add Panel Modal -->
                     <div class="panel_modal">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#panel_modal">
-                            Add Panels
-                        </button>
                         <div class="modal fade" id="panel_modal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="panel_modalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-scrollable">
                                 <div class="modal-content">
@@ -199,7 +289,7 @@ $page = "panels";
                                                     <select class="form-select" id="province" name="province" required aria-label="Floating label select example">
                                                         <option selected value="" hidden>Select Province</option>
                                                         <?php
-                                                        $query = mysqli_query($connection, "SELECT * FROM tbl_province");
+                                                        $query = mysqli_query($connection, "SELECT * FROM tbl_province WHERE disabled_status='enabled'");
                                                         foreach ($query as $province) {
                                                             echo "<option value='{$province['id']}'>{$province['province']}</option>";
                                                         }
@@ -223,9 +313,8 @@ $page = "panels";
                                                     <div class="border p-3 rounded overflow-y-auto" style="height: 400px !important;" id="mainservices">
                                                         <label for="mainservices" class="form-label">Select Services</label>
                                                         <?php
-                                                        $query = "SELECT * FROM tbl_sub_services WHERE status = 'available'";
+                                                        $query = "SELECT * FROM tbl_sub_services WHERE status = 'available' AND disabled_status ='enabled'";
                                                         $run_query = mysqli_query($connection, $query);
-
                                                         foreach ($run_query as $services) {
                                                             echo "<div class='form-check'>";
                                                             echo "<input class='form-check-input' type='checkbox' name='services[]' value='{$services['id']}' id='{$services['id']}'>";
@@ -253,6 +342,7 @@ $page = "panels";
                                                         ?>
                                                     </div>
                                                 </div>
+                                                <input type="hidden" name="add_panel_changes_person" id="add_panel_changes_person" value="<?php echo $changes; ?>">
                                                 <div class="button">
                                                     <button type="submit" name="btn_reffrals" value="add_reffrals" class="btn btn-primary">Add</button>
                                                 </div>

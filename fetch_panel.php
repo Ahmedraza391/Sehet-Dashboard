@@ -1,10 +1,16 @@
 <?php
+session_start();
 include 'connection.php';
 
 $query = "SELECT * FROM tbl_panel";
 $result = mysqli_query($connection, $query);
 $output = '';
-
+$changes = "";
+if (isset($_SESSION['admin'])) {
+    $changes = "Admin";
+} else if (isset($_SESSION['employee_user'])) {
+    $changes = $_SESSION['employee_user']['user_name'];
+}
 if (mysqli_num_rows($result) > 0) {
     while ($data = mysqli_fetch_assoc($result)) {
         $output .= "<tr>";
@@ -14,9 +20,9 @@ if (mysqli_num_rows($result) > 0) {
 
         // Activate or deactivate button based on status
         if ($data['status'] == "activate") {
-            $output .= "<a href='panel_set_deactivate_status.php?id={$data['id']}' class='btn btn-danger btn-sm'>Deactivate</a>";
+            $output .= "<a href='panel_set_deactivate_status.php?id={$data['id']} & c_person={$changes}' class='btn btn-danger btn-sm'>Deactivate</a>";
         } else {
-            $output .= "<a href='panel_set_activate_status.php?id={$data['id']}' class='btn btn-primary btn-sm'>Activate</a>";
+            $output .= "<a href='panel_set_activate_status.php?id={$data['id']} & c_person={$changes}' class='btn btn-primary btn-sm'>Activate</a>";
         }
 
         $output .= "</td>";
@@ -93,8 +99,12 @@ if (mysqli_num_rows($result) > 0) {
         $output .= "</td>";
 
         $output .= "<td class='text-center'>";
-        $output .= "<button class='btn btn-danger delete-panel btn-sm' data-id='{$data['id']}'>Delete</button>";
-        $output .= "</td>";
+            if($data['disabled_status']=="enabled"){
+                $output .= "<a href='panel_disabled.php?id={$data['id']} & c_person={$changes}' type='button' class='btn btn-danger btn-sm'>Disable</a>";
+            }else{
+                $output .= "<a href='panel_enabled.php?id={$data['id']} & c_person={$changes}' type='button' class='btn btn-primary btn-sm'>Enable</a>";
+            }
+    $output .= "</td>";
         $output .= "</tr>";
     }
 } else {

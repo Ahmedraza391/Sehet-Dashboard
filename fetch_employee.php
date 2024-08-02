@@ -1,10 +1,16 @@
 <?php
+session_start();
 include("connection.php");
 
 // SQL query to fetch employees
 $sql = "SELECT * FROM tbl_employees";
 $result = $connection->query($sql);
-
+$changes = "";
+if (isset($_SESSION['admin'])) {
+    $changes = "Admin";
+} else if (isset($_SESSION['employee_user'])) {
+    $changes = $_SESSION['employee_user']['user_name'];
+}
 if ($result->num_rows > 0) {
     // Output data of each row
     while ($row = $result->fetch_assoc()) {
@@ -14,18 +20,26 @@ if ($result->num_rows > 0) {
             echo "<td class='text-left'>" . $row["emp_email"] . "</td>";
             echo "<td class='text-left'>" . $row["emp_contact"] . "</td>";
             echo "<td class='text-center'>";
-                if($row["emp_status"]=="deactivate"){
-                    echo "<a href='activate_employee.php?id={$row['emp_id']}' class='btn btn-primary btn-sm'>Activate</a>";
-                }else{
-                    echo "<a href='deactivate_employee.php?id={$row['emp_id']}' class='btn btn-danger btn-sm'>Deactivate</a>";
+                if($row["emp_status"] == "deactivate") {
+                    echo "<a href='activate_employee.php?id={$row['id']} & c_person={$changes}' class='btn btn-primary btn-sm'>Activate</a>";
+                } else {
+                    echo "<a href='deactivate_employee.php?id={$row['id']} & c_person={$changes}' class='btn btn-danger btn-sm'>Deactivate</a>";
                 }
             echo "</td>";
             // View Employee
-            echo "<td class='text-center'><button class='btn btn-primary btn-sm view-employee' data-emp_id='{$row['emp_id']}' data-id='{$row['id']}' data-name='{$row['emp_name']}' data-f_name='{$row['emp_father_name']}' data-email='{$row['emp_email']}' data-contact='{$row['emp_contact']}' data-nic='{$row['emp_nic']}' data-dob='{$row['emp_dob']}' data-designation='{$row['emp_designation']}'  data-status='{$row['emp_status']}' >View</button></td>";
+            echo "<td class='text-center'>
+                <button class='btn btn-primary btn-sm view-employee' data-emp_id='{$row['emp_id']}' data-id='{$row['id']}' data-name='{$row['emp_name']}' data-f_name='{$row['emp_father_name']}' data-email='{$row['emp_email']}' data-contact='{$row['emp_contact']}' data-nic='{$row['emp_nic']}' data-dob='{$row['emp_dob']}' data-designation='{$row['emp_designation']}' data-status='{$row['emp_status']}'>View</button>
+            </td>";
             // Edit Employee
-            echo "<td class='text-center'><button class='btn btn-primary btn-sm edit-employee' data-emp_id='{$row['emp_id']}' data-id='{$row['id']}' data-name='{$row['emp_name']}' data-f_name='{$row['emp_father_name']}' data-email='{$row['emp_email']}' data-contact='{$row['emp_contact']}' data-nic='{$row['emp_nic']}' data-dob='{$row['emp_dob']}' data-designation='{$row['emp_designation']}'  data-status='{$row['emp_status']}' '>Edit</button></td>";
+            echo "<td class='text-center'><button class='btn btn-primary btn-sm edit-employee' data-emp_id='{$row['emp_id']}' data-id='{$row['id']}' data-name='{$row['emp_name']}' data-f_name='{$row['emp_father_name']}' data-email='{$row['emp_email']}' data-contact='{$row['emp_contact']}' data-nic='{$row['emp_nic']}' data-dob='{$row['emp_dob']}' data-designation='{$row['emp_designation']}' data-status='{$row['emp_status']}'>Edit</button></td>";
             // Delete Employee
-            echo "<td class='text-center'><button class='btn btn-danger btn-sm delete-employee' data-id='{$row['id']}' >Delete</button></td>";
+            echo "<td class='text-center'>";
+                if($row["disabled_status"] == "enabled") {
+                    echo "<a href='employee_disabled.php?id={$row['id']} & c_person={$changes}' class='btn btn-danger btn-sm'>Disable</a>";
+                } else {
+                    echo "<a href='employee_enabled.php?id={$row['id']} & c_person={$changes}' class='btn btn-primary btn-sm'>Enable</a>";
+                }
+        echo "</td>";
         echo "</tr>";
     }
 } else {

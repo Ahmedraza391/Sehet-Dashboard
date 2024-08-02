@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $edit_patient_address = $_POST['edit_patient_address'];
     $edit_patient_age = $_POST['edit_patient_age'];
     $edit_patient_gender = $_POST['edit_patient_gender'];
-    // $edit_patient_status = $_POST['edit_patient_status'];
     $edit_patient_admit_date = $_POST['edit_patient_admit_date'];
     $edit_patient_discharge_date = $_POST['edit_patient_discharge_date'];
     $edit_patient_province = $_POST['edit_patient_province'];

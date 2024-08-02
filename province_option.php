@@ -1,7 +1,7 @@
 <?php 
 include("connection.php");
 $id = $_POST['id'];
-$query = mysqli_query($connection, "SELECT * FROM tbl_province");
+$query = mysqli_query($connection, "SELECT * FROM tbl_province WHERE disabled_status='enabled'");
 
 $options = "";
 foreach($query as $option) {

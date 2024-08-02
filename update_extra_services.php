@@ -11,6 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $result = mysqli_query($connection, $update_query);
 
     if ($result) {
+        date_default_timezone_set('Asia/Karachi');
+        $date = date('Y-m-d');
+        $time = date('h:i:s');
+        $insert_history = mysqli_query($connection,"INSERT INTO tbl_history (page_name,changes_person,change_type,date,time)VALUES('service_sub_head','$_POST[edit_service_sub_changes_person]','edit_service_sub_head','$date','$time')");
         echo "Extra-Service Updated Successfully";
     } else {
         echo 'Failed to Update Extra-Service';

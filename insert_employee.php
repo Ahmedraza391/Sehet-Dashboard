@@ -22,6 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES ('$emp_id','$emp_name', '$emp_father_name', '$emp_email', '$emp_contact', '$emp_nic', '$emp_dob', '$emp_designation')";
 
     if ($connection->query($sql) === TRUE) {
+        date_default_timezone_set('Asia/Karachi');
+        $date = date('Y-m-d');
+        $time = date('h:i:s');
+        $insert_history = mysqli_query($connection,"INSERT INTO tbl_history (page_name,changes_person,change_type,date,time)VALUES('employees','$_POST[add_employee_changes_person]','add_employees','$date','$time')");
         echo "Employee added successfully!";
     } else {
         echo "Error: " . $sql . "<br>" . $connection->error;

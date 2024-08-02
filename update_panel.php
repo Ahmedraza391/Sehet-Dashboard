@@ -26,6 +26,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         WHERE id = $panel_id";
 
     if (mysqli_query($connection, $updatePanelQuery)) {
+        date_default_timezone_set('Asia/Karachi');
+        $date = date('Y-m-d');
+        $time = date('h:i:s');
+        $insert_history = mysqli_query($connection,"INSERT INTO tbl_history (page_name,changes_person,change_type,date,time)VALUES('panels','$_POST[edit_panel_changes_person]','edit_panels','$date','$time')");
         // Update selected services and extra services
         $edit_services = isset($_POST['edit_panel_services']) ? $_POST['edit_panel_services'] : [];
         $service_prices = isset($_POST['edit_panel_service_prices']) ? $_POST['edit_panel_service_prices'] : [];

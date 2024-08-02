@@ -24,6 +24,12 @@ if (isset($_SESSION['employee_user'])) {
 <?php include("./Components/top.php") ?>
 <?php
 $page = "reffrals";
+$changes = "";
+if (isset($_SESSION['admin'])) {
+    $changes = "Admin";
+} else if (isset($_SESSION['employee_user'])) {
+    $changes = $_SESSION['employee_user']['user_name'];
+}
 ?>
 <title>Admin - Reffrels Management</title>
 <?php include("./Components/navbar.php") ?>
@@ -53,7 +59,7 @@ $page = "reffrals";
                                 <th class="text-center">Status</th>
                                 <th class="text-center">View</th>
                                 <th class="text-center">Edit</th>
-                                <th class="text-center">Delete</th>
+                                <th class="text-center">Action</th>
                             </thead>
                             <tbody id="reffralTable">
                             </tbody>
@@ -78,6 +84,76 @@ $page = "reffrals";
                                     <div class="share"><h6>Financial Share : <span class="fs-6" id="ref_share"></span>%</h6></div>
                                     <div class="Status"><h6>Status : <span class="fs-6" id="ref_status"></span></h6></div>
                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- View History Modal -->
+                    <div class="modal fade" id="view_refferals_history" tabindex="-1" aria-labelledby="view_refferals_historyLabel" aria-hidden="true" data-bs-backdrop="static">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="view_refferals_historyLabel">Refferal History</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card p-3">
+                                        <!-- Table to display history data -->
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>S#</th>
+                                                    <th>Page Name</th>
+                                                    <th>SPK User</th>
+                                                    <th>Data Type</th>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $query = mysqli_query($connection, "SELECT * FROM tbl_history WHERE page_name='refferals' ORDER BY id DESC");
+                                                $index = 1;
+                                                if(mysqli_num_rows($query)>0){
+                                                    foreach ($query as $history) {
+                                                        echo "<tr>";
+                                                        $page_name = "";
+                                                        if ($history['page_name'] == "refferals") {
+                                                            $page_name = "Refferal";
+                                                        }
+                                                        echo "<td>{$index}</td>";
+                                                        echo "<td>{$page_name}</td>";
+                                                        echo "<td>{$history['changes_person']}</td>";
+                                                        $type = "";
+                                                        if ($history['change_type'] == "add_refferals") {
+                                                            $type = "Refferal Added";
+                                                        } else if ($history['change_type'] == "edit_refferals") {
+                                                            $type = "Refferal Edited";
+                                                        } else if ($history['change_type'] == "available_refferals") {
+                                                            $type = "Refferal Available";
+                                                        } else if ($history['change_type'] == "unavailable_refferals") {
+                                                            $type = "Refferal Unavailable";
+                                                        } else if ($history['change_type'] == "enable_refferals") {
+                                                            $type = "Refferal Enable";
+                                                        } else if ($history['change_type'] == "disable_refferals") {
+                                                            $type = "Refferal Disable";
+                                                        }
+                                                        echo "<td>{$type}</td>";
+                                                        echo "<td>{$history['date']}</td>";
+                                                        echo "<td>{$history['time']}</td>";
+                                                        echo "</tr>";
+                                                        $index++;
+                                                    }
+                                                }else{
+                                                    echo "<tr><td colspan='6'>Manage Service Not Have Any History</td></tr>";
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
@@ -113,6 +189,7 @@ $page = "reffrals";
                                             <label for="reffral_share">Financial Share</label>
                                             <div id="error" class="error text-danger"></div>
                                         </div>
+                                        <input type="hidden" name="edit_refferal_changes_person" id="edit_refferal_changes_person" value="<?php echo $changes; ?>">
                                         <button type="submit" class="btn btn-primary" name="btn_update">Save changes</button>
                                     </form>
                                 </div>
@@ -122,12 +199,21 @@ $page = "reffrals";
                             </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-sm-12 mb-2 mb-sm-3 mb-md-0 col-md-4 d-md-flex align-items-center justify-content-start">
+                            <button type="button" class="btn btn-primary btn-sm text-center" data-bs-toggle="modal" data-bs-target="#reffral_modal">
+                                Add Refferals
+                            </button>
+                        </div>
+                        <div class="col-md-4"></div>
+                        <div class="col-sm-12 mb-2 mb-sm-3 mb-md-0 col-md-4 d-md-flex align-items-center justify-content-end">
+                            <button type="button" class="btn btn-success btn-sm text-center" data-bs-toggle="modal" data-bs-target="#view_refferals_history">
+                                View Refferals History
+                            </button>
+                        </div>
+                    </div>
                     <!-- Add Reffrals Modal -->
                     <div class="reffrel_modal">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reffral_modal">
-                            Add Refferals
-                        </button>
                         <div class="modal fade" id="reffral_modal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="reffral_modalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
@@ -155,11 +241,11 @@ $page = "reffrals";
                                                     <label for="ref_share">Enter Financial Share</label>
                                                     <div id="error" class="error text-danger"></div>
                                                 </div>
+                                                <input type="hidden" name="add_refferal_changes_person" id="add_refferal_changes_person" value="<?php echo $changes; ?>">
                                                 <div class="button">
                                                     <button type="submit" name="btn_reffrals" value="add_reffrals" class="btn btn-primary">Add</button>
                                                 </div>
                                             </form>
-
                                         </div>
                                     </div>
                                     <div class="modal-footer">

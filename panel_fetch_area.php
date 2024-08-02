@@ -1,7 +1,7 @@
 <?php
 include("connection.php");
 $id = $_POST['id'];
-$fetch_query = mysqli_query($connection,"SELECT * FROM tbl_area WHERE id = '$id'");
+$fetch_query = mysqli_query($connection,"SELECT * FROM tbl_area WHERE id = '$id' AND disabled_status = 'enabled'");
 if(mysqli_num_rows($fetch_query)>0){
     $fetch = mysqli_fetch_assoc($fetch_query);
     echo "$fetch[area]";
