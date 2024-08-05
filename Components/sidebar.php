@@ -52,6 +52,13 @@
           <span>Users</span>
         </a>
       </li>
+      
+      <li class="nav-item">
+        <a class="nav-link <?php if($page=="vendor"){echo "active";} ?> text-primary" href="./vendor_management.php">
+        <i class="ri-account-circle-fill"></i>
+          <span>Vendor</span>
+        </a>
+      </li>
     </ul>
 
   </aside><!-- End Sidebar-->

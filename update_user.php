@@ -17,6 +17,10 @@ $stmt = $connection->prepare($sql);
 $stmt->bind_param("ssssssssi", $name, $father_name, $email, $password, $contact, $nic, $dob, $pages_access, $emp_id);
 
 if ($stmt->execute()) {
+    date_default_timezone_set('Asia/Karachi');
+        $date = date('Y-m-d');
+        $time = date('h:i:s');
+        $insert_history = mysqli_query($connection,"INSERT INTO tbl_history (page_name,changes_person,change_type,date,time)VALUES('users','$_POST[edit_user_changes_person]','edit_users','$date','$time')");
     echo json_encode(["status" => "success", "message" => "User updated successfully."]);
 } else {
     echo json_encode(["status" => "error", "message" => "Error updating record: " . $stmt->error]);

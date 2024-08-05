@@ -7,6 +7,3 @@ changes person ki jaga SPK User  ---- Changes Person karna ha
 
 
 sab paages m delete kai option ki jaga disabled enabled karna ha
-
-
-continue on user and make logic between user profile and user work

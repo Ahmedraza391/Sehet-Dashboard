@@ -25,6 +25,12 @@ if (isset($_SESSION['employee_user'])) {
 <?php include("./Components/top.php") ?>
 <?php
 $page = "patients";
+$changes = "";
+if (isset($_SESSION['admin'])) {
+    $changes = "Admin";
+} else if (isset($_SESSION['employee_user'])) {
+    $changes = $_SESSION['employee_user']['user_name'];
+}
 ?>
 <title>Admin - Patients</title>
 <?php include("./Components/navbar.php") ?>
@@ -108,6 +114,80 @@ $page = "patients";
                             </div>
                         </div>
                     </div>
+                    <!-- View History Modal -->
+                    <div class="modal fade" id="view_patients_history" tabindex="-1" aria-labelledby="view_patients_historyLabel" aria-hidden="true" data-bs-backdrop="static">
+                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="view_patients_historyLabel">Patient History</h3>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="card p-3">
+                                        <!-- Table to display history data -->
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>S#</th>
+                                                    <th>Page Name</th>
+                                                    <th>SPK User</th>
+                                                    <th>Data Type</th>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                $query = mysqli_query($connection, "SELECT * FROM tbl_history WHERE page_name='patients' ORDER BY id DESC");
+                                                $index = 1;
+                                                if (mysqli_num_rows($query) > 0) {
+                                                    foreach ($query as $history) {
+                                                        echo "<tr>";
+                                                        $page_name = "";
+                                                        if ($history['page_name'] == "patients") {
+                                                            $page_name = "Patient";
+                                                        }
+                                                        echo "<td>{$index}</td>";
+                                                        echo "<td>{$page_name}</td>";
+                                                        echo "<td>{$history['changes_person']}</td>";
+                                                        $type = "";
+                                                        if ($history['change_type'] == "add_patients") {
+                                                            $type = "Patient Added";
+                                                        } else if ($history['change_type'] == "edit_patients") {
+                                                            $type = "Patient Edited";
+                                                        } else if ($history['change_type'] == "available_patients") {
+                                                            $type = "Patient Available";
+                                                        } else if ($history['change_type'] == "unavailable_patients") {
+                                                            $type = "Patient Unavailable";
+                                                        } else if ($history['change_type'] == "enable_patients") {
+                                                            $type = "Patient Enable";
+                                                        } else if ($history['change_type'] == "disable_patients") {
+                                                            $type = "Patient Disable";
+                                                        } else if ($history['change_type'] == "activate_patients") {
+                                                            $type = "Patient Activate";
+                                                        } else if ($history['change_type'] == "deactivate_patients") {
+                                                            $type = "Patient Deactivate";
+                                                        }
+                                                        echo "<td>{$type}</td>";
+                                                        echo "<td>{$history['date']}</td>";
+                                                        echo "<td>{$history['time']}</td>";
+                                                        echo "</tr>";
+                                                        $index++;
+                                                    }
+                                                } else {
+                                                    echo "<tr><td colspan='6'>Manage Service Not Have Any History</td></tr>";
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Edit Modal -->
                     <div class="modal fade" id="edit_patient" tabindex="-1" aria-labelledby="edit_patientLabel" aria-hidden="true" data-bs-backdrop="static">
                         <div class="modal-dialog modal-lg modal-dialog-scrollable">
@@ -122,7 +202,7 @@ $page = "patients";
                                         $changes = "";
                                         if (isset($_SESSION['admin'])) {
                                             $changes = "Admin";
-                                        }else if (isset($_SESSION['employee_user'])) {
+                                        } else if (isset($_SESSION['employee_user'])) {
                                             $changes = $_SESSION['employee_user']['user_name'];
                                         }
                                         ?>
@@ -170,8 +250,7 @@ $page = "patients";
                                             <label for="edit_patient_gender">Gender</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="edit_patient_status" name="edit_patient_status"
-                                            disabled>
+                                            <input type="text" class="form-control" id="edit_patient_status" name="edit_patient_status" disabled>
                                             <label for="edit_patient_status">Patient Status</label>
                                         </div>
                                         <div class="form-floating mb-3">
@@ -254,6 +333,7 @@ $page = "patients";
                                             <textarea class="form-control" name="edit_note" placeholder="" id="edit_note"></textarea>
                                             <label for="edit_note">Note Something</label>
                                         </div>
+                                        <input type="hidden" name="edit_patient_changes_person" id="edit_patient_changes_person" value="<?php echo $changes; ?>" >
                                         <div class="button">
                                             <button type="submit" name="btn_update_patient" class="btn btn-primary">Update Patient</button>
                                         </div>
@@ -265,11 +345,21 @@ $page = "patients";
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-12 mb-2 mb-sm-3 mb-md-0 col-md-4 d-md-flex align-items-center justify-content-start">
+                            <button type="button" class="btn btn-primary btn-sm text-center" data-bs-toggle="modal" data-bs-target="#add_patient">
+                                Add Patients
+                            </button>
+                        </div>
+                        <div class="col-md-4"></div>
+                        <div class="col-sm-12 mb-2 mb-sm-3 mb-md-0 col-md-4 d-md-flex align-items-center justify-content-end">
+                            <button type="button" class="btn btn-success btn-sm text-center" data-bs-toggle="modal" data-bs-target="#view_patients_history">
+                                View Patients History
+                            </button>
+                        </div>
+                    </div>
                     <!-- Add Service Modal -->
                     <div class="add_patient_modal">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_patient">
-                            Add Patients
-                        </button>
                         <div class="modal fade" id="add_patient" tabindex="-1" data-bs-backdrop="static" aria-labelledby="add_patientLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg modal-dialog-scrollable">
                                 <div class="modal-content">
@@ -333,7 +423,7 @@ $page = "patients";
                                                     <select class="form-select" id="patient_province" name="patient_province" required>
                                                         <option selected value="" hidden>Select Province</option>
                                                         <?php
-                                                        $query = mysqli_query($connection, "SELECT * FROM tbl_province");
+                                                        $query = mysqli_query($connection, "SELECT * FROM tbl_province WHERE disabled_status='enabled'");
                                                         foreach ($query as $province) {
                                                             echo "<option value='{$province['id']}'>{$province['province']}</option>";
                                                         }
@@ -439,6 +529,7 @@ $page = "patients";
                                                     <textarea class="form-control" name="note" placeholder="" id="note"></textarea>
                                                     <label for="note">Note Something</label>
                                                 </div>
+                                                <input type="hidden" name="add_patient_changes_person" id="add_patient_changes_person" value="<?php echo $changes; ?>" >
                                                 <div class="button">
                                                     <button type="submit" name="btn_add_patient" class="btn btn-primary">Add Patient</button>
                                                 </div>

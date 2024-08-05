@@ -25,8 +25,8 @@ include("./Components/login_navbar.php");
                                 <label for="user_email" class="form-label">Email</label>
                                 <div class="input-group has-validation">
                                     <input type="email" name="txtemail" value="<?php if (isset($_COOKIE['emp_user_email'])) {
-                                                                                        echo htmlspecialchars($_COOKIE['emp_user_email']);
-                                                                                    } ?>" class="form-control" id="user_email" required>
+                                                                                    echo htmlspecialchars($_COOKIE['emp_user_email']);
+                                                                                } ?>" class="form-control" id="user_email" required>
                                     <div class="invalid-feedback">Please enter your Email!</div>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@ include("./Components/login_navbar.php");
                             </div>
                             <div class="col-12">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember_me" id="rememberMe"<?php
+                                    <input class="form-check-input" type="checkbox" name="remember_me" id="rememberMe" <?php
                                                                                                                         if (
                                                                                                                             isset($_COOKIE['emp_user_email']) && $_COOKIE['emp_user_email'] !== '' &&
                                                                                                                             isset($_COOKIE['emp_user_password']) && $_COOKIE['emp_user_password'] !== ''
@@ -72,19 +72,24 @@ include("./Components/login_navbar.php");
                                 $fetch_user = mysqli_fetch_assoc($check_user_have);
                                 $stored_password = $fetch_user['user_password'];
                                 if ($password == $stored_password) {
-                                    $_SESSION['employee_user'] = $fetch_user;
+                                    $check_user_status = mysqli_query($connection, "SELECT * FROM tbl_users WHERE user_email='$fetch_user[user_email]' AND user_status='activate'");
+                                    if (mysqli_num_rows($check_user_status) > 0) {
+                                        $_SESSION['employee_user'] = $fetch_user;
 
-                                    if (isset($_POST['remember_me'])) {
-                                        setcookie('emp_user_email', $user_email, time() + (86400 * 30), "/", "", true, true);
-                                        setcookie('emp_user_password', $stored_password, time() + (86400 * 30), "/", "", true, true);
+                                        if (isset($_POST['remember_me'])) {
+                                            setcookie('emp_user_email', $user_email, time() + (86400 * 30), "/", "", true, true);
+                                            setcookie('emp_user_password', $stored_password, time() + (86400 * 30), "/", "", true, true);
+                                        } else {
+                                            setcookie('emp_user_email', "", time() - 3600, "/", "", true, true); // Secure flag and HttpOnly flag
+                                            setcookie('emp_user_password', "", time() - 3600, "/", "", true, true); // Secure flag and HttpOnly flag
+                                        }
+
+                                        echo "<script>alert('Employee User Login Successfully');window.location.href='index.php'</script>";
                                     } else {
-                                        setcookie('emp_user_email', "", time() - 3600, "/", "", true, true); // Secure flag and HttpOnly flag
-                                        setcookie('emp_user_password', "", time() - 3600, "/", "", true, true); // Secure flag and HttpOnly flag
+                                        echo "<script>alert('Your Status Has Been Deactivated Please Activate Your Status.');window.location.href = 'user_login.php';</script>";
                                     }
-
-                                    echo "<script>alert('Employee User Login Successfully');window.location.href='index.php'</script>";
                                 } else {
-                                    echo "<script>alert('Incorrect Email Or Password');window.location.href = 'user_login.php';</script>";
+                                    echo "<script>alert('Incorrect Password Angainst Email');window.location.href = 'user_login.php';</script>";
                                 }
                             } else {
                                 echo "<script>alert('Incorrect Email Or Password');window.location.href = 'user_login.php';</script>";

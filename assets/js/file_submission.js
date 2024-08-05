@@ -50,7 +50,7 @@ $(document).ready(function () {
                 $.ajax({
                     type: "POST",
                     url: "insert_service.php",
-                    data: { service: service,c_person : changes_person },
+                    data: { service: service, c_person: changes_person },
                     success: function (response) {
                         console.log(response);
                         $('#add_service').modal('hide');
@@ -80,7 +80,7 @@ $(document).ready(function () {
                 $.ajax({
                     type: 'POST',
                     url: 'update_service.php',
-                    data: { id: serviceId, service: serviceName,c_person:changes_person },
+                    data: { id: serviceId, service: serviceName, c_person: changes_person },
                     success: function (response) {
                         console.log(response);
                         alert_box("Service Updated Successfully", "Services");
@@ -295,7 +295,7 @@ $(document).ready(function () {
                 $.ajax({
                     type: "POST",
                     url: "insert_province.php",
-                    data: { province: Province,c_person:change_person },
+                    data: { province: Province, c_person: change_person },
                     success: function (response) {
                         console.log(response);
                         $('#add_province').modal('hide');
@@ -329,7 +329,7 @@ $(document).ready(function () {
                 $.ajax({
                     type: 'POST',
                     url: 'update_province.php',
-                    data: { id: province_id, province: province_name,c_person : changes_person },
+                    data: { id: province_id, province: province_name, c_person: changes_person },
                     success: function (response) {
                         console.log(response);
                         alert_box("Province Updated Successfully", "Address Management");
@@ -677,7 +677,7 @@ $(document).ready(function () {
                 data: { id: province },
                 success: function (response) {
                     console.log(response);
-                    $("#edit_city_id").html(response);
+                    $("#edit_vendor_city").html(response);
                     let city = $("#edit_city_id").val();
                     $.ajax({
                         url: "panel_fetch_edit_area_option.php",
@@ -1763,7 +1763,7 @@ $(document).ready(function () {
                 }
             });
         });
-        function insertPatientForm(){
+        function insertPatientForm() {
             // Update minimum discharge date based on admit date
             $('#patient_admit_date').on('change', function () {
                 var admitDate = $(this).val();
@@ -1776,20 +1776,20 @@ $(document).ready(function () {
                 var dischargeDate = new Date($('#patient_discharge_date').val());
                 var isValid = true;
                 var errorMessage = '';
-    
+
                 if (dischargeDate < admitDate) {
                     isValid = false;
                     errorMessage += 'Discharge date cannot be earlier than admit date.\n';
                 }
-    
+
                 if (!isValid) {
                     alert(errorMessage);
                     return; // Exit the function if the form is invalid
                 }
-    
+
                 // Serialize the form data
                 var formData = $(this).serialize();
-    
+
                 // Send the data using AJAX
                 $.ajax({
                     url: 'insert_patient.php', // Server script to process data
@@ -2065,7 +2065,7 @@ $(document).ready(function () {
                     alert(errorMessage);
                     return; // Exit the function if the form is invalid
                 }
-                alert($("#edit_changes_person").val());
+                // alert($("#edit_changes_person").val());
                 // Serialize the form data
                 var formData = $(this).serialize();
 
@@ -2101,11 +2101,398 @@ $(document).ready(function () {
         fetch_patients();
     }
     patient_management();
+
+    function vendor_management() {
+        fetch_vendor();
+        // For Fetch Province in insert  Panel Modal
+        $("#vendor_province").on("change", function () {
+            let province = $(this).val();
+            $.ajax({
+                url: "vendor_fetch_city_option.php",
+                type: "POST",
+                data: { id: province },
+                success: function (response) {
+                    console.log(response);
+                    $("#vendor_city").html(response);
+                    let city = $("#vendor_city").val();
+                    $.ajax({
+                        url: "vendor_fetch_area_option.php",
+                        type: "POST",
+                        data: { id: city },
+                        success: function (response) {
+                            console.log(response);
+                            $("#vendor_area").html(response);
+                        }
+                    });
+                }
+            });
+        });
+        // For Fetch City in insert  Panel Modal 
+        $("#vendor_city").on("change", function () {
+            let city = $(this).val();
+            $.ajax({
+                url: "vendor_fetch_area_option.php",
+                type: "POST",
+                data: { id: city },
+                success: function (response) {
+                    console.log(response);
+                    $("#vendor_area").html(response);
+
+                    // Automatically select the first area in the list
+                    let firstAreaOption = $("#vendor_area option:first").val();
+                    $("#vendor_area").val(firstAreaOption).change(); // Trigger change event if needed
+                }
+            });
+        });
+        // for insert Data
+        $("#vendor_form").on("submit", function (e) {
+            e.preventDefault();
+
+            if (!validateForm()) {
+                return;
+            }
+
+            var formData = $(this).serialize();
+            $.ajax({
+                url: "insert_vendor.php",
+                type: "POST",
+                data: formData,
+                success: function (response) {
+                    console.log(response);
+                    if (response === "Vendor Inserted Successfully") {
+                        $("#vendor_modal").modal("hide");
+                        fetch_vendor();
+                        alert_box("Vendor Inserted Successfully", "Vendor Management");
+                        $("#vendor_form")[0].reset();
+                    } else {
+                        alert("Unexpected response: " + response);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                }
+            });
+        });
+        // for view vendor 
+        $(document).on("click", ".view-vendor", function () {
+            $("#viewVendor").modal("show");
+
+            // Extract data attributes from the button
+            let id = $(this).data("vendor_id");
+            let name = $(this).data("vendor_name");
+            let ntn = $(this).data("vendor_ntn");
+            let contact = $(this).data("vendor_contact");
+            let w_contact = $(this).data("vendor_w_contact");
+            let address = $(this).data("vendor_address");
+            let focal_person = $(this).data("focal_person");
+            let province_id = $(this).data("province_id");
+            let city_id = $(this).data("city_id");
+            let area_id = $(this).data("area_id");
+            let status = $(this).data("vendor_status");
+            let services = $(this).data("services");
+            let extra_services = $(this).data("extra_services");
+            // Display vendor information in modal
+            $("#view_vendor_id").text(id);
+            $("#view_vendor_name").text(name);
+            $("#view_vendor_ntn").text(ntn);
+            $("#view_vendor_contact").text(contact);
+            $("#view_vendor_w_contact").text(w_contact);
+            $("#view_vendor_address").text(address);
+            $("#view_vendor_f_person").text(focal_person);
+            $("#view_vendor_status").text(status);
+
+            // Fetch and display Province
+            $.ajax({
+                url: "vendor_fetch_province.php",
+                type: "POST",
+                data: { id: province_id },
+                success: function (response) {
+                    $("#view_vendor_province").text(response);
+                },
+                error: function (res) {
+                    console.error("Error fetching province: " + res);
+                }
+            });
+
+            // Fetch and display City
+            $.ajax({
+                url: "vendor_fetch_city.php",
+                type: "POST",
+                data: { id: city_id },
+                success: function (response) {
+                    $("#view_vendor_city").text(response);
+                },
+                error: function (res) {
+                    console.error("Error fetching city: " + res);
+                }
+            });
+
+            // Fetch and display Area
+            $.ajax({
+                url: "vendor_fetch_area.php",
+                type: "POST",
+                data: { id: area_id },
+                success: function (response) {
+                    $("#view_vendor_area").text(response);
+                },
+                error: function (res) {
+                    console.error("Error fetching area: " + res);
+                }
+            });
+
+            // Combine and display services and extra services information
+            let combinedServicesHtml = "<ul>";
+            if (services && Object.keys(services).length > 0) {
+                Object.keys(services).forEach(serviceId => {
+                    let service = services[serviceId];
+                    // Only proceed if service is valid and not null
+                    if (service && service.sub_service) {
+                        combinedServicesHtml += `<li>${service.sub_service} (Price: ${service.sub_service_price})`;
+
+                        // Check and display extra services associated with this service
+                        if (service.extra_services && service.extra_services.length > 0) {
+                            combinedServicesHtml += "<ul>";
+                            service.extra_services.forEach(extra => {
+                                if (extra && extra.extra_service) { // Ensure extra service is valid
+                                    combinedServicesHtml += `<li>${extra.extra_service} (Price: ${extra.extra_service_price})</li>`;
+                                }
+                            });
+                            combinedServicesHtml += "</ul>";
+                        }
+
+                        combinedServicesHtml += "</li>";
+                    }
+                });
+            } else {
+                combinedServicesHtml += "<li>No services available</li>";
+            }
+
+            // Include extra services that are not already included
+            if (extra_services && extra_services.length > 0) {
+                extra_services.forEach(extra => {
+                    // Add only if this extra service is not already included
+                    let alreadyAdded = Object.values(services).some(service =>
+                        service.extra_services && service.extra_services.some(e => e.extra_service === extra.extra_service)
+                    );
+
+                    if (!alreadyAdded && extra && extra.extra_service) {
+                        combinedServicesHtml += `<li>${extra.extra_service} (Price: ${extra.extra_service_price})</li>`;
+                    }
+                });
+            }
+
+            combinedServicesHtml += "</ul>";
+            $("#view_vendor_services").html(combinedServicesHtml);
+        });
+        function validateForm() {
+            var isValid = true;
+            var subServicesSelected = {};
+
+            $("#vendor_form input[required], #vendor_form select[required]").each(function () {
+                if ($(this).val().trim() === '') {
+                    isValid = false;
+                    $(this).addClass('is-invalid');
+                } else {
+                    $(this).removeClass('is-invalid');
+                }
+            });
+
+            $("#vendor_form input[type='checkbox'][name^='extra_services']").each(function () {
+                var subServiceId = $(this).attr('name').match(/\d+/)[0];
+                if ($(this).is(':checked')) {
+                    subServicesSelected[subServiceId] = subServicesSelected[subServiceId] || false;
+                }
+            });
+
+            for (var subServiceId in subServicesSelected) {
+                if (subServicesSelected.hasOwnProperty(subServiceId)) {
+                    var subServiceCheckbox = $("#vendor_form input[type='checkbox'][name='services[]'][value='" + subServiceId + "']");
+                    if (!subServiceCheckbox.is(':checked')) {
+                        isValid = false;
+                        subServiceCheckbox.addClass('is-invalid');
+                    } else {
+                        subServiceCheckbox.removeClass('is-invalid');
+                    }
+                }
+            }
+
+            return isValid;
+        }
+        $(document).on("click", ".edit-vendor", function () {
+            $("#editVendor").modal("show");
+            // Extract data attributes from the button  
+            let id = $(this).data("vendor_id");
+            let name = $(this).data("vendor_name");
+            let ntn = $(this).data("vendor_ntn");
+            let contact = $(this).data("vendor_contact");
+            let w_contact = $(this).data("vendor_w_contact");
+            let address = $(this).data("vendor_address");
+            let focal_person = $(this).data("focal_person");
+            let status = $(this).data("vendor_status");
+
+            // Display vendor information in modal
+            $("#edit_vendor_id").val(id);
+            $("#edit_vendor_name").val(name);
+            $("#edit_vendor_ntn").val(ntn);
+            $("#edit_vendor_contact").val(contact);
+            $("#edit_vendor_w_contact").val(w_contact);
+            $("#edit_vendor_address").val(address);
+            $("#edit_focal_person").val(focal_person);
+            $("#edit_vendor_status").val(status);
+            
+            // Fetch Province, City, Area
+            $.ajax({
+                url: "vendor_fetch_province_option.php",
+                type: "POST",
+                data: { id: $(this).data('province_id') },
+                success: function (response) {
+                    $("#edit_vendor_province").html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Province Fetch Error:", xhr, status, error);
+                    $("#edit_vendor_province").html("Error: " + xhr.responseText);
+                }
+            });
+            $.ajax({
+                url: "vendor_fetch_city_sec_option.php",
+                type: "POST",
+                data: {
+                    id: $(this).data('city_id'),
+                    p_id: $(this).data('province_id')
+                },
+                success: function (response) {
+                    $("#edit_vendor_city").html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error("City Fetch Error:", xhr, status, error);
+                    $("#edit_vendor_city").html("Error: " + xhr.responseText);
+                }
+            });
+            $.ajax({
+                url: "vendor_fetch_area_sec_option.php",
+                type: "POST",
+                data: {
+                    id: $(this).data('area_id'),
+                    c_id: $(this).data('city_id')
+                },
+                success: function (response) {
+                    $("#edit_vendor_area").html(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Area Fetch Error:", xhr, status, error);
+                    $("#edit_vendor_area").html("Error: " + xhr.responseText);
+                }
+            });
+            $.ajax({
+                url: "vendor_fetch_services.php",
+                type: "POST",
+                data: { vendor_id: id },
+                success: function (response) {
+                    console.log("Response from server:", response);
+                    let services = JSON.parse(response);
+                    let servicesHtml = '';
+                    console.log("Parsed services:", services);
+                    
+                    services.forEach(service => {
+                        console.log("Sub-service:", service.sub_service, "Price:", service.sub_service_price, "Selected:", service.selected);
+                        servicesHtml += `<div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="edit_panel_services[]" value="${service.sub_services_id}" id="service_${service.sub_services_id}" ${service.selected ? 'checked' : ''}>
+                            <label class="form-check-label" for="service_${service.sub_services_id}">${service.sub_service}</label>
+                            <input type="number" class="form-control no-spinner" name="edit_panel_service_prices[${service.sub_services_id}]" value="${service.sub_service_price}" placeholder="Enter Price">
+                        </div>`;
+                        if (Object.keys(service.extra_services).length > 0) {
+                            Object.values(service.extra_services).forEach(extraService => {
+                                console.log("Extra service:", extraService.extra_service, "Price:", extraService.extra_service_price, "Selected:", extraService.selected);
+                                servicesHtml += `<div class="form-check ms-md-5">
+                                    <input class="form-check-input" type="checkbox" name="edit_panel_extra_services[${service.sub_services_id}][]" value="${extraService.extra_services_id}" id="extra_service_${extraService.extra_services_id}" ${extraService.selected ? 'checked' : ''}>
+                                    <label class="form-check-label" for="extra_service_${extraService.extra_services_id}">${extraService.extra_service}</label>
+                                    <input type="number" class="form-control no-spinner" name="edit_panel_extra_service_prices[${service.sub_services_id}][${extraService.extra_services_id}]" value="${extraService.extra_service_price}" placeholder="Enter Price">
+                                </div>`;
+                            });
+                        }
+                    });
+            
+                    $("#edit_services_container").html(servicesHtml);
+                },
+                error: function (response) {
+                    console.error("Error fetching services:", response);
+                    $("#edit_services_container").html("Error: " + response);
+                }
+            });
+        });
+        // For update panel
+        $("#edit_panel_form").on("submit", function (e) {
+            e.preventDefault();
+            if (!validateEditForm()) {
+                return;
+            }
+            let formdata = $(this).serialize();
+            $.ajax({
+                url: "update_panel.php",
+                type: "POST",
+                data: formdata,
+                success: function (response) {
+                    console.log(response);
+                    fetch_panel();
+                    $("#editPanel").modal("hide");
+                    alert_box("Panel Updated Successfully", "Panel Management");
+                },
+                error: function (res) {
+                    alert("Error: " + res);
+                }
+            });
+        });
+        function validateEditForm() {
+            var isValid = true;
+            var subServicesSelected = {};
+
+            $("#edit_panel_form input[required], #edit_panel_form select[required]").each(function () {
+                if ($(this).val().trim() === '') {
+                    isValid = false;
+                    $(this).addClass('is-invalid');
+                } else {
+                    $(this).removeClass('is-invalid');
+                }
+            });
+
+            $("#edit_panel_form input[type='checkbox'][name^='extra_services']").each(function () {
+                var subServiceId = $(this).attr('name').match(/\d+/)[0];
+                if ($(this).is(':checked')) {
+                    subServicesSelected[subServiceId] = subServicesSelected[subServiceId] || false;
+                }
+            });
+
+            for (var subServiceId in subServicesSelected) {
+                if (subServicesSelected.hasOwnProperty(subServiceId)) {
+                    var subServiceCheckbox = $("#edit_panel_form input[type='checkbox'][name='edit_services[]'][value='" + subServiceId + "']");
+                    if (!subServiceCheckbox.is(':checked')) {
+                        isValid = false;
+                        subServiceCheckbox.addClass('is-invalid');
+                    } else {
+                        subServiceCheckbox.removeClass('is-invalid');
+                    }
+                }
+            }
+
+            return isValid;
+        }
+        function fetch_vendor() {
+            $.ajax({
+                url: "fetch_vendor.php",
+                type: "POST",
+                success: function (response) {
+                    console.log(response);
+                    $("#vendorTable").html(response);
+                }
+            })
+        }
+    }
+    vendor_management();
     // For Alert Message
     function alert_box(message, heading) {
         toastr.options.progressBar = true;
         toastr.options.timeOut = 3000;
-        toastr.success(message, heading)
+        toastr.success(message, heading);
         toastr.options.closeMethod = 'fadeOut';
         toastr.options.closeDuration = 300;
         toastr.options.closeEasing = 'swing';

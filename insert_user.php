@@ -26,6 +26,10 @@
     $execute_query = mysqli_query($connection, $insert_query);
 
     if($execute_query) {
+        date_default_timezone_set('Asia/Karachi');
+        $date = date('Y-m-d');
+        $time = date('h:i:s');
+        $insert_history = mysqli_query($connection,"INSERT INTO tbl_history (page_name,changes_person,change_type,date,time)VALUES('users','$_POST[add_user_changes_person]','add_users','$date','$time')");
         echo "Employee user added successfully.";
     } else {
         echo "Error: " . mysqli_error($connection);

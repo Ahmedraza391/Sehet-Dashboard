@@ -1,9 +1,16 @@
 <?php
+session_start();
 include("connection.php");
 
 // SQL query to fetch employees
 $sql = "SELECT * FROM tbl_users";
 $result = $connection->query($sql);
+$changes = "";
+if (isset($_SESSION['admin'])) {
+    $changes = "Admin";
+}else if (isset($_SESSION['employee_user'])) {
+    $changes = $_SESSION['employee_user']['user_name'];
+}
 
 if ($result->num_rows > 0) {
     // Output data of each row
@@ -15,9 +22,9 @@ if ($result->num_rows > 0) {
             echo "<td class='text-left'>" . htmlspecialchars($row["user_contact"]) . "</td>";
             echo "<td class='text-center'>";
                 if($row["user_status"] == "deactivate"){
-                    echo "<a href='activate_user.php?id=" . urlencode($row['user_id']) . "' class='btn btn-primary btn-sm'>Activate</a>";
+                    echo "<a href='activate_user.php?id=" . urlencode($row['user_id']) . " & c_person={$changes}' class='btn btn-primary btn-sm'>Activate</a>";
                 } else {
-                    echo "<a href='deactivate_user.php?id=" . urlencode($row['user_id']) . "' class='btn btn-danger btn-sm'>Deactivate</a>";
+                    echo "<a href='deactivate_user.php?id=" . urlencode($row['user_id']) . " & c_person={$changes}' class='btn btn-danger btn-sm'>Deactivate</a>";
                 }
             echo "</td>";
             $pages = explode(",", $row['pages_access']);
@@ -26,7 +33,13 @@ if ($result->num_rows > 0) {
             // Edit Employee
             echo "<td class='text-center'><button class='btn btn-primary btn-sm edit-user' data-id='" . htmlspecialchars($row['user_id']) . "' data-name='" . htmlspecialchars($row['user_name']) . "' data-f_name='" . htmlspecialchars($row['user_father_name']) . "' data-email='" . htmlspecialchars($row['user_email']) . "'  data-password='" . htmlspecialchars($row['user_password']) . "' data-contact='" . htmlspecialchars($row['user_contact']) . "' data-nic='" . htmlspecialchars($row['user_nic']) . "' data-dob='" . htmlspecialchars($row['user_dob']) . "' data-status='" . htmlspecialchars($row['user_status']) . "' data-pages='" . htmlspecialchars(json_encode($pages)) . "'>Edit</button></td>";
             // Delete Employee
-            echo "<td class='text-center'><button class='btn btn-danger btn-sm delete-user' data-id='" . htmlspecialchars($row['user_id']) . "'>Delete</button></td>";
+            echo "<td class='text-center'>";
+                if($row['disabled_status']=="enabled"){
+                    echo "<a href='user_disabled.php?id={$row['user_id']} & c_person={$changes}' type='button' class='btn btn-danger btn-sm'>Disable</a>";
+                }else{
+                    echo "<a href='user_enabled.php?id={$row['user_id']} & c_person={$changes}' type='button' class='btn btn-primary btn-sm'>Enable</a>";
+                }
+        echo "</td>";
         echo "</tr>";
     }
 } else {

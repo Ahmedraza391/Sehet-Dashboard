@@ -14,6 +14,6 @@ if(mysqli_num_rows($fetch_query)>0){
     }
     echo $data;
 }else{
-    echo "Id Not Found";
+    echo "<option>Cities Not Found</option>";
 }
 ?>

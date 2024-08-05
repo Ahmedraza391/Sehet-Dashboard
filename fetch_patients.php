@@ -1,10 +1,16 @@
 <?php
+session_start();
 include 'connection.php';
 
 $query = "SELECT * FROM tbl_patients";
 $result = mysqli_query($connection, $query);
 $output = '';
-
+$changes = "";
+if (isset($_SESSION['admin'])) {
+    $changes = "Admin";
+} else if (isset($_SESSION['employee_user'])) {
+    $changes = $_SESSION['employee_user']['user_name'];
+}
 if (mysqli_num_rows($result) > 0) {
     while ($data = mysqli_fetch_assoc($result)) {
         $output .= "<tr>";
@@ -86,9 +92,9 @@ if (mysqli_num_rows($result) > 0) {
             $output .= "</td>";
             $output .= "<td class='text-center'>";
             if($data['disabled_status']=="enabled"){
-                $output .= "<a href='patient_disabled.php?id={$data['patient_id']}' class='btn btn-danger btn-sm'>Disabled</a>";
+                $output .= "<a href='patient_disabled.php?id={$data['patient_id']} & c_person={$changes}' class='btn btn-danger btn-sm'>Disabled</a>";
             }else{
-                $output .= "<a href='patient_enabled.php?id={$data['patient_id']}' class='btn btn-primary btn-sm'>Enabled</a>";
+                $output .= "<a href='patient_enabled.php?id={$data['patient_id']} & c_person={$changes}' class='btn btn-primary btn-sm'>Enabled</a>";
             }
             $output .= "</td>";
         $output .= "</tr>";

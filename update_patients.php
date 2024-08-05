@@ -72,6 +72,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             WHERE patient_id = $patient_id";
 
     if (mysqli_query($connection, $sql)) {
+        date_default_timezone_set('Asia/Karachi');
+        $date = date('Y-m-d');
+        $time = date('h:i:s');
+        $insert_history = mysqli_query($connection,"INSERT INTO tbl_history (page_name,changes_person,change_type,date,time)VALUES('patients','$_POST[edit_patient_changes_person]','edit_patients','$date','$time')");
         echo 'Patient data updated successfully!';
     } else {
         echo 'Error: ' . $sql . '<br>' . mysqli_error($connection);

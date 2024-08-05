@@ -1,7 +1,7 @@
 <?php
 include("connection.php");
 $id = $_POST['id'];
-$fetch_query = mysqli_query($connection,"SELECT * FROM tbl_province");
+$fetch_query = mysqli_query($connection,"SELECT * FROM tbl_province WHERE disabled_status='enabled'");
 if(mysqli_num_rows($fetch_query)>0){
     $data = "";
     foreach($fetch_query as $province){
@@ -13,6 +13,6 @@ if(mysqli_num_rows($fetch_query)>0){
     }
     echo $data;
 }else{
-    echo "Id Not Found";
+    echo "<option>Id Not Found</option>";
 }
 ?>

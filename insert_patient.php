@@ -105,7 +105,11 @@ $sql = "INSERT INTO tbl_patients (
         )";
 
 if ($connection->query($sql) === TRUE) {
-    echo "New record created successfully";
+    date_default_timezone_set('Asia/Karachi');
+    $date = date('Y-m-d');
+    $time = date('h:i:s');
+    $insert_history = mysqli_query($connection, "INSERT INTO tbl_history (page_name,changes_person,change_type,date,time)VALUES('patients','$_POST[add_patient_changes_person]','add_patients','$date','$time')");
+    echo "Patient Inserted successfully";
 } else {
     echo "Error: " . $sql . "<br>" . $connection->error;
 }
@@ -113,24 +117,24 @@ if ($connection->query($sql) === TRUE) {
 // Close the connection
 $connection->close();
 
-function generateMRNo($connection) {
+function generateMRNo($connection)
+{
     $year = date('Y');
     $month = date('m');
-    
+
     // Query to get the count of patients admitted this month
     $sql = "SELECT COUNT(*) AS count FROM tbl_patients WHERE YEAR(patient_admit_date) = $year AND MONTH(patient_admit_date) = $month";
     $result = $connection->query($sql);
     $row = $result->fetch_assoc();
-    
+
     if ($row) {
         $count = $row['count'] + 1; // Increment the count to get the next patient number
     } else {
         $count = 1; // If no records found, start with 1
     }
-    
+
     // Generate MR No
     $mr_no = sprintf("%04d-%02d-%03d", $year, $month, $count);
-    
+
     return $mr_no;
 }
-?>
