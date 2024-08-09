@@ -132,10 +132,10 @@ if (isset($_SESSION['admin'])) {
                                                             $type = "Refferal Added";
                                                         } else if ($history['change_type'] == "edit_refferals") {
                                                             $type = "Refferal Edited";
-                                                        } else if ($history['change_type'] == "available_refferals") {
-                                                            $type = "Refferal Available";
-                                                        } else if ($history['change_type'] == "unavailable_refferals") {
-                                                            $type = "Refferal Unavailable";
+                                                        } else if ($history['change_type'] == "activate_refferals") {
+                                                            $type = "Refferal Activate";
+                                                        } else if ($history['change_type'] == "deactivate_refferals") {
+                                                            $type = "Refferal Deactivate";
                                                         } else if ($history['change_type'] == "enable_refferals") {
                                                             $type = "Refferal Enable";
                                                         } else if ($history['change_type'] == "disable_refferals") {

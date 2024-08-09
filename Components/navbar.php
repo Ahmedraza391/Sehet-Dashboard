@@ -12,12 +12,16 @@
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
 
-      <li class="nav-item  me-5">
+      <li class="nav-item mx-2 d-md-block d-none">
         <i class="ri-nurse-line"></i> 
         <a href="patient_management.php" class="fs-6 mini-nav <?php if($page == "patients"){echo "active";} ?>">Patients</a>
       </li>
 
-      <li class="nav-item dropdown">
+      <li class="nav-item mx-2 d-md-block d-none"><i class="ri-exchange-dollar-line"></i>
+        <a href="transaction_management.php" class="fs-6 mini-nav <?php if($page == "transaction"){echo "active";} ?>">Transaction</a>
+      </li>
+
+      <li class="nav-item dropdown ms-md-3">
 
         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
           <i class="bi bi-bell"></i>
@@ -120,6 +124,18 @@
             $anchor = "user_profile.php";
           }
           ?>
+          <li>
+            <a class="dropdown-item d-flex align-items-center d-md-none" href="./patient_management.php">
+            <i class="ri-nurse-line"></i> 
+              <span>Patients</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center d-md-none" href="./transaction_management.php"><i class="ri-exchange-dollar-line"></i>
+              <span>Transactions</span>
+            </a>
+          </li>
+          <hr class="m-0 d-md-none">
           <li>
             <a class="dropdown-item d-flex align-items-center" href="<?php echo $anchor; ?>">
               <i class="bi bi-person"></i>

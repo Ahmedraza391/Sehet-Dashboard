@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 05, 2024 at 06:25 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Aug 09, 2024 at 01:45 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -151,7 +151,7 @@ INSERT INTO `tbl_employees` (`id`, `emp_id`, `emp_name`, `emp_father_name`, `emp
 (2, '1234-567', 'Muhammad Minhal', 'Muhammad Qasim', 'minhal@gmail.com', '03269243543', '4230111018111', '2008-12-17', 'nursing_staff', 'activate', 'enabled'),
 (3, '2222-564', 'Muhammad Raza', 'Muhammad Razzaq', 'raza@gmail.com', '03269243547', '4230111238111', '2000-07-06', 'physiotherapist', 'activate', 'enabled'),
 (4, '4521-235', 'Ayub Khan', 'Muhammd Ayub', 'ayub@gmail.com', '03129987654', '4230111018223', '2001-06-12', 'nursing_staff', 'activate', 'enabled'),
-(5, '4556-785', 'Yasir ', 'Nawaz', 'yasir122@gmail.com', '03269244586', '4230111078945', '2002-06-06', 'nursing_staff', 'activate', 'enabled'),
+(5, '4556-785', 'Yasir Nawaz', 'Nawaz-Ud-Din', 'yasir122@gmail.com', '03269244586', '4230111078945', '2002-06-06', 'nursing_staff', 'activate', 'enabled'),
 (6, '6647-224', 'Shabir Salehri', 'Muhammad Shreef', 'shabir@gmail.com', '03129987654', '4230111018223', '1999-06-24', 'physiotherapist', 'activate', 'enabled');
 
 -- --------------------------------------------------------
@@ -177,7 +177,7 @@ INSERT INTO `tbl_extra_services` (`id`, `extra_service`, `extra_service_price`, 
 (1, 'Leg Injection', 700, 3, 'available', 'enabled'),
 (2, 'Hand Injection', 500, 3, 'available', 'enabled'),
 (3, 'Heart Ultrasound', 3500, 9, 'available', 'enabled'),
-(4, 'Heart Sonogram', 3000, 9, 'unavailable', 'enabled');
+(4, 'Heart Sonogram', 3000, 9, 'available', 'enabled');
 
 -- --------------------------------------------------------
 
@@ -300,7 +300,70 @@ INSERT INTO `tbl_history` (`id`, `page_name`, `changes_person`, `change_type`, `
 (100, 'vendors', 'Admin', 'add_vendors', '2024-08-03', '10:06:04'),
 (101, 'vendors', 'Admin', 'add_vendors', '2024-08-04', '12:22:09'),
 (103, 'vendors', 'Admin', 'add_vendors', '2024-08-04', '01:54:59'),
-(104, 'vendors', 'Admin', 'add_vendors', '2024-08-04', '01:56:50');
+(104, 'vendors', 'Admin', 'add_vendors', '2024-08-04', '01:56:50'),
+(105, 'vendors', 'Admin', 'add_vendors', '2024-08-06', '01:10:35'),
+(106, 'vendors', 'Admin', 'edit_vendors', '2024-08-06', '02:15:31'),
+(107, 'vendors', 'Admin', 'edit_vendors', '2024-08-06', '02:17:08'),
+(108, 'vendors', 'Admin', 'edit_vendors', '2024-08-06', '02:20:20'),
+(109, 'vendors', 'Admin', 'edit_vendors', '2024-08-06', '02:20:45'),
+(110, 'vendors', 'Admin', 'edit_vendors', '2024-08-06', '02:21:47'),
+(111, 'vendors', 'Admin', 'edit_vendors', '2024-08-06', '02:22:02'),
+(112, 'vendors', 'Admin', 'edit_vendors', '2024-08-06', '02:22:28'),
+(113, 'vendors', 'Admin', 'edit_vendors', '2024-08-06', '02:22:44'),
+(114, 'vendors', 'Admin', 'edit_vendors', '2024-08-06', '02:32:36'),
+(115, 'panels', 'Admin', 'edit_panels', '2024-08-06', '02:38:21'),
+(116, 'panels', 'Admin', 'edit_panels', '2024-08-06', '02:41:04'),
+(117, 'panels', 'Admin', 'edit_panels', '2024-08-06', '02:41:58'),
+(118, 'panels', 'Admin', 'edit_panels', '2024-08-06', '02:50:33'),
+(119, 'panels', 'Admin', 'add_panels', '2024-08-06', '02:59:54'),
+(120, 'panels', 'Admin', 'edit_panels', '2024-08-06', '03:00:08'),
+(121, 'panels', 'Admin', 'edit_panels', '2024-08-06', '03:01:35'),
+(122, 'panels', 'Admin', 'edit_panels', '2024-08-06', '03:01:42'),
+(123, 'panels', 'Admin', 'edit_panels', '2024-08-06', '03:01:54'),
+(124, 'panels', 'Admin', 'edit_panels', '2024-08-06', '03:03:36'),
+(125, 'panels', 'Admin', 'edit_panels', '2024-08-06', '03:04:47'),
+(126, 'vendors', 'Admin', 'edit_vendors', '2024-08-06', '03:05:07'),
+(127, 'vendors', 'Admin', 'edit_vendors', '2024-08-06', '03:05:29'),
+(128, 'vendors', 'Admin', 'disable_vendors', '2024-08-06', '03:09:16'),
+(129, 'vendors', 'Admin', 'enable_vendors', '2024-08-06', '03:09:44'),
+(130, 'vendors', 'Admin', 'deactivate_vendors', '2024-08-06', '03:17:18'),
+(131, 'vendors', 'Admin', 'deactivate_vendors', '2024-08-06', '03:17:50'),
+(132, 'vendors', 'Admin', 'activate_vendors', '2024-08-06', '03:17:55'),
+(133, 'vendors', 'Admin', 'disable_vendors', '2024-08-06', '03:18:10'),
+(134, 'refferals', 'Admin', 'deactivate_refferals', '2024-08-06', '03:21:35'),
+(135, 'refferals', 'Admin', 'activate_refferals', '2024-08-06', '03:21:46'),
+(136, 'refferals', 'Admin', 'disable_refferals', '2024-08-06', '03:23:22'),
+(137, 'refferals', 'Admin', 'enable_refferals', '2024-08-06', '03:23:31'),
+(138, 'employees', 'Admin', 'edit_employees', '2024-08-06', '03:24:26'),
+(139, 'vendors', 'Admin', 'enable_vendors', '2024-08-06', '03:25:38'),
+(140, 'users', 'Admin', 'edit_users', '2024-08-06', '03:32:28'),
+(141, 'users', 'Admin', 'edit_users', '2024-08-06', '03:35:41'),
+(142, 'vendors', 'Admin', 'add_vendors', '2024-08-06', '13:47:46'),
+(143, 'vendors', 'Admin', 'edit_vendors', '2024-08-06', '01:48:04'),
+(144, 'vendors', 'Admin', 'deactivate_vendors', '2024-08-06', '01:50:02'),
+(145, 'vendors', 'Admin', 'activate_vendors', '2024-08-06', '01:50:05'),
+(146, 'vendors', 'Admin', 'disable_vendors', '2024-08-06', '01:50:17'),
+(147, 'vendors', 'Admin', 'enable_vendors', '2024-08-06', '01:50:19'),
+(148, 'vendors', 'Admin', 'add_vendors', '2024-08-06', '13:59:20'),
+(149, 'vendors', 'Admin', 'deactivate_vendors', '2024-08-06', '02:00:02'),
+(150, 'panels', 'Admin', 'edit_panels', '2024-08-06', '02:39:30'),
+(151, 'panels', 'Admin', 'edit_panels', '2024-08-06', '02:48:09'),
+(152, 'panels', 'Admin', 'edit_panels', '2024-08-06', '02:51:18'),
+(153, 'panels', 'Admin', 'edit_panels', '2024-08-06', '02:55:39'),
+(154, 'panels', 'Admin', 'edit_panels', '2024-08-06', '02:55:51'),
+(155, 'panels', 'Admin', 'edit_panels', '2024-08-06', '03:02:25'),
+(156, 'panels', 'Admin', 'edit_panels', '2024-08-06', '03:02:31'),
+(157, 'panels', 'Admin', 'edit_panels', '2024-08-06', '03:02:48'),
+(158, 'panels', 'Admin', 'edit_panels', '2024-08-06', '03:04:38'),
+(159, 'panels', 'Admin', 'edit_panels', '2024-08-06', '03:07:22'),
+(160, 'panels', 'Admin', 'edit_panels', '2024-08-06', '03:12:02'),
+(161, 'panels', 'Admin', 'edit_panels', '2024-08-06', '03:14:18'),
+(162, 'panels', 'Admin', 'edit_panels', '2024-08-06', '03:14:46'),
+(163, 'panels', 'Admin', 'edit_panels', '2024-08-06', '03:14:57'),
+(164, 'panels', 'Admin', 'edit_panels', '2024-08-06', '04:04:04'),
+(165, 'panels', 'Admin', 'edit_panels', '2024-08-06', '04:43:22'),
+(166, 'panels', 'Admin', 'edit_panels', '2024-08-06', '04:43:49'),
+(167, 'service_sub_head', 'Admin', 'available_service_sub_head', '2024-08-09', '04:09:14');
 
 -- --------------------------------------------------------
 
@@ -331,7 +394,8 @@ INSERT INTO `tbl_panel` (`id`, `company`, `email`, `focal_person`, `company_cont
 (1, 'Shan Foods Pvt Ltd', 'shanfoods@gamil.com', 'Yaseen Khan', '03269243547', '03269243547', 3, 3, 1, 'activate', '1,2,9', 'enabled'),
 (2, 'NDure', 'ndure@gmail.com', 'Abdul Sttar', '03331234567', '03331234567', 3, 3, 1, 'activate', '1,2,10,12', 'enabled'),
 (3, 'Bata Shoes', 'batashoes@gmail.com', 'Muhammad Raheem', '03331234567', '03331234567', 3, 2, 5, 'activate', '1,3,8', 'enabled'),
-(4, 'HBL Private Limitted.', 'hbl@gmail.com', 'Wahab Khan', '03269243547', '03269243547', 2, 10, 16, 'activate', '2,6', 'enabled');
+(4, 'HBL Private Limitted.', 'hbl@gmail.com', 'Wahab Khan', '03269243547', '03269243547', 2, 10, 16, 'activate', '2,6', 'enabled'),
+(5, 'K-Electric Private Limitted.', 'ke@gmail.com', 'Fahad Khan', '03123445677', '03123445677', 2, 10, 16, 'activate', '1,3', 'enabled');
 
 -- --------------------------------------------------------
 
@@ -353,22 +417,31 @@ CREATE TABLE `tbl_panel_services` (
 --
 
 INSERT INTO `tbl_panel_services` (`id`, `panel_id`, `sub_services_id`, `extra_services_id`, `sub_service_price`, `extra_service_price`) VALUES
-(12, 2, 1, NULL, '500', '0'),
-(13, 2, 2, NULL, '1500', '0'),
-(14, 2, 2, 3, '0', '600'),
-(15, 2, 2, 4, '0', '700'),
-(16, 2, 12, NULL, '2000', '0'),
 (17, 3, 1, NULL, '600', '0'),
 (18, 3, 3, NULL, '999', '0'),
 (19, 3, 3, 1, '999', '500'),
 (20, 3, 3, 2, '999', '400'),
 (21, 3, 8, NULL, '12000', '0'),
-(24, 4, 1, NULL, '500', '0'),
-(25, 4, 2, NULL, '600', '0'),
-(26, 4, 6, NULL, '4500', '0'),
 (27, 1, 1, NULL, '1200', '0'),
 (28, 1, 2, NULL, '3000', '0'),
-(29, 1, 9, NULL, '5000', '0');
+(29, 1, 9, NULL, '5000', '0'),
+(101, 4, 1, NULL, '500', '0'),
+(102, 4, 2, NULL, '600', '0'),
+(103, 4, 3, NULL, '0', '0'),
+(104, 4, 3, 1, '0', '1250'),
+(105, 4, 6, NULL, '4500', '0'),
+(106, 4, 9, NULL, '2000', '0'),
+(107, 4, 9, 3, '0', '1000'),
+(108, 4, 9, 4, '0', '1000'),
+(120, 5, 3, NULL, '1500', '0'),
+(121, 5, 3, 1, '0', '600'),
+(122, 5, 3, 2, '0', '800'),
+(123, 5, 4, NULL, '2500', '0'),
+(124, 2, 1, NULL, '500', '0'),
+(125, 2, 2, NULL, '1500', '0'),
+(126, 2, 3, NULL, '1500', '0'),
+(127, 2, 3, 1, '0', '800'),
+(128, 2, 3, 2, '0', '700');
 
 -- --------------------------------------------------------
 
@@ -462,9 +535,9 @@ CREATE TABLE `tbl_refferals` (
 
 INSERT INTO `tbl_refferals` (`id`, `name`, `company`, `email`, `financial_share`, `status`, `disabled_status`) VALUES
 (1, 'Ahmed Raza', 'Ibexx', 'Ahmed@gamil.com', 12, 'activate', 'disabled'),
-(2, 'Abdullah Khalid', 'ABC Company', 'abdullah@gmail.com', 40, 'activate', 'enabled'),
+(2, 'Abdullah Khalid', 'ABC Company', 'abdullah@gmail.com', 40, 'activate', 'disabled'),
 (3, 'Khurram bhai', 'Soorty Enterprise ', 'usuf.razzak1996@gmail.com', 20, 'activate', 'enabled'),
-(4, 'Muhammad Raza', 'ABC Company', 'ar03126655@gmail.com', 21, 'activate', 'disabled');
+(4, 'Muhammad Raza', 'ABC Company', 'ar03126655@gmail.com', 21, 'activate', 'enabled');
 
 -- --------------------------------------------------------
 
@@ -520,6 +593,42 @@ INSERT INTO `tbl_sub_services` (`id`, `sub_service`, `sub_service_price`, `servi
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_transaction`
+--
+
+CREATE TABLE `tbl_transaction` (
+  `id` int(11) NOT NULL,
+  `transaction_date` varchar(50) NOT NULL,
+  `ipp_no` varchar(30) NOT NULL,
+  `mr_no` varchar(30) NOT NULL,
+  `patient_name` varchar(300) NOT NULL,
+  `patient_admit_date` varchar(50) NOT NULL,
+  `patient_discharge_date` varchar(50) NOT NULL,
+  `attendent_name` varchar(300) NOT NULL,
+  `patient_address` text NOT NULL,
+  `vendor_id` int(11) NOT NULL,
+  `employee_id` int(11) NOT NULL,
+  `service_duration` varchar(30) NOT NULL,
+  `service_shift` varchar(30) NOT NULL,
+  `service_id` int(11) NOT NULL,
+  `sub_service_id` int(11) NOT NULL,
+  `extra_service_id` int(11) NOT NULL,
+  `service_rate` int(11) NOT NULL,
+  `service_discount` int(11) NOT NULL,
+  `service_net_rate` int(11) NOT NULL,
+  `voucher_amount` int(11) NOT NULL,
+  `payment_status` varchar(30) NOT NULL,
+  `p_l` int(11) NOT NULL,
+  `reciept_amount` int(11) NOT NULL,
+  `reciept_status` varchar(30) NOT NULL,
+  `lab_invoice_no` varchar(50) NOT NULL,
+  `panel_id` int(11) NOT NULL,
+  `recovery_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_users`
 --
 
@@ -545,7 +654,7 @@ CREATE TABLE `tbl_users` (
 INSERT INTO `tbl_users` (`user_id`, `user_name`, `user_father_name`, `user_email`, `user_password`, `user_contact`, `user_nic`, `user_dob`, `user_status`, `pages_access`, `registration_status`, `disabled_status`) VALUES
 (1, 'Ahmed Raza', 'Muhammad Razzaq', 'ahmed@gmail.com', 'ahmed123', '03269243547', '4230112345678', '2006-04-03', 'activate', 'service_management,address_management,reffrel_management,employee_management,patient_management', 'registered', 'enabled'),
 (2, 'Muhammad Minhal Khan', 'Muhammad Qasim Khan', 'minhal@gmail.com', 'minhal123', '03269248547', '4230112345678', '2005-06-14', 'activate', 'panel_management,employee_management,user_management,patient_management', 'registered', 'enabled'),
-(3, 'Fahad Khan', 'Ubaid Khan', 'fahad@gmail.com', 'fahad123', '03129987654', '4230112345678', '2004-02-03', 'activate', 'reffrel_management,patient_management', 'registered', 'enabled'),
+(3, 'Fahad Khan', 'Ubaid Khan', 'fahad@gmail.com', 'fahad123', '03129987654', '4230112345678', '2004-02-03', 'activate', 'reffrel_management,user_management,patient_management', 'registered', 'enabled'),
 (4, 'Muhammad Usman', 'Usman Khan', 'usman@gmai.com', 'usman123', '03129987231', '4230122145678', '2002-06-04', 'activate', 'service_management,address_management,reffrel_management', 'registered', 'enabled');
 
 -- --------------------------------------------------------
@@ -575,13 +684,16 @@ CREATE TABLE `tbl_vendor` (
 --
 
 INSERT INTO `tbl_vendor` (`vendor_id`, `vendor_name`, `vendor_ntn`, `focal_person`, `vendor_contact`, `vendor_whatsapp`, `vendor_address`, `province_id`, `city_id`, `area_id`, `services`, `status`, `disabled_status`) VALUES
-(1, 'Yaseen', 'yaseen1122', 'yaseen@gmail.com', '031225252482', '031225252482', '', 5, 8, 13, '1,3', 'activate', 'enabled'),
+(1, 'Yaseen', 'yaseen1122', 'yaseen@gmail.com', '031225252482', '031225252482', '437 new iqbalabad drigh road karachi', 5, 8, 14, '1,3', 'activate', 'enabled'),
 (2, 'Yousuf', '2312fkjsjfk', 'yousuf@gmail.com', '03124567384', '03124567384', '', 3, 3, 1, '3', 'activate', 'enabled'),
 (3, 'Fahad Mustafa', '123fahad', 'fahad@gmail.com', '3239845744', '03239845747', '437 new iqbalabad drigh road karachi', 2, 1, 3, '1,3', 'activate', 'enabled'),
 (4, 'Muhammad Minhal', 'minhal2212', 'minhal@gmail.com', '03223849473', '03223849473', 'dkfkasl; hello', 3, 3, 1, '1,9', 'activate', 'enabled'),
 (5, 'Muhammad Raza', 'raza994-31', 'raza@gmail.com', '03247840384', '03247840384', '437 new iqbalabad drigh road karachi', 5, 8, 14, '1,3,5', 'activate', 'enabled'),
 (14, 'Farooq Khan', 'farooq884', 'farooq@gmail.com', '03234749589', '03234749589', 'house no 22 near Gulshane iqbal', 3, 11, 0, '1,8', 'activate', 'enabled'),
-(15, 'Adil Khan ', 'adil 4451', 'adil@gmail.com', '03449585032', '03449585032', 'house no 44 street 8 tandor colony', 2, 1, 3, '1,3,5,9', 'activate', 'enabled');
+(15, 'Adil Khan ', 'adil 4451', 'adil@gmail.com', '03449585032', '03449585032', 'house no 44 street 8 tandor colony', 2, 1, 3, '1,3,5,9', 'activate', 'enabled'),
+(16, 'Muhammad Adnan', 'adnan112233', 'Adnan', '03269243547', '03269243547', '437 new iqbalabad drigh road karachi]', 2, 1, 3, '1,2,3', 'activate', 'enabled'),
+(17, 'Muhammad Akmal', 'akmal34232', 'Akmal', '03126655894', '03126655894', 'House No 455 Street 75 Gulishn-e-iqbal Karachi', 2, 1, 3, '1,3', 'activate', 'enabled'),
+(18, 'TMC', '4192054', 'Dr Tahir', '03360387337a', '03360387337a', 'Bantva Nagar, House#143 karachi', 2, 1, 17, '1', 'deactivate', 'enabled');
 
 -- --------------------------------------------------------
 
@@ -606,14 +718,6 @@ INSERT INTO `tbl_vendor_services` (`id`, `vendor_id`, `sub_service_id`, `extra_s
 (0, 0, 1, 0, '4500', ''),
 (0, 0, 3, 0, '5600', ''),
 (0, 0, 3, 1, '5600', '2496'),
-(0, 2, 3, 0, '2300', ''),
-(0, 2, 3, 1, '2300', '500'),
-(0, 3, 1, 0, '700', ''),
-(0, 3, 3, 0, '4500', ''),
-(0, 3, 3, 1, '4500', '1200'),
-(0, 4, 1, 0, '650', ''),
-(0, 4, 9, 0, '4000', ''),
-(0, 4, 9, 3, '4000', '1200'),
 (0, 5, 1, 0, '3400', ''),
 (0, 5, 3, 0, '700', ''),
 (0, 5, 3, 1, '700', '400'),
@@ -621,14 +725,36 @@ INSERT INTO `tbl_vendor_services` (`id`, `vendor_id`, `sub_service_id`, `extra_s
 (0, 5, 5, 0, '1500', ''),
 (0, 14, 1, 0, '2300', ''),
 (0, 14, 8, 0, '4493', ''),
+(0, 1, 2, 0, '1000', ''),
+(0, 1, 3, 0, '1200', ''),
+(0, 1, 3, 1, '', '600'),
+(0, 1, 3, 2, '', '600'),
+(0, 2, 1, 0, '1000', ''),
+(0, 3, 1, 0, '700', ''),
+(0, 4, 1, 0, '650', ''),
+(0, 4, 3, 0, '500', ''),
+(0, 4, 3, 1, '', '120'),
+(0, 4, 9, 0, '4000', ''),
+(0, 4, 9, 3, '', '1200'),
 (0, 15, 1, 0, '3500', ''),
 (0, 15, 3, 0, '1100', ''),
-(0, 15, 3, 1, '1100', '600'),
-(0, 15, 3, 2, '1100', '500'),
+(0, 15, 3, 1, '', '600'),
+(0, 15, 3, 2, '', '500'),
 (0, 15, 5, 0, '1400', ''),
 (0, 15, 9, 0, '2400', ''),
-(0, 15, 9, 3, '2400', '1200'),
-(0, 15, 9, 4, '2400', '1200');
+(0, 16, 1, 0, '300', ''),
+(0, 16, 2, 0, '500', ''),
+(0, 16, 3, 0, '1500', ''),
+(0, 16, 3, 1, '', '600'),
+(0, 16, 3, 2, '', '800'),
+(0, 16, 9, 0, '4500', ''),
+(0, 16, 9, 3, '', '1200'),
+(0, 17, 1, 0, '750', ''),
+(0, 17, 2, 0, '8000', ''),
+(0, 17, 3, 0, '1500', ''),
+(0, 17, 3, 1, '', '600'),
+(0, 17, 3, 2, '', '900'),
+(0, 18, 1, 0, '1200', '');
 
 --
 -- Indexes for dumped tables
@@ -720,6 +846,12 @@ ALTER TABLE `tbl_sub_services`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_transaction`
+--
+ALTER TABLE `tbl_transaction`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
@@ -775,19 +907,19 @@ ALTER TABLE `tbl_extra_services`
 -- AUTO_INCREMENT for table `tbl_history`
 --
 ALTER TABLE `tbl_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=168;
 
 --
 -- AUTO_INCREMENT for table `tbl_panel`
 --
 ALTER TABLE `tbl_panel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_panel_services`
 --
 ALTER TABLE `tbl_panel_services`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
 
 --
 -- AUTO_INCREMENT for table `tbl_patients`
@@ -820,6 +952,12 @@ ALTER TABLE `tbl_sub_services`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT for table `tbl_transaction`
+--
+ALTER TABLE `tbl_transaction`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
@@ -829,7 +967,7 @@ ALTER TABLE `tbl_users`
 -- AUTO_INCREMENT for table `tbl_vendor`
 --
 ALTER TABLE `tbl_vendor`
-  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,7 +1,6 @@
 <?php
 session_start();
 include 'connection.php';
-
 $query = "SELECT * FROM tbl_refferals";
 $result = mysqli_query($connection, $query);
 $output = '';
@@ -18,9 +17,9 @@ if (mysqli_num_rows($result) > 0) {
             $output .= "<td class='text-left'>{$data['name']}</td>";
             $output .= "<td class='text-center'>";
                 if($data['status']=="activate"){
-                    $output .= "<a href='refferal_set_deactivate_status.php?id=$data[id]' class='btn btn-danger btn-sm'>Deactivate</a>";
+                    $output .= "<a href='refferal_set_deactivate_status.php?id=$data[id]&c_person=$changes' class='btn btn-danger btn-sm'>Deactivate</a>";
                 }else{
-                    $output .= "<a href='refferal_set_activate_status.php?id=$data[id]' class='btn btn-primary btn-sm'>Activate</a>";
+                    $output .= "<a href='refferal_set_activate_status.php?id=$data[id]&c_person=$changes' class='btn btn-primary btn-sm'>Activate</a>";
                 }
             $output .= "</td>";
             $output .= "<td class='text-center'>";

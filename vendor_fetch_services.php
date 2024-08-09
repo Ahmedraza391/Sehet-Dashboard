@@ -3,103 +3,80 @@ include 'connection.php';
 
 if (isset($_POST['vendor_id'])) {
     $vendor_id = $_POST['vendor_id'];
-    $services = [];
-    
+
     // Fetch sub-services
-    $services_query = "SELECT id, sub_service FROM tbl_sub_services";
-    $services_result = mysqli_query($connection, $services_query);
+    $fetch_sub_services = mysqli_query($connection, "SELECT id, sub_service,sub_service_price FROM tbl_sub_services");
 
-    if (!$services_result) {
-        echo json_encode(['error' => "Error fetching sub-services: " . mysqli_error($connection)]);
-        exit;
-    }
+    // Fetch extra-services
+    $fetch_extra_services = mysqli_query($connection, "SELECT id, extra_service,extra_service_price, sub_services_id FROM tbl_extra_services");
 
-    while ($service = mysqli_fetch_assoc($services_result)) {
-        $services[$service['id']] = [
-            'sub_services_id' => $service['id'],
-            'sub_service' => $service['sub_service'],
+    // Fetch service details for the specific vendor
+    $fetch_service_query = mysqli_query($connection, "
+        SELECT tbl_vendor_services.sub_service_id, tbl_vendor_services.sub_service_price, tbl_vendor_services.extra_service_id, tbl_vendor_services.extra_service_price 
+        FROM tbl_vendor_services 
+        WHERE vendor_id = '$vendor_id'
+    ");
+
+    $sub_services = [];
+    while ($row = mysqli_fetch_assoc($fetch_sub_services)) {
+        $sub_services[$row['id']] = [
+            'sub_service' => $row['sub_service'],
             'sub_service_price' => 0,
             'selected' => false,
-            'extra_services' => []
+            'extra_services' => [],
+            'sub_service_original_price' => $row['sub_service_price']
         ];
     }
 
-    // Fetch selected sub-services
-    $selected_services_query = "
-        SELECT sub_service_id, sub_service_price 
-        FROM tbl_vendor_services
-        WHERE vendor_id = ?
-        AND extra_service_id IS NULL
-    ";
-    $stmt = mysqli_prepare($connection, $selected_services_query);
-    mysqli_stmt_bind_param($stmt, 'i', $vendor_id);
-    mysqli_stmt_execute($stmt);
-    $selected_services_result = mysqli_stmt_get_result($stmt);
-
-    if (!$selected_services_result) {
-        echo json_encode(['error' => "Error fetching selected sub-services: " . mysqli_error($connection)]);
-        exit;
+    // Map extra services to their corresponding sub-service
+    $extra_services = [];
+    while ($row = mysqli_fetch_assoc($fetch_extra_services)) {
+        $extra_services[$row['sub_services_id']][$row['id']] = [
+            'extra_service' => $row['extra_service'],
+            'extra_service_price' => 0,
+            'selected' => false,
+            'extra_service_original_price' => $row['extra_service_price']
+        ];
     }
 
-    while ($selected_service = mysqli_fetch_assoc($selected_services_result)) {
-        $sub_service_id = $selected_service['sub_service_id'];
-        if (isset($services[$sub_service_id])) {
-            $services[$sub_service_id]['sub_service_price'] = $selected_service['sub_service_price'];
-            $services[$sub_service_id]['selected'] = true;
+    // Update sub-services and extra-services based on the vendor's selections
+    while ($row = mysqli_fetch_assoc($fetch_service_query)) {
+        $sub_service_id = $row['sub_service_id'];
+        if (isset($sub_services[$sub_service_id])) {
+            $sub_services[$sub_service_id]['sub_service_price'] = $row['sub_service_price'];
+            $sub_services[$sub_service_id]['selected'] = true;
+        }
+
+        $extra_service_id = $row['extra_service_id'];
+        if ($extra_service_id) {
+            $sub_service_id = $row['sub_service_id'];
+            if (isset($extra_services[$sub_service_id][$extra_service_id])) {
+                $extra_services[$sub_service_id][$extra_service_id]['extra_service_price'] = $row['extra_service_price'];
+                $extra_services[$sub_service_id][$extra_service_id]['selected'] = true;
+            }
         }
     }
 
-    // Fetch extra services
-    $extra_services_query = "
-        SELECT id, extra_service, sub_services_id 
-        FROM tbl_extra_services
-    ";
-    $extra_services_result = mysqli_query($connection, $extra_services_query);
-
-    if (!$extra_services_result) {
-        echo json_encode(['error' => "Error fetching extra services: " . mysqli_error($connection)]);
-        exit;
-    }
-
-    while ($extra_service = mysqli_fetch_assoc($extra_services_result)) {
-        $sub_service_id = $extra_service['sub_services_id'];
-        if (isset($services[$sub_service_id])) {
-            $services[$sub_service_id]['extra_services'][$extra_service['id']] = [
-                'extra_services_id' => $extra_service['id'],
-                'extra_service' => $extra_service['extra_service'],
-                'extra_service_price' => 0,
-                'selected' => false
-            ];
+    // Generate HTML output
+    $output = "";
+    foreach ($sub_services as $sub_service_id => $sub_service) {
+        $output .= '<div class="form-check">';
+        $output .= '<input class="form-check-input" type="checkbox" name="edit_vendor_services[]" value="' . $sub_service_id . '" id="service_' . $sub_service_id . '" ' . ($sub_service['selected'] ? 'checked' : '') . '>';
+        $output .= '<label class="form-check-label" for="service_' . $sub_service_id . '">' . $sub_service['sub_service'] . '---------' . $sub_service['sub_service_original_price'] . '</label>';
+        $output .= '<input type="number" class="form-control no-spinner" name="edit_vendor_service_prices[' . $sub_service_id . ']" value="' . $sub_service['sub_service_price'] . '" placeholder="Enter Price">';
+        $output .= '</div>';
+    
+        if (!empty($extra_services[$sub_service_id])) {
+            foreach ($extra_services[$sub_service_id] as $extra_service_id => $extra_service) {
+                $output .= '<div class="form-check ms-md-5">';
+                $output .= '<input class="form-check-input" type="checkbox" name="edit_vendor_extra_services[' . $sub_service_id . '][]" value="' . $extra_service_id . '" id="extra_service_' . $extra_service_id . '" ' . ($extra_service['selected'] ? 'checked' : '') . '>';
+                $output .= '<label class="form-check-label" for="extra_service_' . $extra_service_id . '">' . $extra_service['extra_service'] . '---------' . $extra_service['extra_service_original_price'] . '</label>';
+                $output .= '<input type="number" class="form-control no-spinner" name="edit_vendor_extra_service_prices[' . $sub_service_id . '][' . $extra_service_id . ']" value="' . $extra_service['extra_service_price'] . '" placeholder="Enter Price">';
+                $output .= '</div>';
+            }
         }
     }
-
-    // Fetch selected extra services
-    $selected_extra_services_query = "
-        SELECT extra_service_id, extra_service_price, sub_service_id 
-        FROM tbl_vendor_services
-        WHERE vendor_id = ?
-        AND extra_service_id IS NOT NULL
-    ";
-    $stmt = mysqli_prepare($connection, $selected_extra_services_query);
-    mysqli_stmt_bind_param($stmt, 'i', $vendor_id);
-    mysqli_stmt_execute($stmt);
-    $selected_extra_services_result = mysqli_stmt_get_result($stmt);
-
-    if (!$selected_extra_services_result) {
-        echo json_encode(['error' => "Error fetching selected extra services: " . mysqli_error($connection)]);
-        exit;
-    }
-
-    while ($selected_extra_service = mysqli_fetch_assoc($selected_extra_services_result)) {
-        $sub_service_id = $selected_extra_service['sub_service_id'];
-        $extra_service_id = $selected_extra_service['extra_service_id'];
-        if (isset($services[$sub_service_id]['extra_services'][$extra_service_id])) {
-            $services[$sub_service_id]['extra_services'][$extra_service_id]['extra_service_price'] = $selected_extra_service['extra_service_price'];
-            $services[$sub_service_id]['extra_services'][$extra_service_id]['selected'] = true;
-        }
-    }
-
-    echo json_encode(array_values($services));
+    echo $output;
 } else {
     echo json_encode([]);
 }

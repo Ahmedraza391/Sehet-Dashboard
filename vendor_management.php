@@ -5,7 +5,7 @@ if ((isset($_SESSION['employee_user'])) || (isset($_SESSION['admin']))) {
 } else {
     echo "<script>window.location.href='admin_login.php'</script>";
 }
-$this_page = "panel_management";
+$this_page = "vendor_management";
 
 if (isset($_SESSION['employee_user'])) {
     $id = $_SESSION['employee_user']['user_id'];
@@ -105,11 +105,11 @@ if (isset($_SESSION['admin'])) {
                         </div>
                     </div>
                     <!-- View History Modal -->
-                    <div class="modal fade" id="view_panels_history" tabindex="-1" aria-labelledby="view_panels_historyLabel" aria-hidden="true" data-bs-backdrop="static">
+                    <div class="modal fade" id="view_vendor_history" tabindex="-1" aria-labelledby="view_vendor_historyLabel" aria-hidden="true" data-bs-backdrop="static">
                         <div class="modal-dialog modal-lg modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h3 class="modal-title" id="view_panels_historyLabel">Panel History</h3>
+                                    <h3 class="modal-title" id="view_vendor_historyLabel">Panel History</h3>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -128,35 +128,35 @@ if (isset($_SESSION['admin'])) {
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                $query = mysqli_query($connection, "SELECT * FROM tbl_history WHERE page_name='panels' ORDER BY id DESC");
+                                                $query = mysqli_query($connection, "SELECT * FROM tbl_history WHERE page_name='vendors' ORDER BY id DESC");
                                                 $index = 1;
                                                 if (mysqli_num_rows($query) > 0) {
                                                     foreach ($query as $history) {
                                                         echo "<tr>";
                                                         $page_name = "";
-                                                        if ($history['page_name'] == "panels") {
-                                                            $page_name = "Panel";
+                                                        if ($history['page_name'] == "vendors") {
+                                                            $page_name = "Vendor";
                                                         }
                                                         echo "<td>{$index}</td>";
                                                         echo "<td>{$page_name}</td>";
                                                         echo "<td>{$history['changes_person']}</td>";
                                                         $type = "";
-                                                        if ($history['change_type'] == "add_panels") {
-                                                            $type = "Panel Added";
-                                                        } else if ($history['change_type'] == "edit_panels") {
-                                                            $type = "Panel Edited";
-                                                        } else if ($history['change_type'] == "available_panels") {
-                                                            $type = "Panel Available";
-                                                        } else if ($history['change_type'] == "unavailable_panels") {
-                                                            $type = "Panel Unavailable";
-                                                        } else if ($history['change_type'] == "enable_panels") {
-                                                            $type = "Panel Enable";
-                                                        } else if ($history['change_type'] == "disable_panels") {
-                                                            $type = "Panel Disable";
-                                                        } else if ($history['change_type'] == "activate_panels") {
-                                                            $type = "Panel Activate";
-                                                        } else if ($history['change_type'] == "deactivate_panels") {
-                                                            $type = "Panel Deactivate";
+                                                        if ($history['change_type'] == "add_vendors") {
+                                                            $type = "Vendor Added";
+                                                        } else if ($history['change_type'] == "edit_vendors") {
+                                                            $type = "Vendor Edited";
+                                                        } else if ($history['change_type'] == "available_vendors") {
+                                                            $type = "Vendor Available";
+                                                        } else if ($history['change_type'] == "unavailable_vendors") {
+                                                            $type = "Vendor Unavailable";
+                                                        } else if ($history['change_type'] == "enable_vendors") {
+                                                            $type = "Vendor Enable";
+                                                        } else if ($history['change_type'] == "disable_vendors") {
+                                                            $type = "Vendor Disable";
+                                                        } else if ($history['change_type'] == "activate_vendors") {
+                                                            $type = "Vendor Activate";
+                                                        } else if ($history['change_type'] == "deactivate_vendors") {
+                                                            $type = "Vendor Deactivate";
                                                         }
                                                         echo "<td>{$type}</td>";
                                                         echo "<td>{$history['date']}</td>";
@@ -210,6 +210,10 @@ if (isset($_SESSION['admin'])) {
                                             <label for="edit_vendor_w_contact">Vendor Whatsapp #</label>
                                         </div>
                                         <div class="form-floating mb-3">
+                                            <textarea class="form-control" placeholder="Vendor Address" id="edit_vendor_address" name="edit_vendor_address"></textarea>
+                                            <label for="edit_vendor_address">Vendor Address</label>
+                                        </div>
+                                        <div class="form-floating mb-3">
                                             <select class="form-select" id="edit_vendor_province" name="edit_vendor_province" required aria-label="Floating label select example">
                                                 <option selected value="" hidden>Select Province</option>
                                             </select>
@@ -234,6 +238,7 @@ if (isset($_SESSION['admin'])) {
                                                 </div>
                                             </div>
                                         </div>
+                                        <input type="hidden" name="edit_vendor_changes_person" id="edit_vendor_changes_person" value="<?php echo $changes; ?>">
                                         <div class="button">
                                             <button type="submit" class="btn btn-primary">Save</button>
                                         </div>
@@ -245,7 +250,6 @@ if (isset($_SESSION['admin'])) {
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-sm-12 mb-2 mb-sm-3 mb-md-0 col-md-4 d-md-flex align-items-center justify-content-start">
                             <button type="button" class="btn btn-primary btn-sm text-center" data-bs-toggle="modal" data-bs-target="#vendor_modal">
@@ -292,8 +296,8 @@ if (isset($_SESSION['admin'])) {
                                                     <label for="vendor_w_contact">Vendor Whatsapp #</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
-                                                    <textarea class="form-control" placeholder="Vendor Address" id="vendor_address" name="vendor_address" style="height: 100px"></textarea>
-                                                    <label for="vendor_address">Vendor Address'</label>
+                                                    <textarea class="form-control" placeholder="Vendor Address" id="vendor_address" name="vendor_address"></textarea>
+                                                    <label for="vendor_address">Vendor Address</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
                                                     <select class="form-select" id="vendor_province" name="vendor_province" required aria-label="Floating label select example">
@@ -328,8 +332,8 @@ if (isset($_SESSION['admin'])) {
                                                         foreach ($run_query as $services) {
                                                             echo "<div class='form-check'>";
                                                             echo "<input class='form-check-input' type='checkbox' name='services[]' value='{$services['id']}' id='{$services['id']}'>";
-                                                            echo "<label class='form-check-label' for='{$services['id']}'>{$services['sub_service']}</label>";
-                                                            echo "<input type='number' class='form-control' name='service_prices[{$services['id']}]' placeholder='Enter Price'>";
+                                                            echo "<label class='form-check-label' for='{$services['id']}'>{$services['sub_service']}-------{$services['sub_service_price']}</label>";
+                                                            echo "<input type='tel' class='form-control no-spinner' name='service_prices[{$services['id']}]' placeholder='Enter Price'>";
                                                             echo "</div>";
 
                                                             $extra_services_query = "SELECT * FROM tbl_extra_services WHERE sub_services_id = {$services['id']}";
@@ -341,8 +345,8 @@ if (isset($_SESSION['admin'])) {
                                                                 while ($extra_service = mysqli_fetch_assoc($extra_services_result)) {
                                                                     echo "<div class='form-check'>";
                                                                     echo "<input class='form-check-input' type='checkbox' name='extra_services[{$services['id']}][]' value='{$extra_service['id']}' id='extra_service_{$extra_service['id']}'>";
-                                                                    echo "<label class='form-check-label' for='extra_service_{$extra_service['id']}'>{$extra_service['extra_service']}</label>";
-                                                                    echo "<input type='number' class='form-control' name='extra_service_prices[{$services['id']}][{$extra_service['id']}]' placeholder='Enter Price'>";
+                                                                    echo "<label class='form-check-label' for='extra_service_{$extra_service['id']}'>{$extra_service['extra_service']}-------{$extra_service['extra_service_price']}</label>";
+                                                                    echo "<input type='tel' class='form-control no-spinner' name='extra_service_prices[{$services['id']}][{$extra_service['id']}]' placeholder='Enter Price'>";
                                                                     echo "</div>";
                                                                 }
                                                                 echo "</div>";

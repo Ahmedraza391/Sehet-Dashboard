@@ -32,11 +32,15 @@ $(document).ready(function () {
     document.querySelectorAll('.no-spinner').forEach(function (input) {
         input.addEventListener('keydown', function (event) {
             if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-                event.preventDefault();
+                event.preventDefault(); // Prevents arrow key changes
             }
         });
-    });
 
+        // Disable mouse wheel changes
+        input.addEventListener('wheel', function (event) {
+            event.preventDefault(); // Prevents scroll changes
+        });
+    });
     // For Services Page
     function Service_page_functions() {
         // For Inserting / Updating / Deleting / Retrieving = Services 
@@ -712,7 +716,10 @@ $(document).ready(function () {
         function validateForm() {
             var isValid = true;
             var subServicesSelected = {};
+            var invalidSubServiceIds = [];
+            var extraServicesErrors = [];
 
+            // Check required fields
             $("#panel_form input[required], #panel_form select[required]").each(function () {
                 if ($(this).val().trim() === '') {
                     isValid = false;
@@ -722,57 +729,36 @@ $(document).ready(function () {
                 }
             });
 
+            // Collect selected sub-services
+            $("#panel_form input[type='checkbox'][name='services[]']").each(function () {
+                if ($(this).is(':checked')) {
+                    var subServiceId = $(this).val();
+                    subServicesSelected[subServiceId] = true;
+                }
+            });
+
+            // Collect selected extra services and validate against selected sub-services
             $("#panel_form input[type='checkbox'][name^='extra_services']").each(function () {
                 var subServiceId = $(this).attr('name').match(/\d+/)[0];
                 if ($(this).is(':checked')) {
-                    subServicesSelected[subServiceId] = subServicesSelected[subServiceId] || false;
-                }
-            });
-
-            for (var subServiceId in subServicesSelected) {
-                if (subServicesSelected.hasOwnProperty(subServiceId)) {
-                    var subServiceCheckbox = $("#panel_form input[type='checkbox'][name='services[]'][value='" + subServiceId + "']");
-                    if (!subServiceCheckbox.is(':checked')) {
-                        isValid = false;
-                        subServiceCheckbox.addClass('is-invalid');
-                    } else {
-                        subServiceCheckbox.removeClass('is-invalid');
+                    if (!subServicesSelected[subServiceId]) {
+                        if (!invalidSubServiceIds.includes(subServiceId)) {
+                            invalidSubServiceIds.push(subServiceId);
+                        }
+                        extraServicesErrors.push($(this).val());
                     }
                 }
-            }
-
-            return isValid;
-        }
-        function validateEditForm() {
-            var isValid = true;
-            var subServicesSelected = {};
-
-            $("#edit_panel_form input[required], #edit_panel_form select[required]").each(function () {
-                if ($(this).val().trim() === '') {
-                    isValid = false;
-                    $(this).addClass('is-invalid');
-                } else {
-                    $(this).removeClass('is-invalid');
-                }
             });
 
-            $("#edit_panel_form input[type='checkbox'][name^='extra_services']").each(function () {
-                var subServiceId = $(this).attr('name').match(/\d+/)[0];
-                if ($(this).is(':checked')) {
-                    subServicesSelected[subServiceId] = subServicesSelected[subServiceId] || false;
-                }
+            // Mark sub-services as invalid if extra services are selected without them
+            invalidSubServiceIds.forEach(function (subServiceId) {
+                $("#panel_form input[type='checkbox'][name='services[]'][value='" + subServiceId + "']").addClass('is-invalid');
             });
 
-            for (var subServiceId in subServicesSelected) {
-                if (subServicesSelected.hasOwnProperty(subServiceId)) {
-                    var subServiceCheckbox = $("#edit_panel_form input[type='checkbox'][name='edit_services[]'][value='" + subServiceId + "']");
-                    if (!subServiceCheckbox.is(':checked')) {
-                        isValid = false;
-                        subServiceCheckbox.addClass('is-invalid');
-                    } else {
-                        subServiceCheckbox.removeClass('is-invalid');
-                    }
-                }
+            // Show alert if there are any extra services selected without corresponding sub-services
+            if (extraServicesErrors.length > 0) {
+                isValid = false;
+                alert('Please select the corresponding sub-services for the selected extra services.');
             }
 
             return isValid;
@@ -866,39 +852,43 @@ $(document).ready(function () {
                 type: "POST",
                 data: { panel_id: panel_id },
                 success: function (response) {
-                    console.log(response);
-                    let services = JSON.parse(response);
-                    let servicesHtml = '';
-
-                    services.forEach(service => {
-                        servicesHtml += `<div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="edit_panel_services[]" value="${service.sub_services_id}" id="service_${service.sub_services_id}" ${service.selected ? 'checked' : ''}>
-                                            <label class="form-check-label" for="service_${service.sub_services_id}">${service.sub_service}</label>
-                                            <input type="number" class="form-control" name="edit_panel_service_prices[${service.sub_services_id}]" value="${service.sub_service_price}" placeholder="Enter Price">
-                                         </div>`;
-
-                        if (Object.keys(service.extra_services).length > 0) {
-                            Object.values(service.extra_services).forEach(extraService => {
-                                servicesHtml += `<div class="form-check ms-md-5">
-                                                    <input class="form-check-input" type="checkbox" name="edit_panel_extra_services[${service.sub_services_id}][]" value="${extraService.extra_services_id}" id="extra_service_${extraService.extra_services_id}" ${extraService.selected ? 'checked' : ''}>
-                                                    <label class="form-check-label" for="extra_service_${extraService.extra_services_id}">${extraService.extra_service}</label>
-                                                    <input type="number" class="form-control" name="edit_panel_extra_service_prices[${service.sub_services_id}][${extraService.extra_services_id}]" value="${extraService.extra_service_price}" placeholder="Enter Price">
-                                                 </div>`;
-                            });
-                        }
-                    });
-
-                    $("#edit_services_container").html(servicesHtml);
+                    try {
+                        let services = JSON.parse(response);
+                        let servicesHtml = '';
+                        
+                        services.forEach(service => {
+                            servicesHtml += `<div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="edit_panel_services[]" value="${service.sub_services_id}" id="service_${service.sub_services_id}" ${service.selected ? 'checked' : ''}>
+                                                <label class="form-check-label" for="service_${service.sub_services_id}">${service.sub_service}---------${service.sub_services_original_price}</label>
+                                                <input type="number" class="form-control no-spinner" name="edit_panel_service_prices[${service.sub_services_id}]" value="${service.sub_service_price}" placeholder="Enter Price">
+                                             </div>`;
+                            if (Object.keys(service.extra_services).length > 0) {
+                                Object.values(service.extra_services).forEach(extraService => {
+                                    servicesHtml += `<div class="form-check ms-md-5">
+                                                        <input class="form-check-input" type="checkbox" name="edit_panel_extra_services[${service.sub_services_id}][]" value="${extraService.extra_services_id}" id="extra_service_${extraService.extra_services_id}" ${extraService.selected ? 'checked' : ''}>
+                                                        <label class="form-check-label" for="extra_service_${extraService.extra_services_id}">${extraService.extra_service}---------${extraService.extra_services_original_price}</label>
+                                                        <input type="number" class="form-control no-spinner" name="edit_panel_extra_service_prices[${service.sub_services_id}][${extraService.extra_services_id}]" value="${extraService.extra_service_price}" placeholder="Enter Price">
+                                                     </div>`;
+                                });
+                            }
+                        });
+            
+                        $("#edit_services_container").html(servicesHtml);
+                    } catch (e) {
+                        console.error("Parsing error:", e);
+                        $("#edit_services_container").html("Error parsing response.");
+                    }
                 },
                 error: function (response) {
                     $("#edit_services_container").html("Error: " + response);
                 }
             });
+            
         });
         // For update panel
         $("#edit_panel_form").on("submit", function (e) {
             e.preventDefault();
-            if (!validateEditForm()) {
+            if (!validate_panel_EditForm()) {
                 return;
             }
             let formdata = $(this).serialize();
@@ -913,10 +903,61 @@ $(document).ready(function () {
                     alert_box("Panel Updated Successfully", "Panel Management");
                 },
                 error: function (res) {
-                    alert("Error: " + res);
+                    alert("Error: " + res.responseText);
                 }
             });
         });
+
+        function validate_panel_EditForm() {
+            var isValid = true;
+            var subServicesSelected = {};
+            var invalidSubServiceIds = [];
+            var extraServicesErrors = [];
+
+            // Check required fields
+            $("#edit_panel_form input[required], #edit_panel_form select[required]").each(function () {
+                if ($(this).val().trim() === '') {
+                    isValid = false;
+                    $(this).addClass('is-invalid');
+                } else {
+                    $(this).removeClass('is-invalid');
+                }
+            });
+
+            // Collect selected sub-services
+            $("#edit_panel_form input[type='checkbox'][name='edit_panel_services[]']").each(function () {
+                if ($(this).is(':checked')) {
+                    var subServiceId = $(this).val();
+                    subServicesSelected[subServiceId] = true;
+                }
+            });
+
+            // Collect selected extra services and validate against selected sub-services
+            $("#edit_panel_form input[type='checkbox'][name^='edit_panel_extra_services']").each(function () {
+                if ($(this).is(':checked')) {
+                    var subServiceId = $(this).attr('name').match(/\d+/)[0];
+                    if (!subServicesSelected[subServiceId]) {
+                        if (!invalidSubServiceIds.includes(subServiceId)) {
+                            invalidSubServiceIds.push(subServiceId);
+                        }
+                        extraServicesErrors.push($(this).val());
+                    }
+                }
+            });
+
+            // Mark sub-services as invalid if extra services are selected without them
+            invalidSubServiceIds.forEach(function (subServiceId) {
+                $("#edit_panel_form input[type='checkbox'][name='edit_panel_services[]'][value='" + subServiceId + "']").addClass('is-invalid');
+            });
+
+            // Show alert if there are any extra services selected without corresponding sub-services
+            if (extraServicesErrors.length > 0) {
+                isValid = false;
+                alert('Please select the corresponding sub-services for the selected extra services.');
+            }
+
+            return isValid;
+        }
         // for view panel
         $(document).on("click", ".view-panel", function () {
             $("#viewpanel").modal("show"); // Show the modal
@@ -2339,7 +2380,7 @@ $(document).ready(function () {
             $("#edit_vendor_address").val(address);
             $("#edit_focal_person").val(focal_person);
             $("#edit_vendor_status").val(status);
-            
+
             // Fetch Province, City, Area
             $.ajax({
                 url: "vendor_fetch_province_option.php",
@@ -2384,69 +2425,58 @@ $(document).ready(function () {
                 }
             });
             $.ajax({
-                url: "vendor_fetch_services.php",
+                url: "vendor_fetch_services.php", // Replace with the path to your PHP file
                 type: "POST",
-                data: { vendor_id: id },
+                data: { vendor_id: id }, // Make sure 'id' is defined elsewhere in your code
                 success: function (response) {
-                    console.log("Response from server:", response);
-                    let services = JSON.parse(response);
-                    let servicesHtml = '';
-                    console.log("Parsed services:", services);
-                    
-                    services.forEach(service => {
-                        console.log("Sub-service:", service.sub_service, "Price:", service.sub_service_price, "Selected:", service.selected);
-                        servicesHtml += `<div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="edit_panel_services[]" value="${service.sub_services_id}" id="service_${service.sub_services_id}" ${service.selected ? 'checked' : ''}>
-                            <label class="form-check-label" for="service_${service.sub_services_id}">${service.sub_service}</label>
-                            <input type="number" class="form-control no-spinner" name="edit_panel_service_prices[${service.sub_services_id}]" value="${service.sub_service_price}" placeholder="Enter Price">
-                        </div>`;
-                        if (Object.keys(service.extra_services).length > 0) {
-                            Object.values(service.extra_services).forEach(extraService => {
-                                console.log("Extra service:", extraService.extra_service, "Price:", extraService.extra_service_price, "Selected:", extraService.selected);
-                                servicesHtml += `<div class="form-check ms-md-5">
-                                    <input class="form-check-input" type="checkbox" name="edit_panel_extra_services[${service.sub_services_id}][]" value="${extraService.extra_services_id}" id="extra_service_${extraService.extra_services_id}" ${extraService.selected ? 'checked' : ''}>
-                                    <label class="form-check-label" for="extra_service_${extraService.extra_services_id}">${extraService.extra_service}</label>
-                                    <input type="number" class="form-control no-spinner" name="edit_panel_extra_service_prices[${service.sub_services_id}][${extraService.extra_services_id}]" value="${extraService.extra_service_price}" placeholder="Enter Price">
-                                </div>`;
-                            });
-                        }
-                    });
-            
-                    $("#edit_services_container").html(servicesHtml);
+                    // Check if the response is an HTML string
+                    if (typeof response === "string") {
+                        $("#edit_services_container").html(response);
+                    } else {
+                        console.error("Unexpected response format: ", response);
+                        $("#edit_services_container").html("Error: Unexpected response format.");
+                    }
                 },
-                error: function (response) {
-                    console.error("Error fetching services:", response);
-                    $("#edit_services_container").html("Error: " + response);
+                error: function (xhr, status, error) {
+                    console.error("Error fetching services:", status, error);
+                    $("#edit_services_container").html("Error: " + status + " " + error);
                 }
             });
+
         });
         // For update panel
-        $("#edit_panel_form").on("submit", function (e) {
+        $("#edit_vendor_form").on("submit", function (e) {
             e.preventDefault();
+
             if (!validateEditForm()) {
                 return;
             }
+
             let formdata = $(this).serialize();
+
             $.ajax({
-                url: "update_panel.php",
+                url: "update_vendor.php", // Update URL to match your PHP script
                 type: "POST",
                 data: formdata,
                 success: function (response) {
                     console.log(response);
-                    fetch_panel();
-                    $("#editPanel").modal("hide");
-                    alert_box("Panel Updated Successfully", "Panel Management");
+                    $("#editVendor").modal("hide");
+                    fetch_vendor(); // Ensure this function updates your vendor list
+                    alert_box("Vendor Updated Successfully", "Vendor Management"); // Custom function for showing alerts
                 },
-                error: function (res) {
-                    alert("Error: " + res);
+                error: function (xhr) {
+                    alert("Error: " + xhr.responseText);
                 }
             });
         });
         function validateEditForm() {
             var isValid = true;
             var subServicesSelected = {};
+            var invalidSubServiceIds = [];
+            var extraServicesErrors = [];
 
-            $("#edit_panel_form input[required], #edit_panel_form select[required]").each(function () {
+            // Check required fields
+            $("#edit_vendor_form input[required], #edit_vendor_form select[required]").each(function () {
                 if ($(this).val().trim() === '') {
                     isValid = false;
                     $(this).addClass('is-invalid');
@@ -2455,23 +2485,38 @@ $(document).ready(function () {
                 }
             });
 
-            $("#edit_panel_form input[type='checkbox'][name^='extra_services']").each(function () {
-                var subServiceId = $(this).attr('name').match(/\d+/)[0];
+            // Collect selected sub-services
+            $("#edit_vendor_form input[type='checkbox'][name='edit_vendor_services[]']").each(function () {
                 if ($(this).is(':checked')) {
-                    subServicesSelected[subServiceId] = subServicesSelected[subServiceId] || false;
+                    var subServiceId = $(this).val();
+                    subServicesSelected[subServiceId] = true;
                 }
             });
 
-            for (var subServiceId in subServicesSelected) {
-                if (subServicesSelected.hasOwnProperty(subServiceId)) {
-                    var subServiceCheckbox = $("#edit_panel_form input[type='checkbox'][name='edit_services[]'][value='" + subServiceId + "']");
-                    if (!subServiceCheckbox.is(':checked')) {
-                        isValid = false;
-                        subServiceCheckbox.addClass('is-invalid');
-                    } else {
-                        subServiceCheckbox.removeClass('is-invalid');
+            // Collect selected extra services and validate against selected sub-services
+            $("#edit_vendor_form input[type='checkbox'][name^='edit_vendor_extra_services']").each(function () {
+                if ($(this).is(':checked')) {
+                    var subServiceId = $(this).attr('name').match(/\d+/)[0];
+                    var extraServiceId = $(this).val();
+
+                    if (!subServicesSelected[subServiceId]) {
+                        if (!invalidSubServiceIds.includes(subServiceId)) {
+                            invalidSubServiceIds.push(subServiceId);
+                        }
+                        extraServicesErrors.push(extraServiceId);
                     }
                 }
+            });
+
+            // Mark sub-services as invalid if extra services are selected without them
+            invalidSubServiceIds.forEach(function (subServiceId) {
+                $("#edit_vendor_form input[type='checkbox'][name='edit_vendor_services[]'][value='" + subServiceId + "']").addClass('is-invalid');
+            });
+
+            // Show alert if there are any extra services selected without corresponding sub-services
+            if (extraServicesErrors.length > 0) {
+                isValid = false;
+                alert('Please select the corresponding sub-services for the selected extra services.');
             }
 
             return isValid;
@@ -2488,6 +2533,51 @@ $(document).ready(function () {
         }
     }
     vendor_management();
+
+    function transaction_management(){
+        // For Fetch Sub Service in insert transaction Modal 
+        $("#service").on("change", function () {
+            let service = $(this).val();
+            $.ajax({
+                url: "transaction_fetch_service_option.php",
+                type: "POST",
+                data: { id: service },
+                success: function (response) {
+                    console.log(response);
+                    $("#sub_service").html(response);
+                    let sub_service = $("#sub_service").val();
+                    $.ajax({
+                        url: "transaction_fetch_sub_service_option.php",
+                        type: "POST",
+                        data: { id: sub_service },
+                        success: function (response) {
+                            console.log(response);
+                            $("#extra_service").html(response);
+                        }
+                    });
+                }
+            });
+        });
+        // For Fetch Extra Service in insert transaction Modal 
+        $("#sub_service").on("change", function () {
+            let sub_service = $(this).val();
+            $.ajax({
+                url: "transaction_fetch_sub_service_option.php",
+                type: "POST",
+                data: { id: sub_service },
+                success: function (response) {
+                    console.log(response);
+                    $("#extra_service").html(response);
+
+                    // Automatically select the first area in the list
+                    let firstsubServiceOption = $("#extra_service option:first").val();
+                    $("#extra_service").val(firstsubServiceOption).change(); // Trigger change event if needed
+                }
+            });
+        });
+        
+    }
+    transaction_management();
     // For Alert Message
     function alert_box(message, heading) {
         toastr.options.progressBar = true;

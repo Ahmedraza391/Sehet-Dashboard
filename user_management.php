@@ -153,7 +153,7 @@ if (isset($_SESSION['admin'])) {
                                             <div class="invalid-feedback">Please, Enter password!</div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="tel" class="form-control" id="edit_emp_user_contact" name="edit_emp_user_contact" placeholder="" pattern="03\d{9}" title="Please enter a valid contact number starting with 03 and having 11 digits." required>
+                                            <input type="number" class="form-control no-spinner" id="edit_emp_user_contact" name="edit_emp_user_contact" placeholder="" required>
                                             <label for="edit_emp_user_contact">Employee Contact #</label>
                                             <div class="invalid-feedback emp_contact_feedback">Please enter a valid contact number starting with 03 and having 11 digits.</div>
                                         </div>
@@ -203,6 +203,12 @@ if (isset($_SESSION['admin'])) {
                                                 <input class="form-check-input" type="checkbox" name="edit_pages_access[]" value="user_management" id="edit_user_page">
                                                 <label class="form-check-label" for="edit_user_page">
                                                     User Management
+                                                </label>
+                                            </div>
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="checkbox" name="edit_pages_access[]" value="vendor_management" id="edit_vendor_page">
+                                                <label class="form-check-label" for="edit_vendor_page">
+                                                    Vendor Management
                                                 </label>
                                             </div>
                                             <div class="form-check mb-3">
@@ -346,7 +352,7 @@ if (isset($_SESSION['admin'])) {
                                                     <div class="invalid-feedback">Please, Enter password!</div>
                                                 </div>
                                                 <div class="form-floating mb-3">
-                                                    <input type="tel" class="form-control" id="emp_user_contact" name="emp_user_contact" placeholder="" pattern="03\d{9}" title="Please enter a valid contact number starting with 03 and having 11 digits." required>
+                                                    <input type="number" class="form-control no-spinner" id="emp_user_contact" name="emp_user_contact" placeholder=""required>
                                                     <label for="emp_contact">User Contact #</label>
                                                     <div class="invalid-feedback emp_contact_feedback">Please enter a valid contact number starting with 03 and having 11 digits.</div>
                                                 </div>
@@ -396,6 +402,12 @@ if (isset($_SESSION['admin'])) {
                                                         <input class="form-check-input" type="checkbox" name="pages_access[]" value="employee_management" id="user_page">
                                                         <label class="form-check-label" for="user_page">
                                                             User Management
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check mb-3">
+                                                        <input class="form-check-input" type="checkbox" name="pages_access[]" value="vendor_management" id="vendor_page">
+                                                        <label class="form-check-label" for="vendor_page">
+                                                            Vendor Management
                                                         </label>
                                                     </div>
                                                     <div class="form-check mb-3">

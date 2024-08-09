@@ -1,0 +1,548 @@
+[05-Aug-2024 19:50:37 Europe/Berlin] Vendor ID: 14
+[05-Aug-2024 19:50:37 Europe/Berlin] Fetched Services: Array
+(
+    [1] => Array
+        (
+            [sub_services_id] => 1
+            [sub_service] => Attendent
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [2] => Array
+        (
+            [sub_services_id] => 2
+            [sub_service] => Consultation
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [3] => Array
+        (
+            [sub_services_id] => 3
+            [sub_service] => Injection
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [sub_services_id] => 4
+            [sub_service] => Drip Application
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [5] => Array
+        (
+            [sub_services_id] => 5
+            [sub_service] => Blood Collection
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [6] => Array
+        (
+            [sub_services_id] => 6
+            [sub_service] => Portable ECG
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [7] => Array
+        (
+            [sub_services_id] => 7
+            [sub_service] => Portable UltraSound - Doppler
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [8] => Array
+        (
+            [sub_services_id] => 8
+            [sub_service] => Portable UltraSound - Conventional
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [9] => Array
+        (
+            [sub_services_id] => 9
+            [sub_service] => Portable Enchardiography
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+)
+
+[05-Aug-2024 19:50:37 Europe/Berlin] Selected Services: Array
+(
+)
+
+[05-Aug-2024 19:50:37 Europe/Berlin] PHP Warning:  Undefined variable $extra_services in C:\Xampp\htdocs\projects\Sehet-Dashboard\vendor_fetch_services.php on line 91
+[05-Aug-2024 19:50:37 Europe/Berlin] Fetched Extra Services: 
+[05-Aug-2024 19:50:37 Europe/Berlin] Selected Extra Services: Array
+(
+    [0] => Array
+        (
+            [extra_service_id] => 0
+            [extra_service_price] => 
+            [sub_service_id] => 1
+        )
+
+    [1] => Array
+        (
+            [extra_service_id] => 0
+            [extra_service_price] => 
+            [sub_service_id] => 8
+        )
+
+)
+
+[05-Aug-2024 20:16:18 Europe/Berlin] Vendor ID: 14
+[05-Aug-2024 20:16:18 Europe/Berlin] Fetched Services: Array
+(
+    [1] => Array
+        (
+            [sub_services_id] => 1
+            [sub_service] => Attendent
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [2] => Array
+        (
+            [sub_services_id] => 2
+            [sub_service] => Consultation
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [3] => Array
+        (
+            [sub_services_id] => 3
+            [sub_service] => Injection
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [sub_services_id] => 4
+            [sub_service] => Drip Application
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [5] => Array
+        (
+            [sub_services_id] => 5
+            [sub_service] => Blood Collection
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [6] => Array
+        (
+            [sub_services_id] => 6
+            [sub_service] => Portable ECG
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [7] => Array
+        (
+            [sub_services_id] => 7
+            [sub_service] => Portable UltraSound - Doppler
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [8] => Array
+        (
+            [sub_services_id] => 8
+            [sub_service] => Portable UltraSound - Conventional
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [9] => Array
+        (
+            [sub_services_id] => 9
+            [sub_service] => Portable Enchardiography
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+)
+
+[05-Aug-2024 20:16:18 Europe/Berlin] Selected Services: Array
+(
+)
+
+[05-Aug-2024 20:16:18 Europe/Berlin] PHP Warning:  Undefined variable $extra_services in C:\Xampp\htdocs\projects\Sehet-Dashboard\vendor_fetch_services.php on line 94
+[05-Aug-2024 20:16:18 Europe/Berlin] Fetched Extra Services: 
+[05-Aug-2024 20:16:18 Europe/Berlin] Selected Extra Services: Array
+(
+    [0] => Array
+        (
+            [extra_service_id] => 0
+            [extra_service_price] => 
+            [sub_service_id] => 1
+        )
+
+    [1] => Array
+        (
+            [extra_service_id] => 0
+            [extra_service_price] => 
+            [sub_service_id] => 8
+        )
+
+)
+
+[05-Aug-2024 22:07:09 Europe/Berlin] Vendor ID: 14
+[05-Aug-2024 22:07:09 Europe/Berlin] Fetched Services: Array
+(
+    [1] => Array
+        (
+            [sub_services_id] => 1
+            [sub_service] => Attendent
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [2] => Array
+        (
+            [sub_services_id] => 2
+            [sub_service] => Consultation
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [3] => Array
+        (
+            [sub_services_id] => 3
+            [sub_service] => Injection
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [sub_services_id] => 4
+            [sub_service] => Drip Application
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [5] => Array
+        (
+            [sub_services_id] => 5
+            [sub_service] => Blood Collection
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [6] => Array
+        (
+            [sub_services_id] => 6
+            [sub_service] => Portable ECG
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [7] => Array
+        (
+            [sub_services_id] => 7
+            [sub_service] => Portable UltraSound - Doppler
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [8] => Array
+        (
+            [sub_services_id] => 8
+            [sub_service] => Portable UltraSound - Conventional
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [9] => Array
+        (
+            [sub_services_id] => 9
+            [sub_service] => Portable Enchardiography
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+)
+
+[05-Aug-2024 22:07:09 Europe/Berlin] Selected Services: Array
+(
+)
+
+[05-Aug-2024 22:07:09 Europe/Berlin] PHP Warning:  Undefined variable $extra_services in C:\Xampp\htdocs\projects\Sehet-Dashboard\vendor_fetch_services.php on line 94
+[05-Aug-2024 22:07:09 Europe/Berlin] Fetched Extra Services: 
+[05-Aug-2024 22:07:09 Europe/Berlin] Selected Extra Services: Array
+(
+    [0] => Array
+        (
+            [extra_service_id] => 0
+            [extra_service_price] => 
+            [sub_service_id] => 1
+        )
+
+    [1] => Array
+        (
+            [extra_service_id] => 0
+            [extra_service_price] => 
+            [sub_service_id] => 8
+        )
+
+)
+
+[05-Aug-2024 22:07:44 Europe/Berlin] Vendor ID: 14
+[05-Aug-2024 22:07:44 Europe/Berlin] Fetched Services: Array
+(
+    [1] => Array
+        (
+            [sub_services_id] => 1
+            [sub_service] => Attendent
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [2] => Array
+        (
+            [sub_services_id] => 2
+            [sub_service] => Consultation
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [3] => Array
+        (
+            [sub_services_id] => 3
+            [sub_service] => Injection
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [4] => Array
+        (
+            [sub_services_id] => 4
+            [sub_service] => Drip Application
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [5] => Array
+        (
+            [sub_services_id] => 5
+            [sub_service] => Blood Collection
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [6] => Array
+        (
+            [sub_services_id] => 6
+            [sub_service] => Portable ECG
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [7] => Array
+        (
+            [sub_services_id] => 7
+            [sub_service] => Portable UltraSound - Doppler
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [8] => Array
+        (
+            [sub_services_id] => 8
+            [sub_service] => Portable UltraSound - Conventional
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+    [9] => Array
+        (
+            [sub_services_id] => 9
+            [sub_service] => Portable Enchardiography
+            [sub_service_price] => 0
+            [selected] => 
+            [extra_services] => Array
+                (
+                )
+
+        )
+
+)
+
+[05-Aug-2024 22:07:44 Europe/Berlin] Selected Services: Array
+(
+)
+
+[05-Aug-2024 22:07:44 Europe/Berlin] PHP Warning:  Undefined variable $extra_services in C:\Xampp\htdocs\projects\Sehet-Dashboard\vendor_fetch_services.php on line 94
+[05-Aug-2024 22:07:44 Europe/Berlin] Fetched Extra Services: 
+[05-Aug-2024 22:07:44 Europe/Berlin] Selected Extra Services: Array
+(
+    [0] => Array
+        (
+            [extra_service_id] => 0
+            [extra_service_price] => 
+            [sub_service_id] => 1
+        )
+
+    [1] => Array
+        (
+            [extra_service_id] => 0
+            [extra_service_price] => 
+            [sub_service_id] => 8
+        )
+
+)
+
